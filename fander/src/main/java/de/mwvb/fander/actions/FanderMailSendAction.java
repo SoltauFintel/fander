@@ -13,7 +13,7 @@ public class FanderMailSendAction extends SActionBase {
 	@Override
 	protected void execute() {
 		info("FanderMailSendAction");
-		List<MailEmpfaenger> pl = new PersonenService().getPersonen();
+		List<MailEmpfaenger> pl = new PersonenService().getMailEmpfaenger();
 		pl.forEach(p -> p.setAusgewaehlt("1".equals(req.queryParams("c_" + p.getId()))));
 		String kommentar = req.queryParams("kommentar").trim();
 		

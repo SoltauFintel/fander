@@ -22,7 +22,7 @@ public class FanderMailAction extends SAction {
 		
 		// TODO Auswahl vom vorigen Mal vorschlagen -> Idee: bestimmten Kommentar eingeben und dann wird kein Mail versendet, sondern die Auswahl als Standard gespeichert.
 		DataList list = model.list("personen");
-		for (MailEmpfaenger p : new PersonenService().getPersonen()) {
+		for (MailEmpfaenger p : new PersonenService().getMailEmpfaenger()) {
 			DataMap map = list.add();
 			map.put("id", p.getId());
 			map.put("name", p.getName());

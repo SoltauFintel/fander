@@ -72,14 +72,13 @@ public class PersonenService {
 		return personen.stream().map(p -> p.getUser()).collect(Collectors.toList());
 	}
 
-	// TODO Mail Thema auf KPerson umstellen. Danach KPerson in Person umbenennen.
-	public List<MailEmpfaenger> getPersonen() {
-		return this.personen.stream().map(i -> {
-			MailEmpfaenger p = new MailEmpfaenger();
-			p.setName(i.getUser());
-			p.setId(p.getName().toLowerCase().replace("ü", "ue").replace("ä", "ae").replace("ö", "oe"));
-			p.setAusgewaehlt(i.isAusgewaehlt());
-			return p;
+	public List<MailEmpfaenger> getMailEmpfaenger() {
+		return this.personen.stream().map(person -> {
+			MailEmpfaenger empfaenger = new MailEmpfaenger();
+			empfaenger.setName(person.getUser());
+			empfaenger.setId(empfaenger.getName().toLowerCase().replace("ü", "ue").replace("ä", "ae").replace("ö", "oe"));
+			empfaenger.setAusgewaehlt(person.isAusgewaehlt());
+			return empfaenger;
 		}).collect(Collectors.toList());
 	}
 	
