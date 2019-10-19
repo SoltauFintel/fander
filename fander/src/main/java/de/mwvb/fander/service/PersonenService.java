@@ -6,13 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import de.mwvb.fander.base.SActionBase;
+import de.mwvb.fander.dao.UserDAO;
 import de.mwvb.fander.model.FanderConfig;
-import de.mwvb.fander.model.KPerson;
 import de.mwvb.fander.model.MailEmpfaenger;
+import de.mwvb.fander.model.User;
+import de.mwvb.maja.mongo.AbstractDAO;
 import de.mwvb.maja.web.AppConfig;
 
 public class PersonenService {
-	private final List<KPerson> personen = new ArrayList<>();
+	private final List<User> users = new ArrayList<>();
 	
 	public PersonenService() {
 		// Zukünftig sollen die Personen aus der DB kommen.
@@ -35,49 +38,58 @@ public class PersonenService {
 				line = line.replace("  ", " ");
 			}
 			String w[] = line.replace("  ", " ").split(" ");
-			KPerson p = new KPerson();
-			p.setAusgewaehlt(line.contains(" ausgewählt"));
-			p.setTypischerBesteller(line.contains(" tb"));
-			p.setWeiblich("W".equalsIgnoreCase(w[0]));
-			p.setVorname(w[1].replace("_", " "));
-			p.setNachname(w[2].replace("_", " "));
+			User user = new User();
+			user.setInfomail(line.contains(" ausgewählt"));
+			user.setTypischerBesteller(line.contains(" tb"));
+			user.setWeiblich("W".equalsIgnoreCase(w[0]));
+			user.setVorname(w[1].replace("_", " "));
+			user.setNachname(w[2].replace("_", " "));
 			if (w[3].isEmpty()) {
 				throw new RuntimeException("Kennwort leer!");
 			}
-			p.setKennwort(w[3]);
-			p.setZusatzstoffeAnzeigen(line.contains(" Zusatzstoffe"));
-			p.setUser(p.getVorname());
-			personen.add(p);
+			user.setKennwort(w[3]);
+			user.setZusatzstoffeAnzeigen(line.contains(" Zusatzstoffe"));
+			user.setUser(user.getVorname());
+			users.add(user);
 		}
-		personen.sort((a, b) -> a.getUser().toLowerCase().compareTo(b.getUser().toLowerCase()));
+		users.sort((a, b) -> a.getUser().toLowerCase().compareTo(b.getUser().toLowerCase()));
 	}
 	
-	public List<KPerson> getKPersonen() {
-		return personen;
+	List<User> getUsers() {
+		return users;
 	}
-	
+
+	private User find(String user) {
+		for (User p : users) {
+			if (p.getUser().equalsIgnoreCase(user)) {
+				return p;
+			}
+		}
+		throw new RuntimeException("User '" + user + "' nicht vorhanden!");
+	}
+
 	public List<String> getTypischeBesteller() {
-		return personen.stream().filter(p -> p.isTypischerBesteller()).map(p -> p.getUser()).collect(Collectors.toList());
+		return users.stream().filter(p -> p.isTypischerBesteller()).map(p -> p.getUser()).collect(Collectors.toList());
 	}
 	
 	public Map<String, String> getLogins() {
-		Map<String, String> users = new HashMap<>();
-		for (KPerson p : personen) {
-			users.put(p.getUser(), p.getKennwort());
+		Map<String, String> ret = new HashMap<>();
+		for (User p : users) {
+			ret.put(p.getUser(), p.getKennwort());
 		}
-		return users;
+		return ret;
 	}
 	
 	public List<String> getMitarbeiterliste() {
-		return personen.stream().map(p -> p.getUser()).collect(Collectors.toList());
+		return users.stream().map(p -> p.getUser()).collect(Collectors.toList());
 	}
 
 	public List<MailEmpfaenger> getMailEmpfaenger() {
-		return this.personen.stream().map(person -> {
+		return this.users.stream().map(person -> {
 			MailEmpfaenger empfaenger = new MailEmpfaenger();
 			empfaenger.setName(person.getUser());
 			empfaenger.setId(empfaenger.getName().toLowerCase().replace("ü", "ue").replace("ä", "ae").replace("ö", "oe"));
-			empfaenger.setAusgewaehlt(person.isAusgewaehlt());
+			empfaenger.setAusgewaehlt(person.isInfomail());
 			return empfaenger;
 		}).collect(Collectors.toList());
 	}
@@ -105,15 +117,6 @@ public class PersonenService {
 	
 	public boolean zusatzstoffeAnzeigen(String user) {
 		return find(user).isZusatzstoffeAnzeigen();
-	}
-
-	private KPerson find(String user) {
-		for (KPerson p : personen) {
-			if (p.getUser().equalsIgnoreCase(user)) {
-				return p;
-			}
-		}
-		throw new RuntimeException("User '" + user + "' nicht vorhanden!");
 	}
 
 	/**
@@ -151,5 +154,21 @@ public class PersonenService {
 	public static boolean isAnsprechpartner(String user) {
 		FanderConfig config = new FanderService().getConfig();
 		return user.equalsIgnoreCase(config.getAdmin());
+	}
+	
+	public void saveUsers() {
+		UserDAO dao = new UserDAO();
+		if (!dao.list().isEmpty()) {
+			throw new RuntimeException("User Liste muss in der Datenbank leer sein!");
+		}
+		String mailPostfix = new AppConfig().get("mail.postfix", "");
+		for (User user : users) {
+			user.setId(AbstractDAO.id6());
+			user.setLogin(user.getUser());
+			user.setEmailadresse(user.getEmailadresse() + mailPostfix);
+			user.setKennwort(User.hash(user.getKennwort()));
+			dao.save(user);
+		}
+		SActionBase.info("?", "User erstmalig in Datenbank gespeichert: " + users.size());
 	}
 }
