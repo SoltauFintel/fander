@@ -20,7 +20,7 @@ public class Woche2Model {
 		model.put("archiviert", woche.isArchiviert());
 		model.put("anzahlGerichte", "" + woche.getAnzahlGerichte());
 		double summe = 0;
-		boolean sz = new PersonenService().zusatzstoffeAnzeigen(user);
+		boolean sz = new PersonenService().getUser(user).isZusatzstoffeAnzeigen();
 		
 		DataList menu = model.list("menu");
 		for (Tag tag : woche.getTage()) {

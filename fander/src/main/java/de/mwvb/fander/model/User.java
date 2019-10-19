@@ -124,9 +124,6 @@ public class User {
 	}
 
 	public String getEmailadresse() {
-		if (emailadresse == null) {
-			return (getVorname() + "." + getNachname()).toLowerCase().replace("ä", "ae").replace("ö", "oe").replace("ü", "ue");
-		}
 		return emailadresse;
 	}
 	

@@ -13,8 +13,6 @@ public class Login2 extends ActionBase {
 			throw new RuntimeException("Es wurden nicht alle Argumente angegeben!");
 		}
 		
-		user = new SAuthorization().richtigeSchreibweise(user.trim());
-		
 		auth.login(req, res, user, pw.trim(), "S", true);
 	}
 }

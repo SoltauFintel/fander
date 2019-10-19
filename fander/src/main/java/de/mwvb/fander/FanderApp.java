@@ -1,7 +1,5 @@
 package de.mwvb.fander;
 
-import org.pmw.tinylog.Level;
-
 import com.github.template72.compiler.CompiledTemplates;
 import com.github.template72.compiler.TemplateCompiler;
 import com.github.template72.compiler.TemplateCompilerBuilder;
@@ -23,7 +21,6 @@ import de.mwvb.fander.actions.FanderMailAction;
 import de.mwvb.fander.actions.FanderMailSendAction;
 import de.mwvb.fander.actions.FanderMailSentAction;
 import de.mwvb.fander.actions.Index;
-import de.mwvb.fander.actions.MigrateUsers;
 import de.mwvb.fander.actions.NeueWoche;
 import de.mwvb.fander.actions.NeueWocheForce;
 import de.mwvb.fander.actions.NichtBestellen;
@@ -35,16 +32,13 @@ import de.mwvb.fander.auth.Login2;
 import de.mwvb.fander.auth.SAuth;
 import de.mwvb.fander.base.MyErrorPage;
 import de.mwvb.fander.model.Woche;
-import de.mwvb.maja.auth.AuthPlugin;
 import de.mwvb.maja.mongo.Database;
 import de.mwvb.maja.web.AbstractWebApp;
 import de.mwvb.maja.web.Action;
 import de.mwvb.maja.web.ActionBase;
-import de.mwvb.maja.web.AppConfig;
-import spark.Request;
 
-public class FanderApp extends AbstractWebApp{
-	public static final String VERSION = "1.00.1";
+public class FanderApp extends AbstractWebApp {
+	public static final String VERSION = "1.00.2";
 	
 	public static void main(String[] args) {
 		new FanderApp().start(VERSION);
@@ -62,7 +56,6 @@ public class FanderApp extends AbstractWebApp{
 		_get ("/unsere-karte", UnsereKarteRedirect.class);
 		_get ("/karte", UnsereKarteRedirect.class);
 		_get ("/mail/sent", FanderMailSentAction.class);
-		_get ("/migrate-users", MigrateUsers.class);
 
 		_get ("/:startdatum/force", NeueWocheForce.class);
 		_post("/:startdatum/mail/send", FanderMailSendAction.class);
@@ -114,29 +107,10 @@ public class FanderApp extends AbstractWebApp{
 
 		auth = new SAuth();
 		Login2.auth = (SAuth) auth;
-
-		auth.addNotProtected("/rest/info");
 	}
 
-	public static String getUserId(Request req) {
-		String userId = AuthPlugin.getUserId(req.session());
-		if (userId == null || userId.isEmpty()) {
-			throw new RuntimeException("User Id ist leer!"); // Programmschutz
-		}
-		return userId;
-	}
-	
 	@Override
 	protected ActionBase getErrorPage() {
 		return new MyErrorPage();
-	}
-	
-	public static String getHost() {
-		return new AppConfig().get("host");
-	}
-	
-	@Override
-	protected Level getDefaultLoggingLevel() {
-		return Level.DEBUG; // TODO auf INFO umstellen
 	}
 }

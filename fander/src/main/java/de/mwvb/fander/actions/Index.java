@@ -97,7 +97,12 @@ public class Index extends SAction {
 		if (showAnsprechpartner) {
 			String ans = sv.getConfig().getAdmin();
 			put("ansprechpartner", ans);
-			put("ansprechpartnerWeiblich", new PersonenService().weiblich(ans));
+			boolean weiblich = false;
+			try {
+				weiblich = new PersonenService().getUser(ans).isWeiblich();
+			} catch (Exception ignore) {
+			}
+			put("ansprechpartnerWeiblich", weiblich);
 		}
 		putNamensliste("bestelltHaben", "Bestellt haben", "Bestellt hat", woche.getBestellungen().stream()
 				.filter(m -> !m.getBestellungen().isEmpty())

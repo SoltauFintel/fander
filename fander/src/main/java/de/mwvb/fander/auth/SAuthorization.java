@@ -1,57 +1,44 @@
 package de.mwvb.fander.auth;
 
-import java.util.Map;
-
 import org.pmw.tinylog.Logger;
 
-import de.mwvb.fander.service.PersonenService;
+import de.mwvb.fander.base.UserMessage;
+import de.mwvb.fander.dao.UserDAO;
+import de.mwvb.fander.model.User;
 import de.mwvb.maja.auth.Authorization;
 import spark.Request;
 import spark.Response;
 
 public class SAuthorization implements Authorization {
-	private final Map<String, String> users;
-
-	public SAuthorization() {
-		users = new PersonenService().getLogins();
-	}
 
 	@Override
-	public String check(Request req, Response res, String name, String pw, String service) {
-		if (pw.isEmpty()) {
-			Logger.warn("Zugang nicht gestattet für '" + name + "', da Passwort leer.");
-			throw new RuntimeException("Bitte Passwort eingeben!");
+	public String check(Request req, Response res, String login, String password, String service) {
+		if (password == null || password.trim().isEmpty()) {
+			Logger.warn("Zugang nicht gestattet für '" + login + "', da Passwort leer.");
+			throw new UserMessage("Bitte Passwort eingeben!");
 		}
-		for (Map.Entry<String,String> e : users.entrySet()) {
-			if (name.equalsIgnoreCase(e.getKey())) {
-				if (e.getValue().isEmpty()) {
-					// Passwort vergeben! Programmfehler!
-					Logger.error("Programmfehler: Zugang nicht gestattet für '" + name + "', da der Benutzer kein Passwort hat.");
-					throw new RuntimeException("Benutzer nicht bekannt. Bitte an Administrator wenden.");
-				} else if (e.getValue().equals(pw)) {
-					return null; // Login erfolgreich
-				}
-				Logger.warn("Zugang nicht gestattet für '" + name + "', da Passwort falsch.");
-				throw new RuntimeException("Zugang nicht gestattet, da das Passwort falsch ist. Bitte gehe zurück und gib das Passwort erneut ein."
-						+ " Wende dich bitte an den Administrator falls Du dein Passwort vergessen haben solltest.");
-			}
+		password = User.hash(password);
+		User user = new UserDAO().byLogin(login);
+		if (user == null) {
+			Logger.warn("Zugang nicht gestattet für '" + login + "', da Benutzername falsch.");
+			throw new UserMessage("Zugang nicht gestattet, da der Benutzer nicht bekannt ist."
+					+ " Bitte gehe zurück und kontrolliere die Schreibweise des Benutzernamens.");
 		}
-		Logger.warn("Zugang nicht gestattet für '" + name + "', da Benutzername falsch.");
-		throw new RuntimeException("Zugang nicht gestattet, da der Benutzer nicht bekannt ist."
-				+ " Bitte gehe zurück und kontrolliere die Schreibweise des Benutzernamens.");
+		if (user.getKennwort() == null || user.getKennwort().isEmpty()) {
+			// Passwort vergeben! Programmfehler!
+			Logger.error("Programmfehler: Zugang nicht gestattet für '" + login + "', da der Benutzer kein Passwort hat.");
+			throw new UserMessage("Benutzer nicht bekannt. Bitte an Administrator wenden.");
+		}
+		if (user.getKennwort().equals(password)) {
+			return null; // Login erfolgreich
+		}		
+		Logger.warn("Zugang nicht gestattet für '" + login + "', da Passwort falsch.");
+		throw new UserMessage("Zugang nicht gestattet, da das Passwort falsch ist. Bitte gehe zurück und gib das Passwort erneut ein."
+				+ " Wende dich bitte an den Administrator falls Du dein Passwort vergessen haben solltest.");
 	}
 
 	@Override
 	public boolean isRelevant(String service) {
 		return "S".equals(service);
-	}
-	
-	public String richtigeSchreibweise(String user) {
-		for (String key : users.keySet()) {
-			if (key.equalsIgnoreCase(user)) {
-				return key;
-			}
-		}
-		return user;
 	}
 }
