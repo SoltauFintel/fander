@@ -1,4 +1,4 @@
-package de.mwvb.fander.service;
+package de.mwvb.fander.auth;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,6 +7,7 @@ import de.mwvb.fander.dao.UserDAO;
 import de.mwvb.fander.model.FanderConfig;
 import de.mwvb.fander.model.MailEmpfaenger;
 import de.mwvb.fander.model.User;
+import de.mwvb.fander.service.FanderService;
 import de.mwvb.maja.web.AppConfig;
 
 public class UserService { // TODO rename to UserService

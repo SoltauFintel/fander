@@ -4,7 +4,7 @@ import org.pmw.tinylog.Logger;
 
 import com.google.common.base.Strings;
 
-import de.mwvb.fander.service.UserService;
+import de.mwvb.fander.auth.UserService;
 import de.mwvb.maja.auth.AuthPlugin;
 import de.mwvb.maja.web.ActionBase;
 

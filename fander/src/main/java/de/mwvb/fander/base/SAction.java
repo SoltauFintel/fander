@@ -3,7 +3,7 @@ package de.mwvb.fander.base;
 import com.github.template72.data.DataMap;
 
 import de.mwvb.fander.FanderApp;
-import de.mwvb.fander.service.UserService;
+import de.mwvb.fander.auth.UserService;
 import de.mwvb.maja.auth.AuthPlugin;
 import de.mwvb.maja.web.Action;
 

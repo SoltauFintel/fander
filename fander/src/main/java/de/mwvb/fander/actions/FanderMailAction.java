@@ -4,11 +4,11 @@ import com.github.template72.data.DataList;
 import com.github.template72.data.DataMap;
 
 import de.mwvb.fander.auth.AuthException;
+import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.base.SAction;
 import de.mwvb.fander.model.MailEmpfaenger;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
-import de.mwvb.fander.service.UserService;
 
 public class FanderMailAction extends SAction {
 

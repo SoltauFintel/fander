@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.base.SAction;
 import de.mwvb.fander.model.Gericht;
 import de.mwvb.fander.model.Gerichtbestellung;
@@ -17,7 +18,6 @@ import de.mwvb.fander.model.Mitarbeiterbestellung;
 import de.mwvb.fander.model.Tag;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
-import de.mwvb.fander.service.UserService;
 
 // TODO Tagesmenü oben in einer Box darstellen. Der jetzige Text davor wird zur Boxüberschrift. Oder alle pers. Gerichte der Woche anzeigen und
 //      den aktuellen Tag hervorheben.

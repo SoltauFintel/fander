@@ -3,11 +3,11 @@ package de.mwvb.fander.actions;
 import com.github.template72.data.DataList;
 import com.github.template72.data.DataMap;
 
+import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.model.Gericht;
 import de.mwvb.fander.model.Tag;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
-import de.mwvb.fander.service.UserService;
 import de.mwvb.maja.web.Escaper;
 
 public class Woche2Model {

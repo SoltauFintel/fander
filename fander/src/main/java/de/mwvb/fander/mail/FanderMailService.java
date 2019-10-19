@@ -1,9 +1,8 @@
-package de.mwvb.fander.service;
+package de.mwvb.fander.mail;
 
 import java.util.stream.Stream;
 
-import de.mwvb.fander.mail.MailSender;
-import de.mwvb.fander.mail.SendMailRequest;
+import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.model.MailEmpfaenger;
 import de.mwvb.maja.web.AppConfig;
 

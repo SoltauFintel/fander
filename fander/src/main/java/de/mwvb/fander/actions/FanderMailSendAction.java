@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import de.mwvb.fander.auth.AuthException;
+import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.base.SActionBase;
+import de.mwvb.fander.mail.FanderMailService;
 import de.mwvb.fander.model.MailEmpfaenger;
-import de.mwvb.fander.service.FanderMailService;
-import de.mwvb.fander.service.UserService;
 
 public class FanderMailSendAction extends SActionBase {
 
