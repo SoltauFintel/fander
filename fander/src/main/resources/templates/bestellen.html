@@ -1,0 +1,93 @@
+{{master: master}}
+
+<style>
+	.wochentag {
+		font-weight: bold;
+		background-color: #EEE;
+		padding-top: 12px !important;
+	}
+	
+	.menu td {
+		padding: 4px;
+	}
+	
+	.menu tr {
+		border-bottom: 1px solid black;
+	}
+	
+	.titel {
+		max-width: 500px;
+	}
+	
+	.preis {
+		align: right;
+	}
+	
+	.bestellt td {
+		background-color: #e8b078;
+	}
+</style>
+
+<script>
+var summe = {{summeJS}};
+</script>
+
+<div class="row">
+	<h1 class="page-header">Bestellung für {{user}} eingeben (Fander Woche {{startdatumNice}})</h1>
+	<div class="col-lg-12">
+		<form action="/{{startdatum}}/bestellung-absenden" class="form-horizontal" method="post">
+			<table>
+				<tr>
+					<td>
+						<table class="menu">
+							{{each t in menu}}
+								<tr>
+									<td colspan="3" class="wochentag">{{t.wochentag}}</td>
+								</tr>
+								{{each g in t.gerichte}}
+									<tr class="gericht tr_{{g.id}}{{if g.bestellt}} bestellt{{/if}}">
+										<td><input type="checkbox" id="c_{{g.id}}" name="c_{{g.id}}"
+											value="1"{{if g.bestellt}} checked{{/if}}{{if not bestellungenErlaubt}} disabled{{/if}}></td>
+										<td class="titel"{{if g.strikethru}} style="text-decoration: line-through; color: #999;"{{/if}}>{{g.titel}}</td>
+										<td class="preis"{{if g.strikethru}} style="text-decoration: line-through; color: #999;"{{/if}}>{{g.preis}}</td>
+									</tr>
+									<script>
+										$('#c_{{g.id}}').change(function() {
+										    if($(this).is(":checked")) {
+										        $('.tr_{{g.id}}').addClass('bestellt');
+										        summe += {{g.preisJS}};
+										    } else {
+										        $('.tr_{{g.id}}').removeClass('bestellt');
+										        summe -= {{g.preisJS}};
+										    }
+										    var text = ("" + summe.toFixed(2)).replace(".", ",");
+										    if ("-0,00" == text) {
+										    	text = "0,00";
+										    }
+										    document.getElementById("summefeld").innerHTML = text;
+										});
+									</script>
+								{{/each}}
+							{{/each}}
+						</table>
+					</td>
+					<td width="40"></td>
+					<td valign="bottom" style="font-size: 16pt;">Bestellsumme: <span id="summefeld">{{summe}}</span> EUR</td>
+				</tr>
+			</table>
+			
+			<p style="margin-top: 2em;">
+				<button type="submit" title="Bestellung speichern"
+					class="btn btn-lg btn-warning" style="font-weight: bold; color: #444;"{{if not bestellungenErlaubt}} disabled{{/if}}><i
+					class="fa fa-shopping-cart"></i> Bestellen!</button>
+				<span style="margin-left: 17em;">
+					Limit: <input type="text" name="limit" style="width: 60px;" value="{{limit}}"{{if not bestellungenErlaubt}} disabled{{/if}} title="Maximal so viele Gerichte bestellen. Dieses Feld wird normalerweise leer gelassen.">
+				</span>
+				<a href="/{{startdatum}}/force" class="btn btn-danger" style="margin-left: 20cm;"><i class="fa fa-bug"></i> Woche erneut erstellen...</a>
+			</p>
+			{{if not bestellungenErlaubt}}
+				<p style="color: red;"><i class="fa fa-lock"></i> Bestellung darf nicht mehr verändert werden.</p>
+			{{/if}}
+		</form>
+	</div>
+</div>

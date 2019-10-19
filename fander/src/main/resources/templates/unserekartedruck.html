@@ -1,0 +1,113 @@
+<style>
+	* {
+		font-family: 'Verdana';
+	}
+	
+	tr td {
+		border-bottom: 1pt solid black;
+		padding: 0;
+	}
+	
+	table {
+		border-spacing: 0px;
+    	border-collapse: separate;
+	}
+
+	.wochentag {
+		font-weight: bold;
+		background-color: #EEE;
+		padding-top: 12px !important;
+	}
+	
+	.menu td {
+		padding: 4px;
+	}
+	
+	.menu tr {
+		border-bottom: 1px solid black;
+	}
+	
+	.titel {
+		max-width: 500px;
+	}
+	
+	.preis {
+		text-align: right;
+	}
+	
+	.bestellt td {
+		background-color: #e8b078;
+	}
+	
+	@media print
+	{    
+	    .no-print, .no-print *
+	    {
+	        display: none !important;
+	    }
+	}
+</style>
+
+<script>
+</script>
+
+<div class="row">
+	<h1 class="page-header">Unsere Karte (Fander Woche {{startdatumNice}})</h1>
+	<div class="col-lg-12">
+		{{if not mitVollstaendigeKarteLink}}<p style="color: #c00;">Dies ist eine Ansicht ohne Berücksichtigung von Mindest- und Maximalwerten.</p>{{/if}}
+		{{if bestellungenErlaubt}}<h3 style="color: #c00; margin-bottom: 2em;">Bestellung noch offen. Änderungen sind noch möglich.</h3>{{/if}}
+		{{if hatBestelldaten}}
+			<table class="menu" style="margin-bottom: 3em;">
+				<tr>
+					<td class="wochentag titel">Gericht</td>
+					<td class="wochentag preis">Menge</td>
+					<td class="wochentag" width="40"></td>
+					<td class="wochentag" style="min-width: 8em;">Besteller</td>
+				</tr>
+				{{each t in tage}}
+					<tr>
+						<td colspan="4" class="wochentag">{{t.tag}} ({{t.anzahl}})</td>
+					</tr>
+					{{each g in t.gerichte}}
+						<tr class="gericht">
+							<td class="titel">{{g.gericht}}</td>
+							<td class="preis">{{g.anzahl}}</td>
+							<td></td>
+							<td>{{g.namen}} &nbsp;&nbsp; </td>
+						</tr>
+					{{/each}}
+				{{/each}}
+				<tr>
+					<td class="wochentag titel">Summe</td>
+					<td class="wochentag preis">{{gesamtanzahl}}</td>
+					<td class="wochentag"></td>
+					<td class="wochentag"></td>
+				</tr>
+			</table>
+		{{else}}
+			<p>- leer -</p>
+		{{/if}}
+		{{if summenAnzeigen}}
+			<table class="menu" style="margin-top: 1em; margin-bottom: 4em;">
+				<tr>
+					<td class="wochentag titel">Besteller</td>
+					<td class="wochentag preis" style="min-width: 6em;">Summe</td>
+					<td class="wochentag preis" style="min-width: 6em;">Bezahlt</td>
+				</tr>
+				{{each status in statusAlle}}
+					<tr class="gericht">
+						<td class="titel">{{status.user}}</td>
+						<td class="preis">{{status.gesamtpreis}}</td>
+						<td class="preis"></td>
+					</tr>
+				{{/each}}
+				<tr>
+					<td class="wochentag titel">Summe</td>
+					<td class="wochentag preis" style="min-width: 6em;">{{summe}}</td>
+					<td class="wochentag preis" style="min-width: 6em;"></td>
+				</tr>
+			</table>
+		{{/if}}
+		<p class="no-print"><a href="/{{startdatum}}/unsere-karte">&lt;&lt; zurück</a></p>
+	</div>
+</div>

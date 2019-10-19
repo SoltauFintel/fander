@@ -1,0 +1,67 @@
+* {
+	font-family: 'Verdana';
+}
+
+body {
+	padding-top: 50px;
+}
+
+.ntabelle > tbody > tr > td, .ntabelle > tbody > tr > th, .ntabelle > tfoot > tr > td, .ntabelle > tfoot > tr > th, .ntabelle > thead > tr > td, .ntabelle > thead > tr > th {
+	padding: 4px;
+}
+
+.narrow > tr > td, .narrow > tr > th {
+	font-size: 8pt;
+}
+
+.notiztabelle > tbody > tr:nth-of-type(2n) {
+	background-color: #fcfcfc;
+}
+
+.table-hover tr:hover td {
+	background-color: #E0E0F0;
+}
+
+.downloadlink {
+	color: #E60;
+}
+
+.downloadlink:hover {
+	color: #4e5293;
+}
+
+.dropdown-menu li a {
+	font-size: 13pt;
+}
+
+.label-grey {
+	background-color: grey;
+}
+
+.tags {
+	color: red;
+}
+
+.rand-unten {
+	margin-bottom: 2em;
+}
+
+.infotext {
+	font-size: 8pt;
+}
+
+.table-hover > tbody > tr.no-hover:hover > td,
+.table-hover > tbody > tr.no-hover:hover > th {
+    background-color: inherit;
+}
+
+.btn-dif {
+	margin-right: 1em;
+}
+
+.antworttl {
+	border: dashed #ccc 1px;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-right: 10cm;
+}

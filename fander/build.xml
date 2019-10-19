@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<project name="fander" basedir="." default="build+push">
+
+	<target name="base">
+		<gradle_base task="dockerBuildImage"/>
+	</target>
+	<target name="base+push">
+		<gradle_base task="dockerPushImage"/>
+	</target>
+
+	<target name="build+push">
+		<delete file="build/docker/Dockerfile"/>
+		<gradle task="dockerPushImage"/>
+	</target>
+	<target name="full build">
+		<gradle_base task="clean dockerPushImage"/>
+		<antcall target="build+push"/>
+	</target>
+	<target name="installDist">
+		<gradle task="installDist"/>
+	</target>
+	<target name="jar">
+		<gradle task="jar"/>
+	</target>
+	<target name="eclipse">
+		<gradle task="eclipse"/>
+	</target>
+	<target name="dep">
+		<gradle task="dep"/>
+	</target>
+
+	<macrodef name="gradle">
+		<attribute name="task"/>
+		<sequential>
+	        <exec executable="cmd" failonerror="true">
+	        	<arg line="/c gradlew.bat -g C:\jarcache\gradle -Ptarget=app @{task}"/>
+	        </exec>
+		</sequential>
+	</macrodef>
+	<macrodef name="gradle_base">
+		<attribute name="task"/>
+		<sequential>
+	        <exec executable="cmd" failonerror="true">
+	        	<arg line="/c gradlew.bat -g C:\jarcache\gradle -Ptarget=base @{task}"/>
+	        </exec>
+		</sequential>
+	</macrodef>
+	
+</project>

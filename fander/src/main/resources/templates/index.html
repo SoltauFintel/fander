@@ -1,0 +1,90 @@
+{{master: master}}
+
+<style>
+	.chattime {
+		font-size: 7pt;
+	}
+	.chatauthor {
+		font-size: 10pt;
+		font-weight: bold;
+	}
+	.chatline {
+		font-size: 11pt;
+	}
+	.chatdelete {
+		font-size: 7pt;
+		margin-left: 1em;
+	}
+</style>
+
+<div class="row">
+	<h1 class="page-header">Mittagessen bestellen</h1>
+	<div class="col-lg-6">
+		{{if hasWoche}}
+			<div class="panel panel-primary">
+				<div class="panel-heading"><h3 class="panel-title">Woche {{startdatumNice}}</h3></div>
+				<div class="panel-body">
+					{{if hasFuerHeuteBestellt}}
+						<p>Deine Bestellung für heute: &nbsp;<b>{{heuteBestellt}}</b></p>
+					{{/if}}
+					{{meinBestellstatus}}
+					{{if bestellungVorhandenUndAenderbar}} &nbsp;
+						<a href="/{{startdatum}}" class="btn btn-sm btn-default"><i class="fa fa-shopping-cart"></i> Bestellung ändern</a>
+					{{/if}}
+					<p style="margin-top: 1em;">
+						{{if zeigeBestellenButton}}
+							<a href="/{{startdatum}}" class="btn btn-warning" style="margin-right: 1em; font-weight: bold; color: #444;"><i
+								class="fa fa-shopping-cart"></i> Hier geht's zur Bestellung.</a>
+		
+							{{if nichtBestellen}}
+								<nobr>Diese Woche bei Fander bestellen? &nbsp;<a href="/{{startdatum}}/{{user}}/nicht-bestellen"
+									class="btn btn-xs btn-danger"><i class="fa fa-times"></i> Nein!</a></nobr>
+							{{/if}}
+						{{/if}}
+						{{if nichtBestellenUndo}}
+							<i class="fa fa-times"></i> Du möchtest diese Woche nicht bei Fander bestellen. &nbsp;<a title="Nee, ich möchte diese Woche doch bei Fander bestellen!"
+								href="/{{startdatum}}/{{user}}/nicht-bestellen-undo" class="btn btn-xs btn-default"><i class="fa fa-undo"></i></a>
+						{{/if}}
+					</p>
+					{{ansprechpartner}}
+				</div>
+			</div>
+			
+			{{if isFanderAdmin}}
+				<div class="panel panel-danger">
+					<div class="panel-heading"><h3 class="panel-title">Administration</h3></div>
+					<div class="panel-body">
+						{{if bestellungenErlaubt}}
+							<p>Bestellung offen. (Jeder kann bestellen oder die eigene Bestellung ändern.)</p>
+							<p>{{bestelltHaben}}{{absagen}}{{keineAussageVon}}</p>
+							<p><a href="/{{startdatum}}/mail" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-envelope-o"></i> 'Bestellungen nun möglich' Infomails versenden...</a></p>
+							<p><a href="/{{startdatum}}/close" class="btn btn-danger" style="margin-right: 1em;"><i class="fa fa-lock"></i> Bestellung schließen</a></p>
+						{{else}}
+							<p>
+								Bestellung geschlossen.
+								{{if bestellt}}Bestellt.{{else}}Fander-Anruf steht noch aus.{{/if}}
+							</p>
+							<a href="/{{startdatum}}/close?open=1" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-unlock"></i> Bestellung wieder freigeben</a>
+							<a href="/{{startdatum}}/anruf" class="btn {{if montag}}btn-default{{else}} {{if bestellt}}btn-success{{else}}btn-warning{{/if}}{{/if}}" style="margin-right: 1em;"><i class="fa fa-phone"></i> {{if bestellt}}Fander Bestellung{{else}}Fander anrufen{{/if}}</a>
+						{{/if}}
+						<p style="margin-top: 1em;">
+							<a href="/neue-woche" class="btn {{if montag}}btn-success btn-lg{{else}}btn-default{{/if}}"
+								style="margin-right: 1em;"><i class="fa fa-cloud-download fa-fw"></i> Neue Woche</a>
+							<a href="/wochen" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-list"></i> Wochen</a>
+						</p>
+					</div>
+				</div>
+			{{/if}}
+		{{else}}
+			{{if isFanderAdmin}}
+				<div class="panel panel-danger">
+					<div class="panel-heading"><h3 class="panel-title">Fander Administration</h3></div>
+					<div class="panel-body">
+						<a href="/neue-woche" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-cloud-download fa-fw"></i> Neue Woche</a>
+						<a href="/wochen" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-list"></i> Wochen</a>
+					</div>
+				</div>
+			{{/if}}
+		{{/if}}
+	</div>
+</div>

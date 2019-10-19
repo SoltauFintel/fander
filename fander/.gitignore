@@ -1,0 +1,6 @@
+/bin/
+/build/
+/.gradle/
+/private/
+/AppConfig.properties
+/TODO.txt

@@ -1,0 +1,65 @@
+{{master: master}}
+
+<style>
+	.wochentag {
+		font-weight: bold;
+		background-color: #EEE;
+		padding-top: 12px !important;
+	}
+	
+	.menu td {
+		padding: 4px;
+	}
+	
+	.menu tr {
+		border-bottom: 1px solid black;
+	}
+	
+	.titel {
+		max-width: 500px;
+	}
+	
+	.preis {
+		text-align: right;
+	}
+	
+	.bestellt td {
+		background-color: #e8b078;
+	}
+</style>
+
+<div class="row">
+	<h1 class="page-header">Fander anrufen: 02152-3607 (Woche {{startdatumNice}})</h1>
+	<div class="col-lg-12">
+		<table class="menu">
+			<tr>
+				<td class="wochentag titel">Gericht</td>
+				<td class="wochentag preis">Menge</td>
+			</tr>
+			{{each t in tage}}
+				<tr>
+					<td colspan="2" class="wochentag">{{t.tag}} ({{t.anzahl}})</td>
+				</tr>
+				{{each g in t.gerichte}}
+					<tr class="gericht">
+						<td class="titel">{{g.gericht}}</td>
+						<td class="preis">{{g.anzahl}}</td>
+					</tr>
+				{{/each}}
+			{{/each}}
+			<tr>
+				<td class="wochentag titel">Summe</td>
+				<td class="wochentag preis">{{gesamtanzahl}}</td>
+			</tr>
+		</table>
+		
+		<p style="margin-top: 2em;">
+			{{if bestellt}}
+				<h3 style="color: #080;">Bestellt! &nbsp; <a href="/{{startdatum}}/status?s=0"
+					class="btn btn-xs btn-default"><i class="fa fa-undo"></i></a></h3>
+			{{else}}
+				<a href="/{{startdatum}}/status?s=1" class="btn btn-success">Bestellt!</a>
+			{{/if}}
+		</p>
+	</div>
+</div>

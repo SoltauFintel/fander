@@ -1,0 +1,67 @@
+{{master: master}}
+
+<style>
+	.wochentag {
+		font-weight: bold;
+		background-color: #EEE;
+		padding-top: 12px !important;
+	}
+	
+	.menu td {
+		padding: 4px;
+	}
+	
+	.menu tr {
+		border-bottom: 1px solid black;
+	}
+	
+	.titel {
+		max-width: 500px;
+	}
+	
+	.preis {
+		text-align: right;
+	}
+	
+	.bestellt td {
+		background-color: #e8b078;
+	}
+</style>
+
+<div class="row">
+	<h1 class="page-header">Bestellung von {{user}} (Fander Woche {{startdatumNice}})</h1>
+	<div class="col-lg-12">
+		<table class="menu">
+			{{each t in menu}}
+				{{if t.hasBestellteGerichte}}
+					<tr>
+						<td colspan="2" class="wochentag">{{t.wochentag}}</td>
+					</tr>
+					{{each g in t.gerichte}}
+						{{if g.bestellt}}
+							<tr class="gericht tr_{{g.id}}">
+								<td class="titel">{{g.titel}}</td>
+								<td class="preis">{{g.preis}}</td>
+							</tr>
+						{{/if}}
+					{{/each}}
+				{{/if}}
+			{{/each}}
+			<tr>
+				<td class="wochentag titel">Bestellsumme EUR</td>
+				<td class="wochentag preis">{{summe}}</td>
+			</tr>
+			{{if hasLimitinfo}}
+				<tr>
+					<td colspan="2"><i>{{limitinfo}}</i></td>
+				</tr>
+			{{/if}}
+		</table>
+		
+		{{if bestellungenErlaubt}}
+			<p style="margin-top: 2em;">
+				<a href="/{{startdatum}}" class="btn btn-default"><i class="fa fa-shopping-cart"></i> Bestellung ändern</a>
+			</p>
+		{{/if}}
+	</div>
+</div>

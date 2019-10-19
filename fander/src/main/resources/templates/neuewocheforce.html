@@ -1,0 +1,19 @@
+{{master: master}}
+
+<style>
+.msg {
+	font-size: 16pt;
+}
+</style>
+
+<div class="row">
+	<h1 class="page-header">Sind Sie sicher, dass Sie die Woche {{startdatum}} neu erstellen möchten?</h1>
+	<div class="col-lg-12">
+		<p class="msg">Das Menü würde erneut geladen werden.</p>
+		<p class="msg">Alle Bestellungen würden gelöscht werden!</p>
+		<p style="margin-top: 2em;">
+			<a href="/neue-woche?force=1" class="btn btn-danger" style="margin-right: 1em;">Ja, Woche neu erstellen!</a>
+			<a href="/{{startdatum}}" class="btn btn-default">Nein, Abbruch.</a>
+		</p>
+	</div>
+</div>

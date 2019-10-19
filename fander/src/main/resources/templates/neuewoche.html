@@ -1,0 +1,50 @@
+{{master: master}}
+
+<style>
+	.wochentag {
+		font-weight: bold;
+		background-color: #EEE;
+		padding-top: 12px !important;
+	}
+	
+	.menu td {
+		padding: 4px;
+	}
+	
+	.menu tr {
+		border-bottom: 1px solid black;
+	}
+	
+	.titel {
+		max-width: 500px;
+	}
+	
+	.preis {
+		align: right;
+	}
+</style>
+
+<div class="row">
+	<h1 class="page-header">Neue Woche {{startdatum}} mit Menüauswahl wurde erstellt!</h1>
+	<div class="col-lg-12">
+		<table class="menu">
+			{{each t in menu}}
+				<tr>
+					<td colspan="2" class="wochentag">{{t.wochentag}}</td>
+				</tr>
+				{{each g in t.gerichte}}
+					<tr class="gericht">
+						<td class="titel">{{g.titel}}</td>
+						<td class="preis">{{g.preis}}</td>
+					</tr>
+				{{/each}}
+			{{/each}}
+		</table>
+		
+		<p style="margin-top: 2em;">
+			<a href="/{{startdatum}}/mail" class="btn btn-lg btn-success"><i class="fa fa-envelope-o"></i> Infomail versenden...</a>
+			<a href="/{{startdatum}}" class="btn btn-lg btn-warning" style="margin-Left: 1em; color: black;"><i class="fa fa-shopping-cart"></i> Zur Bestellung...</a>
+		</p>
+	</div>
+	
+</div>

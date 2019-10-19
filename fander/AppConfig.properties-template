@@ -1,0 +1,42 @@
+# Port unter dem die Webapp laufen soll
+port=4040
+
+# true für Entwicklungsmodus, false für Produktionsmodus
+development=true
+
+# URL unter die Mittagskarte geladen werden soll
+fander.url=
+
+# URL unter der die Webapp von außen erreichbar ist
+host=http://localhost:4040
+
+# Name der MongoDB Datenbank
+dbname=fander
+# Hostname oder IP-Adresse und ggf. Port wo MongoDB läuft
+dbhost=
+# MongoDB Login
+#dbuser=
+# MongoDB Kennwort
+#dbpw=
+
+# Login von Administratoren, die Einstellungen und User verwalten dürfen (mehrere mit Komma trennen)
+# Nicht zu verwechseln mit dem Ansprechpartner.
+admin=Max
+
+#programminfo=
+
+# Benutzer (Key besteht aus "user" und zweistelliger fortlaufender Nummer ab 01)
+# Format: "m"|"W" für Geschlecht + S + Vorname + S + Nachname + S + Kennwort +[S + "tb"] +[S + "ausgewählt"] +[S + "Zusatzstoffe"]
+# wobei "S" für 1-n Spaces steht. tb = Benutzer ist regelmäßiger Besteller. ausgewählt = Benutzer für Infomail vorschlagen
+# Zusatzstoffe = Benutzer möchte Zusatzstoffe angezeigt bekommen
+user01=m  Max_Gustav Mustermann  geheim   tb ausgewählt Zusatzstoffe
+
+# Postfix für Emailadressen, optional
+mail.postfix=@company.com
+
+# false: Demomodus (keine Emails versenden), true: Emails tatsächlich versenden
+send.mails=false
+
+# externer Webservice zum Versenden von Infomails
+#mailer.url=
+#mailer.code=

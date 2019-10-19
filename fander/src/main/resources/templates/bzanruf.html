@@ -1,0 +1,29 @@
+{{master: master}}
+
+<div class="row">
+	<h1 class="page-header">Bestellzettel </h1>
+	<div class="col-lg-6">
+		<h3>{{name}} &ndash; Telefon: {{telefon}}</h3>
+			<p>{{datumNiceWT}}</p>
+		<table class="table table-striped table-hover" style="margin-top: 2em;">
+			<tr>
+				<th>Nr.</th>
+				<th>Gericht</th>
+				<th style="text-align: right;">Anzahl</th>
+				<th style="text-align: right;">Preis</th>
+				<th>Besteller</th>
+			</tr>				
+			{{each b in bestellungen}}
+				<tr>
+					<td>{{b.nummer}}</td>
+					<td style="min-width: 10em;">{{b.titel}}</td>
+					<td style="text-align: right; min-width: 3em;">1</td>
+					<td style="text-align: right; min-width: 5em;">{{b.preis}}</td>
+					<td style="min-width: 6em;">{{b.user}}</td>
+				</tr>
+			{{/each}}
+		</table>
+		<p>Anzahl: <b>{{anzahl}}</b><br>Gesamtpreis: <b>{{preis}} EUR</b><br>Mindestbestellbetrag: {{mindestbestellbetrag}} EUR</p>
+		<p style="color: #999;">TODO MW: Bestellt! Status Button, gleiche Gerichte zusammenfassen, Beträge pro Besteller</p>
+	</div>
+</div>

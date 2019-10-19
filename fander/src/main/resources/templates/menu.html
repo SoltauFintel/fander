@@ -1,0 +1,19 @@
+<ul class="nav" id="side-menu">
+    <li>
+        <a href="/"><i class="fa fa-home fa-fw"></i> Startseite</a>
+    </li>
+    <li>
+        <a href="/bestellen"><i class="fa fa-shopping-cart fa-fw"></i> Bestellen</a>
+    </li>
+    <li>
+        <a href="/unsere-karte"><i class="fa fa-cutlery fa-fw"></i> Unsere Karte</a>
+    </li>
+    <li>
+        <a href="/config"><i class="fa fa-cog fa-fw"></i> Einstellungen</a>
+    </li>
+	{{if hasUser}}
+	    <li>
+	        <a href="/logout" style="color: #900;"><i class="fa fa-sign-out fa-fw"></i> Abmelden ({{user}})</a>
+	    </li>
+	{{/if}}
+</ul>
