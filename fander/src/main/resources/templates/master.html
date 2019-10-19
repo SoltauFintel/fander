@@ -49,13 +49,6 @@
     </div>
 	
 	{{if not jqueryOben}}<script src="/js/jquery.min.js"></script>{{/if}}
-	<script>
-		$('#renameDialog').on('shown.bs.modal', function() {
-		    var c = $('#filenameForRename');
-		    c.focus();
-		    c.get(0).setSelectionRange(0, 0);
-		})
-	</script>
 	<script src="/js/bootstrap.min.js"></script>
     <script src="/js/metismenu.min.js"></script>
 	<script src="/js/sb-admin-2.min.js"></script>

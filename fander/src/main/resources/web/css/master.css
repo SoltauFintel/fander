@@ -22,20 +22,8 @@ body {
 	background-color: #E0E0F0;
 }
 
-.downloadlink {
-	color: #E60;
-}
-
-.downloadlink:hover {
-	color: #4e5293;
-}
-
 .dropdown-menu li a {
 	font-size: 13pt;
-}
-
-.label-grey {
-	background-color: grey;
 }
 
 .tags {
@@ -44,10 +32,6 @@ body {
 
 .rand-unten {
 	margin-bottom: 2em;
-}
-
-.infotext {
-	font-size: 8pt;
 }
 
 .table-hover > tbody > tr.no-hover:hover > td,
@@ -59,9 +43,3 @@ body {
 	margin-right: 1em;
 }
 
-.antworttl {
-	border: dashed #ccc 1px;
-	margin-top: 0;
-	margin-bottom: 0;
-	margin-right: 10cm;
-}
