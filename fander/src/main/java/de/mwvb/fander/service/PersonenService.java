@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import de.mwvb.fander.model.FanderConfig;
 import de.mwvb.fander.model.KPerson;
 import de.mwvb.fander.model.Person;
 import de.mwvb.maja.web.AppConfig;
@@ -76,7 +77,7 @@ public class PersonenService {
 		return this.personen.stream().map(i -> {
 			Person p = new Person();
 			p.setName(i.getUser());
-			p.setId(p.getName().toLowerCase().replace("ü", "ue"));
+			p.setId(p.getName().toLowerCase().replace("ü", "ue").replace("ä", "ae").replace("ö", "oe"));
 			p.setAusgewaehlt(i.isAusgewaehlt());
 			return p;
 		}).collect(Collectors.toList());
@@ -114,5 +115,42 @@ public class PersonenService {
 			}
 		}
 		throw new RuntimeException("User '" + user + "' nicht vorhanden!");
+	}
+
+	/**
+	 * @param user i.d.R. akt. User
+	 * @return true: darf alle Developer-Funktionen ausführen, z.B. Anmelden als
+	 */
+	public static boolean isDeveloper(final String user) {
+		return isRole(user, "developer");
+	}
+
+	/**
+	 * @param user i.d.R. akt. User
+	 * @return true: darf Benutzer verwalten und Einstellungen vornehmen
+	 */
+	public static boolean isUserManager(String user) {
+		return isRole(user, "user-manager");
+	}
+	
+	private static boolean isRole(final String user, String configKey) {
+		final String users = new AppConfig().get(configKey);
+		if (users != null) {
+			for (String w : users.split(",")) {
+				if (w.trim().equalsIgnoreCase(user)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * @param user i.d.R. akt. User
+	 * @return true: darf Woche starten und Bestellung schließen
+	 */
+	public static boolean isAnsprechpartner(String user) {
+		FanderConfig config = new FanderService().getConfig();
+		return user.equalsIgnoreCase(config.getAdmin());
 	}
 }

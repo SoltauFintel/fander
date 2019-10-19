@@ -11,7 +11,7 @@ public class BestellungClosen extends SActionBase {
 	@Override
 	protected void execute() {
 		FanderService sv = new FanderService();
-		if (!sv.getConfig().getAdmin().equalsIgnoreCase(user())) {
+		if (!isAnsprechpartner()) {
 			throw new AuthException();
 		}
 

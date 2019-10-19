@@ -68,7 +68,7 @@ public class SAuth extends AuthPlugin {
 		model.put("user", "");
 		model.put("pw", "");
 		model.put("title", "Login - Fander App");
-		SAction.setGlobalVars(model); 
+		SAction.defGlobalVars(model); 
 		return Action.templates.render("login", model);
 	}
 	

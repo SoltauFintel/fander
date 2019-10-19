@@ -27,7 +27,7 @@ public class Bestellen extends SAction {
 		if (woche.getBestellungen() != null) {
 			final String user = user();
 			woche.getBestellungen().stream()
-				.filter(b -> b.getUser().equals(user))
+				.filter(b -> b.getUser().equalsIgnoreCase(user))
 				.forEach(mb ->
 					mb.getBestellungen().forEach(gb -> trageGerichtAlsBestelltEin(woche, gb.getGerichtId())));
 		}
@@ -48,7 +48,7 @@ public class Bestellen extends SAction {
 		if (woche.getBestellungen() != null) {
 			final String user = user();
 			for (Mitarbeiterbestellung mb : woche.getBestellungen()) {
-				if (mb.getUser().equals(user)) {
+				if (mb.getUser().equalsIgnoreCase(user)) {
 					if (mb.getLimit() != null) {
 						return "" + mb.getLimit();
 					}

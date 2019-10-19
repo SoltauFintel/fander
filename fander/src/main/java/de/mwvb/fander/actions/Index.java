@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import de.mwvb.fander.base.SAction;
-import de.mwvb.fander.model.FanderConfig;
 import de.mwvb.fander.model.Gericht;
 import de.mwvb.fander.model.Gerichtbestellung;
 import de.mwvb.fander.model.Mitarbeiterbestellung;
@@ -27,8 +26,9 @@ public class Index extends SAction {
 	@Override
 	protected void execute() {
 		put("title", "Mittagessen bestellen");
-		info("Essen Homepage");
+		info("Startseite");
 		meinBestellstatus();
+		put("isUserManager", isUserManager());
 	}
 
 	public void meinBestellstatus() {
@@ -45,10 +45,7 @@ public class Index extends SAction {
 
 		String status = null;
 		FanderService sv = new FanderService();
-		FanderConfig config = sv.getConfig();
-		put("fanderAdmin", config.getAdmin());
-		put("url", config.getUrl());
-		put("isFanderAdmin", isAdmin());
+		put("isFanderAdmin", isAnsprechpartner());
 		Woche woche = sv.getJuengsteWoche();
 		if (woche == null) {
 			status = "Es ist keine Bestellung möglich.";
@@ -56,7 +53,7 @@ public class Index extends SAction {
 			put("startdatumNice", "");
 			put("hasWoche", false);
 		} else {
-			status = wocheVorhanden(sv, isAdmin(), woche, user());
+			status = wocheVorhanden(sv, isAnsprechpartner(), woche, user());
 		}		
 		put("meinBestellstatus", status);
 		put("montag", isMontag(woche));
@@ -91,13 +88,16 @@ public class Index extends SAction {
 			if (woche.isBestellungenErlaubt()) {
 				put("bestellungVorhandenUndAenderbar", true);
 			} else {
-				status += " Die Bestellung wurde geschlossen. <a href=\"/unsere-karte\" class=\"btn btn-default\">"
+				status += " Die Bestellung wurde geschlossen. <a href=\"/unsere-karte\" class=\"btn btn-default\" style=\"margin-left: 1em\">"
 						+ "<i class=\"fa fa-cutlery\"></i> Unsere Karte</a>";
 			}
 			showAnsprechpartner = true;
 		}
+		put("showAnsprechpartner", showAnsprechpartner);
 		if (showAnsprechpartner) {
-			put("ansprechpartner", getAnsprechpartner(sv.getConfig().getAdmin()));
+			String ans = sv.getConfig().getAdmin();
+			put("ansprechpartner", ans);
+			put("ansprechpartnerWeiblich", new PersonenService().weiblich(ans));
 		}
 		putNamensliste("bestelltHaben", "Bestellt haben", "Bestellt hat", woche.getBestellungen().stream()
 				.filter(m -> !m.getBestellungen().isEmpty())
@@ -129,11 +129,6 @@ public class Index extends SAction {
 			}
 		}
 		return ret.stream();
-	}
-
-	private String getAnsprechpartner(String admin) {
-		String weiblich = new PersonenService().weiblich(admin) ? "in" : "";
-		return "<p>" + esc("Ansprechpartner" + weiblich + ": " + admin) + "</p>";
 	}
 
 	private boolean isMontag(Woche woche) {

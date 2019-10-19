@@ -10,7 +10,7 @@ public class DeleteWoche extends SActionBase {
 	@Override
 	protected void execute() {
 		FanderService sv = new FanderService();
-		if (!sv.getConfig().getAdmin().equalsIgnoreCase(user())) {
+		if (!isDeveloper()) {
 			throw new AuthException();
 		}
 

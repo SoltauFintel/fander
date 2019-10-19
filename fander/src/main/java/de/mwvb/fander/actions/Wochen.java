@@ -14,7 +14,7 @@ public class Wochen extends SAction {
 	protected void execute() {
 		setTitle("Liste aller Fander Wochen");
 		FanderService sv = new FanderService();
-		if (!isAdmin() && !sv.getConfig().getAdmin().equalsIgnoreCase(user())) {
+		if (!isDeveloper()) {
 			throw new AuthException();
 		}
 

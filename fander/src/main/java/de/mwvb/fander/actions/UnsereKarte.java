@@ -18,7 +18,7 @@ public class UnsereKarte extends FanderAnruf {
 
 	private void bestellersummen() {
 		List<FanderBestellerStatus> statusAlle = sv.getFanderBestellerStatus(woche);
-		put("summenAnzeigen", sv.getConfig().getAdmin().equalsIgnoreCase(user()) && !statusAlle.isEmpty());
+		put("summenAnzeigen", isAnsprechpartner() && !statusAlle.isEmpty());
 		DataList list = list("statusAlle");
 		double summe = 0d;
 		for (FanderBestellerStatus status : statusAlle) {

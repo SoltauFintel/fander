@@ -46,7 +46,9 @@
 								href="/{{startdatum}}/{{user}}/nicht-bestellen-undo" class="btn btn-xs btn-default"><i class="fa fa-undo"></i></a>
 						{{/if}}
 					</p>
-					{{ansprechpartner}}
+					{{if showAnsprechpartner}}
+						<p>{{if ansprechpartnerWeiblich}}Ansprechpartnerin{{else}}Ansprechpartner{{/if}}: {{ansprechpartner}}</p>
+					{{/if}}
 				</div>
 			</div>
 			
@@ -70,7 +72,6 @@
 						<p style="margin-top: 1em;">
 							<a href="/neue-woche" class="btn {{if montag}}btn-success btn-lg{{else}}btn-default{{/if}}"
 								style="margin-right: 1em;"><i class="fa fa-cloud-download fa-fw"></i> Neue Woche</a>
-							<a href="/wochen" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-list"></i> Wochen</a>
 						</p>
 					</div>
 				</div>
@@ -81,10 +82,14 @@
 					<div class="panel-heading"><h3 class="panel-title">Fander Administration</h3></div>
 					<div class="panel-body">
 						<a href="/neue-woche" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-cloud-download fa-fw"></i> Neue Woche</a>
-						<a href="/wochen" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-list"></i> Wochen</a>
 					</div>
 				</div>
 			{{/if}}
 		{{/if}}
 	</div>
+	{{if isUserManager}}
+		<div class="col-lg-12">
+			<p><a href="/config" class="btn btn-default"><i class="fa fa-cog fa-fw"></i> Einstellungen</a></p>
+		</div>
+	{{/if}}
 </div>

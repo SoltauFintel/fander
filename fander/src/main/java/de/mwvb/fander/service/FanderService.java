@@ -12,6 +12,7 @@ import org.pmw.tinylog.Logger;
 
 import de.mwvb.fander.base.DateService;
 import de.mwvb.fander.base.SActionBase;
+import de.mwvb.fander.base.UserMessage;
 import de.mwvb.fander.dao.FanderConfigDAO;
 import de.mwvb.fander.dao.WocheDAO;
 import de.mwvb.fander.model.FanderBestellerStatus;
@@ -51,9 +52,12 @@ public class FanderService {
 	
 	public Woche byStartdatum(Request req) {
 		String startdatum = req.params("startdatum");
+		if (startdatum == null || !startdatum.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}")) {
+			throw new UserMessage("Seite nicht vorhanden!");
+		}
 		Woche woche = dao.byStartdatum(startdatum);
 		if (woche == null || woche.getTage() == null || woche.getTage().isEmpty()) {
-			throw new RuntimeException("Woche " + startdatum + " nicht vorhanden!");
+			throw new UserMessage("Woche " + startdatum + " nicht vorhanden!");
 		}
 		return woche;
 	}

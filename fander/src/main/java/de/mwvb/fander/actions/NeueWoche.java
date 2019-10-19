@@ -13,7 +13,7 @@ public class NeueWoche extends SAction {
 	protected void execute() {
 		setTitle("Neue Fander Woche");
 		FanderService sv = new FanderService();
-		if (!sv.getConfig().getAdmin().equalsIgnoreCase(user())) {
+		if (!isAnsprechpartner()) {
 			throw new AuthException();
 		}
 		
@@ -32,7 +32,7 @@ public class NeueWoche extends SAction {
 		Woche woche = sv.createNeueWoche();
 		Woche vorh = sv.byStartdatum(woche.getStartdatum());
 		if (vorh != null) {
-			// Woche bereits vorhanden. Zeige Woche-Page (aka Bestell-Page) an.
+			info("Neue Woche: Woche bereits vorhanden. Zeige Bestellseite an.");
 			redirect("/" + vorh.getStartdatum());
 			return;
 		}

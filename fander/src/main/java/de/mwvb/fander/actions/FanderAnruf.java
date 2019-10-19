@@ -8,10 +8,8 @@ import de.mwvb.fander.base.SAction;
 import de.mwvb.fander.model.FanderBestellung;
 import de.mwvb.fander.model.FanderBestellungGericht;
 import de.mwvb.fander.model.FanderBestellungTag;
-import de.mwvb.fander.model.FanderConfig;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
-import de.mwvb.fander.service.PersonenService;
 
 /*Weitere Features, die denkbar wären:
 
@@ -36,8 +34,6 @@ public class FanderAnruf extends SAction {
 		put("startdatumNice", woche.getStartdatumNice());
 		put("bestellungenErlaubt", woche.isBestellungenErlaubt());
 		put("bestellt", woche.isBestellt());
-		FanderConfig config = sv.getConfig();
-		put("fanderAdminNN", new PersonenService().macheLang(config.getAdmin()));
 		
 		FanderBestellung bestellung = sv.getFanderBestellung(woche, isVollstaendig());
 		put("gesamtpreis", bestellung.getGesamtpreisFormatiert());
@@ -67,7 +63,7 @@ public class FanderAnruf extends SAction {
 	}
 
 	protected void check(FanderService sv) {
-		if (!sv.getConfig().getAdmin().equalsIgnoreCase(user())) {
+		if (!isAnsprechpartner()) {
 			throw new AuthException();
 		}
 	}

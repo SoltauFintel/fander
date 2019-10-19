@@ -6,14 +6,15 @@ import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
 
 /**
- * Nachdem der Fander-Admin bei Fander angerufen hat setzt sie/er den Bestellstatus auf bestellt.
+ * Nachdem der Ansprechpartner bei Fander angerufen hat, setzt sie/er den Bestellstatus auf 'bestellt'.
  */
 public class FanderBestellstatusAction extends SActionBase {
 
 	@Override
 	protected void execute() {
+		// TODO Fachlichkeit nach Service!
 		FanderService sv = new FanderService();
-		if (!sv.getConfig().getAdmin().equalsIgnoreCase(user())) {
+		if (!isAnsprechpartner()) {
 			throw new AuthException();
 		}
 

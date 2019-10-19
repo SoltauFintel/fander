@@ -1,7 +1,5 @@
 package de.mwvb.fander.auth;
 
-import de.mwvb.fander.auth.SAuth;
-import de.mwvb.fander.auth.SAuthorization;
 import de.mwvb.maja.web.ActionBase;
 
 public class Login2 extends ActionBase {

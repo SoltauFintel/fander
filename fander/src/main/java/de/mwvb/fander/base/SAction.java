@@ -1,11 +1,9 @@
 package de.mwvb.fander.base;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
-
 import com.github.template72.data.DataMap;
 
 import de.mwvb.fander.FanderApp;
+import de.mwvb.fander.service.PersonenService;
 import de.mwvb.maja.auth.AuthPlugin;
 import de.mwvb.maja.web.Action;
 
@@ -28,7 +26,6 @@ public abstract class SAction extends Action {
 		put("title", "Fander App");
 		String user = user();
 		put("user", user);
-
 		put("hasUser", user != null && !user.trim().isEmpty());
 
 		try {
@@ -44,31 +41,30 @@ public abstract class SAction extends Action {
 	}
 	
 	public static void defGlobalVars(DataMap model) {
+		model.put("title", "Fander App");
 		model.put("appversion", FanderApp.VERSION);
 		model.put("jqueryOben", false);
-	}
-	
-	public static void setGlobalVars(DataMap model) {
-		defGlobalVars(model);
-
+		model.put("user", "");
 		model.put("hasUser", false);
-	}
-
-	public String user() {
-		return AuthPlugin.getUser(req.session());
-	}
-	
-	protected void combo(String id, Collection<String> texte, String selected) {
-		put(id, texte.stream()
-				.map(text -> (text.equals(selected) ? "<option selected>" : "<option>") + text + "</option>")
-				.collect(Collectors.joining()));
 	}
 	
 	protected final void info(String msg) {
 		SActionBase.info(user(), msg);
 	}
+
+	public final String user() {
+		return AuthPlugin.getUser(req.session());
+	}
 	
-	protected boolean isAdmin() {
-		return true; // TODO
+	protected final boolean isDeveloper() {
+		return PersonenService.isDeveloper(user());
+	}
+	
+	protected final boolean isUserManager() {
+		return PersonenService.isUserManager(user());
+	}
+	
+	protected final boolean isAnsprechpartner() {
+		return PersonenService.isAnsprechpartner(user());
 	}
 }

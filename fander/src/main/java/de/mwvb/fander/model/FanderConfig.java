@@ -8,6 +8,7 @@ public class FanderConfig {
 	public static final String ID = "1";
 	@Id
 	private String id = ID;
+	/** Ansprechpartner */
 	private String admin = "";
 	private String url = "";
 	private int mindestbestellmenge = 2;
@@ -23,10 +24,16 @@ public class FanderConfig {
 		this.id = id;
 	}
 
+	/**
+	 * @return Ansprechpartner (User). Liefert "?" wenn noch nicht belegt.
+	 */
 	public String getAdmin() {
 		return admin == null || admin.trim().isEmpty() ? "?" : admin;
 	}
 
+	/**
+	 * @param admin User der aktueller Ansprechpartner ist
+	 */
 	public void setAdmin(String admin) {
 		this.admin = admin;
 	}
