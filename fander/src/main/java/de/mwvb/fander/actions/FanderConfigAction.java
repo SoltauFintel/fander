@@ -9,7 +9,7 @@ public class FanderConfigAction extends SAction {
 
 	@Override
 	protected void execute() {
-		setTitle("Fander Einstellungen");
+		setTitle("Anwendungseinstellungen");
 		if (!isUserManager()) {
 			throw new AuthException();
 		}

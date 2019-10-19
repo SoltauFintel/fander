@@ -21,6 +21,8 @@ import de.mwvb.fander.actions.FanderMailAction;
 import de.mwvb.fander.actions.FanderMailSendAction;
 import de.mwvb.fander.actions.FanderMailSentAction;
 import de.mwvb.fander.actions.Index;
+import de.mwvb.fander.actions.MyUserData;
+import de.mwvb.fander.actions.MyUserDataSave;
 import de.mwvb.fander.actions.NeueWoche;
 import de.mwvb.fander.actions.NeueWocheForce;
 import de.mwvb.fander.actions.NichtBestellen;
@@ -56,6 +58,8 @@ public class FanderApp extends AbstractWebApp {
 		_get ("/unsere-karte", UnsereKarteRedirect.class);
 		_get ("/karte", UnsereKarteRedirect.class);
 		_get ("/mail/sent", FanderMailSentAction.class);
+		_get ("/myuserdata", MyUserData.class);
+		_post("/save-myuserdata", MyUserDataSave.class);
 
 		_get ("/:startdatum/force", NeueWocheForce.class);
 		_post("/:startdatum/mail/send", FanderMailSendAction.class);
@@ -96,6 +100,7 @@ public class FanderApp extends AbstractWebApp {
 				"index",
 				"login",
 				"myerrorpage",
+				"myuserdata",
 				"neuewoche",
 				"neuewocheforce",
 				"sent",

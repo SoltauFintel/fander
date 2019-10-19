@@ -90,4 +90,8 @@ public class UserService { // TODO rename to UserService
 		FanderConfig config = new FanderService().getConfig();
 		return user.equalsIgnoreCase(config.getAdmin());
 	}
+
+	public void save(User user) {
+		dao.save(user);
+	}
 }
