@@ -25,7 +25,7 @@ public class Index extends SAction {
 
 	@Override
 	protected void execute() {
-		put("title", "Mittagessen bestellen");
+		put("title", "Fander");
 		info("Startseite");
 		meinBestellstatus();
 		put("isUserManager", isUserManager());
