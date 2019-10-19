@@ -3,7 +3,7 @@ package de.mwvb.fander.base;
 import com.github.template72.data.DataMap;
 
 import de.mwvb.fander.FanderApp;
-import de.mwvb.fander.service.PersonenService;
+import de.mwvb.fander.service.UserService;
 import de.mwvb.maja.auth.AuthPlugin;
 import de.mwvb.maja.web.Action;
 
@@ -57,14 +57,14 @@ public abstract class SAction extends Action {
 	}
 	
 	protected final boolean isDeveloper() {
-		return PersonenService.isDeveloper(user());
+		return UserService.isDeveloper(user());
 	}
 	
 	protected final boolean isUserManager() {
-		return PersonenService.isUserManager(user());
+		return UserService.isUserManager(user());
 	}
 	
 	protected final boolean isAnsprechpartner() {
-		return PersonenService.isAnsprechpartner(user());
+		return UserService.isAnsprechpartner(user());
 	}
 }

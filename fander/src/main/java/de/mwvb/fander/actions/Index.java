@@ -17,7 +17,7 @@ import de.mwvb.fander.model.Mitarbeiterbestellung;
 import de.mwvb.fander.model.Tag;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
-import de.mwvb.fander.service.PersonenService;
+import de.mwvb.fander.service.UserService;
 
 // TODO Tagesmenü oben in einer Box darstellen. Der jetzige Text davor wird zur Boxüberschrift. Oder alle pers. Gerichte der Woche anzeigen und
 //      den aktuellen Tag hervorheben.
@@ -99,7 +99,7 @@ public class Index extends SAction {
 			put("ansprechpartner", ans);
 			boolean weiblich = false;
 			try {
-				weiblich = new PersonenService().getUser(ans).isWeiblich();
+				weiblich = new UserService().getUser(ans).isWeiblich();
 			} catch (Exception ignore) {
 			}
 			put("ansprechpartnerWeiblich", weiblich);
@@ -121,7 +121,7 @@ public class Index extends SAction {
 	}
 	
 	private Stream<String> keineAussageVon(Woche woche) {
-		List<String> tb = new PersonenService().getTypischeBesteller();
+		List<String> tb = new UserService().getTypischeBesteller();
 		List<String> besteller = woche.getBestellungen().stream()
 				.filter(m -> !m.getBestellungen().isEmpty())
 				.map(Mitarbeiterbestellung::getUser)

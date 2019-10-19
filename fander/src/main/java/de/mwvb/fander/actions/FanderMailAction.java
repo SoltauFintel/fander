@@ -8,7 +8,7 @@ import de.mwvb.fander.base.SAction;
 import de.mwvb.fander.model.MailEmpfaenger;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
-import de.mwvb.fander.service.PersonenService;
+import de.mwvb.fander.service.UserService;
 
 public class FanderMailAction extends SAction {
 
@@ -26,7 +26,7 @@ public class FanderMailAction extends SAction {
 		put("startdatum", esc(woche.getStartdatumNice()));
 		
 		DataList list = model.list("personen");
-		for (MailEmpfaenger p : new PersonenService().getMailEmpfaenger()) {
+		for (MailEmpfaenger p : new UserService().getMailEmpfaenger()) {
 			DataMap map = list.add();
 			map.put("id", esc(p.getId()));
 			map.put("name", esc(p.getName()));

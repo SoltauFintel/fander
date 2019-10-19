@@ -4,7 +4,7 @@ import org.pmw.tinylog.Logger;
 
 import com.google.common.base.Strings;
 
-import de.mwvb.fander.service.PersonenService;
+import de.mwvb.fander.service.UserService;
 import de.mwvb.maja.auth.AuthPlugin;
 import de.mwvb.maja.web.ActionBase;
 
@@ -29,14 +29,14 @@ public abstract class SActionBase extends ActionBase {
 	}
 	
 	protected final boolean isDeveloper() {
-		return PersonenService.isDeveloper(user());
+		return UserService.isDeveloper(user());
 	}
 	
 	protected final boolean isUserManager() {
-		return PersonenService.isUserManager(user());
+		return UserService.isUserManager(user());
 	}
 	
 	protected final boolean isAnsprechpartner() {
-		return PersonenService.isAnsprechpartner(user());
+		return UserService.isAnsprechpartner(user());
 	}
 }

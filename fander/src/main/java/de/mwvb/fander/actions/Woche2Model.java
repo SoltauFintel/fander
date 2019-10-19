@@ -7,7 +7,7 @@ import de.mwvb.fander.model.Gericht;
 import de.mwvb.fander.model.Tag;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
-import de.mwvb.fander.service.PersonenService;
+import de.mwvb.fander.service.UserService;
 import de.mwvb.maja.web.Escaper;
 
 public class Woche2Model {
@@ -20,7 +20,7 @@ public class Woche2Model {
 		model.put("archiviert", woche.isArchiviert());
 		model.put("anzahlGerichte", "" + woche.getAnzahlGerichte());
 		double summe = 0;
-		boolean sz = new PersonenService().getUser(user).isZusatzstoffeAnzeigen();
+		boolean sz = new UserService().getUser(user).isZusatzstoffeAnzeigen();
 		
 		DataList menu = model.list("menu");
 		for (Tag tag : woche.getTage()) {

@@ -15,7 +15,7 @@ public class FanderMailService {
 	 * @param executingUser angemeldeter User, normalerweise der Fander-Admin
 	 */
 	public void sendMail(Stream<MailEmpfaenger> empfaengerliste, String kommentar, String executingUser) {
-		PersonenService psv = new PersonenService();
+		UserService psv = new UserService();
 		final String userL = psv.macheLang(executingUser);
 		final String mailtextTemplate = getMailtextTemplate(kommentar, executingUser);
 		empfaengerliste.forEach(empfaenger -> {

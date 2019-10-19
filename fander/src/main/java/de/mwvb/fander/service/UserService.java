@@ -9,7 +9,7 @@ import de.mwvb.fander.model.MailEmpfaenger;
 import de.mwvb.fander.model.User;
 import de.mwvb.maja.web.AppConfig;
 
-public class PersonenService { // TODO rename to UserService
+public class UserService { // TODO rename to UserService
 	private final UserDAO dao = new UserDAO();
 	
 	public User getUser(String user) {

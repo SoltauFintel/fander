@@ -7,7 +7,7 @@ import de.mwvb.fander.auth.AuthException;
 import de.mwvb.fander.base.SActionBase;
 import de.mwvb.fander.model.MailEmpfaenger;
 import de.mwvb.fander.service.FanderMailService;
-import de.mwvb.fander.service.PersonenService;
+import de.mwvb.fander.service.UserService;
 
 public class FanderMailSendAction extends SActionBase {
 
@@ -17,7 +17,7 @@ public class FanderMailSendAction extends SActionBase {
 			throw new AuthException();
 		}
 		
-		List<MailEmpfaenger> pl = new PersonenService().getMailEmpfaenger();
+		List<MailEmpfaenger> pl = new UserService().getMailEmpfaenger();
 		pl.forEach(p -> p.setAusgewaehlt("1".equals(req.queryParams("c_" + p.getId()))));
 		String kommentar = req.queryParams("kommentar").trim();
 		
