@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import de.mwvb.fander.model.FanderConfig;
 import de.mwvb.fander.model.KPerson;
-import de.mwvb.fander.model.Person;
+import de.mwvb.fander.model.MailEmpfaenger;
 import de.mwvb.maja.web.AppConfig;
 
 public class PersonenService {
@@ -73,9 +73,9 @@ public class PersonenService {
 	}
 
 	// TODO Mail Thema auf KPerson umstellen. Danach KPerson in Person umbenennen.
-	public List<Person> getPersonen() {
+	public List<MailEmpfaenger> getPersonen() {
 		return this.personen.stream().map(i -> {
-			Person p = new Person();
+			MailEmpfaenger p = new MailEmpfaenger();
 			p.setName(i.getUser());
 			p.setId(p.getName().toLowerCase().replace("ü", "ue").replace("ä", "ae").replace("ö", "oe"));
 			p.setAusgewaehlt(i.isAusgewaehlt());

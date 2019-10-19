@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import de.mwvb.fander.FanderApp;
 import de.mwvb.fander.mail.MailSender;
 import de.mwvb.fander.mail.SendMailRequest;
-import de.mwvb.fander.model.Person;
+import de.mwvb.fander.model.MailEmpfaenger;
 
 public class FanderMailService {
 
@@ -14,7 +14,7 @@ public class FanderMailService {
 	 * @param kommentar immer getrimmt, nie null
 	 * @param user angemeldeter User, normalerweise der Fander-Admin
 	 */
-	public void sendMail(Stream<Person> empfaengerliste, String kommentar, String user) {
+	public void sendMail(Stream<MailEmpfaenger> empfaengerliste, String kommentar, String user) {
 		PersonenService psv = new PersonenService();
 		final String userL = psv.macheLang(user);
 		final String mailtextTemplate = getMailtextTemplate(kommentar, user);

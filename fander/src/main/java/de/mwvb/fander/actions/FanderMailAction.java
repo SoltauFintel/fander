@@ -4,7 +4,7 @@ import com.github.template72.data.DataList;
 import com.github.template72.data.DataMap;
 
 import de.mwvb.fander.base.SAction;
-import de.mwvb.fander.model.Person;
+import de.mwvb.fander.model.MailEmpfaenger;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
 import de.mwvb.fander.service.PersonenService;
@@ -22,7 +22,7 @@ public class FanderMailAction extends SAction {
 		
 		// TODO Auswahl vom vorigen Mal vorschlagen -> Idee: bestimmten Kommentar eingeben und dann wird kein Mail versendet, sondern die Auswahl als Standard gespeichert.
 		DataList list = model.list("personen");
-		for (Person p : new PersonenService().getPersonen()) {
+		for (MailEmpfaenger p : new PersonenService().getPersonen()) {
 			DataMap map = list.add();
 			map.put("id", p.getId());
 			map.put("name", p.getName());

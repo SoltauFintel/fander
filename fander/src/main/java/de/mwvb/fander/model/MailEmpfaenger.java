@@ -1,6 +1,6 @@
 package de.mwvb.fander.model;
 
-public class Person {
+public class MailEmpfaenger {
 	private String id;
 	private String name;
 	private boolean ausgewaehlt = false;
