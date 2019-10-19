@@ -19,20 +19,12 @@ dbhost=
 # MongoDB Kennwort
 #dbpw=
 
-# Login von Administratoren, die Einstellungen und User verwalten dürfen (mehrere mit Komma trennen)
-# Nicht zu verwechseln mit dem Ansprechpartner.
-admin=Max
+# alle User, die Developer Rechte haben sollen
+developer=Max
+# alle User, die User-Manager Rechte haben sollen
+user-manager=Max
 
-#programminfo=
-
-# Benutzer (Key besteht aus "user" und zweistelliger fortlaufender Nummer ab 01)
-# Format: "m"|"W" für Geschlecht + S + Vorname + S + Nachname + S + Kennwort +[S + "tb"] +[S + "ausgewählt"] +[S + "Zusatzstoffe"]
-# wobei "S" für 1-n Spaces steht. tb = Benutzer ist regelmäßiger Besteller. ausgewählt = Benutzer für Infomail vorschlagen
-# Zusatzstoffe = Benutzer möchte Zusatzstoffe angezeigt bekommen
-user01=m  Max_Gustav Mustermann  geheim   tb ausgewählt Zusatzstoffe
-
-# Postfix für Emailadressen, optional
-mail.postfix=@company.com
+programminfo=Fander App
 
 # false: Demomodus (keine Emails versenden), true: Emails tatsächlich versenden
 send.mails=false
