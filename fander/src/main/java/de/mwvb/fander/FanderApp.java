@@ -40,7 +40,7 @@ import de.mwvb.maja.web.Action;
 import de.mwvb.maja.web.ActionBase;
 
 public class FanderApp extends AbstractWebApp {
-	public static final String VERSION = "1.00.2";
+	public static final String VERSION = "1.00.3";
 	
 	public static void main(String[] args) {
 		new FanderApp().start(VERSION);
