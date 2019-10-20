@@ -17,8 +17,13 @@ public class SAuthorization implements Authorization {
 			Logger.warn("Zugang nicht gestattet für '" + login + "', da Passwort leer.");
 			throw new UserMessage("Bitte Passwort eingeben!");
 		}
+		UserDAO dao = new UserDAO();
+		if (dao.size() == 0) {
+			Logger.warn("Leere User Collection lässt jeden Login zu!");
+			return null;
+		}
 		password = User.hash(password);
-		User user = new UserDAO().byLogin(login);
+		User user = dao.byLogin(login);
 		if (user == null) {
 			Logger.warn("Zugang nicht gestattet für '" + login + "', da Benutzername falsch.");
 			throw new UserMessage("Zugang nicht gestattet, da der Benutzer nicht bekannt ist."

@@ -17,10 +17,8 @@ public class Wochen extends SAction {
 		}
 		setTitle("Liste aller Fander Wochen");
 		FanderService sv = new FanderService();
-
-		Woche j = sv.getJuengsteWoche();
-		String j_id = j == null ? "" : j.getId();
-
+		String juengsteWocheId = sv.getJuengsteWocheId();
+		
 		DataList list = list("wochen");
 		for (Woche woche : sv.list()) {
 			DataMap map = list.add();
@@ -30,7 +28,7 @@ public class Wochen extends SAction {
 			map.put("archiviert", woche.isArchiviert());
 			map.put("bestellt", woche.isBestellt());
 			map.put("bestellungenErlaubt", woche.isBestellungenErlaubt() && !woche.isArchiviert());
-			map.put("juengsteWoche", woche.getId().equals(j_id));
+			map.put("juengsteWoche", woche.getId().equals(juengsteWocheId));
 		}
 	}
 }

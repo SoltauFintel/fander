@@ -48,7 +48,15 @@ public class FanderService {
 		}
 		return woche;
 	}
-	
+
+	public String getJuengsteWocheId() {
+		Woche woche = dao.getJuengsteWoche();
+		if (woche == null) {
+			return "";
+		}
+		return woche.getId();
+	}
+
 	public Woche byStartdatum(String startdatum) {
 		return dao.byStartdatum(startdatum);
 	}
