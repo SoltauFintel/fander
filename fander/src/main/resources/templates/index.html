@@ -1,102 +1,127 @@
 {{master: master}}
 
-<style>
-	.chattime {
-		font-size: 7pt;
-	}
-	.chatauthor {
-		font-size: 10pt;
-		font-weight: bold;
-	}
-	.chatline {
-		font-size: 11pt;
-	}
-	.chatdelete {
-		font-size: 7pt;
-		margin-left: 1em;
-	}
-</style>
+{{if wocheVorhanden}}
+	{{if bestellmodus}}
+		<script>
+			var summe = {{summeJS}};
+		</script>
+	{{/if}}
+{{/if}}
 
 <div class="row">
-	<h1 class="page-header">Mittagessen bestellen</h1>
-	<div class="col-lg-6">
-		{{if hasWoche}}
-			<div class="panel panel-primary">
-				<div class="panel-heading"><h3 class="panel-title">Woche {{startdatumNice}}</h3></div>
-				<div class="panel-body">
-					{{if hasFuerHeuteBestellt}}
-						<p>Deine Bestellung für heute: &nbsp;<b>{{heuteBestellt}}</b></p>
-					{{/if}}
-					{{meinBestellstatus}}
-					{{if bestellungVorhandenUndAenderbar}} &nbsp;
-						<a href="/bestellen" class="btn btn-sm btn-default"><i class="fa fa-shopping-cart"></i> Bestellung ändern</a>
-					{{/if}}
-					<p style="margin-top: 1em;">
-						{{if zeigeBestellenButton}}
-							<a href="/bestellen" class="btn btn-warning" style="margin-right: 1em; font-weight: bold; color: #444;"><i
-								class="fa fa-shopping-cart"></i> Hier geht's zur Bestellung.</a>
-		
-							{{if nichtBestellen}}
-								<nobr>Diese Woche bei Fander bestellen? &nbsp;<a href="/nicht-bestellen/{{startdatum}}"
-									class="btn btn-xs btn-danger"><i class="fa fa-times"></i> Nein!</a></nobr>
-							{{/if}}
-						{{/if}}
-						{{if nichtBestellenUndo}}
-							<i class="fa fa-times"></i> Du möchtest diese Woche nicht bei Fander bestellen. &nbsp;<a title="Nee, ich möchte diese Woche doch bei Fander bestellen!"
-								href="/nicht-bestellen/{{startdatum}}?undo=1" class="btn btn-xs btn-default"><i class="fa fa-undo"></i></a>
-						{{/if}}
-					</p>
-					{{if showAnsprechpartner}}
-						<p>{{if ansprechpartnerWeiblich}}Ansprechpartnerin{{else}}Ansprechpartner{{/if}}: {{ansprechpartner}}</p>
-					{{/if}}
-				</div>
-			</div>
+	<h1 class="page-header" style="margin-top: 20px";>{{h1title}}</h1>
+	{{if wocheVorhanden}}
+		<div class="col-lg-12">
+			{{if bestellmodus}}
+				<form action="/bestellen/{{startdatum}}" method="post" class="form-horizontal">
+			{{/if}}
+			<table>
+				<tr>
+					<td>
+						<table class="menu">
+							{{each t in menu}}
+								{{if t.show}}
+									<tr>
+										<td colspan="4" class="wochentag">{{t.wochentag}}</td>
+										<td class="wochentag" style="font-weight: normal;">{{if t.first}}Besteller &nbsp;&nbsp; {{/if}}</td>
+									</tr>
+								{{/if}}
+								{{each g in t.gerichte}}
+									<tr class="gericht tr_{{g.id}}{{if g.bestellt}} bestellt{{/if}}">
+										<td><input type="checkbox" id="c_{{g.id}}" name="c_{{g.id}}"
+											value="1"{{if g.bestellt}} checked{{/if}}{{if not bestellmodus}} disabled{{/if}}></td>
+										<td class="titel"{{if g.strikethru}} style="text-decoration: line-through; color: #999;"{{/if}}>{{g.titel}}</td>
+										<td class="preis"{{if g.strikethru}} style="text-decoration: line-through; color: #999;"{{/if}}>{{g.preis}}</td>
+										<td width="40">{{if g.wirdBestellt}}<i class="fa fa-shopping-cart fa-fw" title="wird bestellt"></i>{{/if}}</td>
+										<td>{{g.namen}} &nbsp;&nbsp; </td>
+									</tr>
+									<script>
+										$('#c_{{g.id}}').change(function() {
+										    if($(this).is(":checked")) {
+										        $('.tr_{{g.id}}').addClass('bestellt');
+										        summe += {{g.preisJS}};
+										    } else {
+										        $('.tr_{{g.id}}').removeClass('bestellt');
+										        summe -= {{g.preisJS}};
+										    }
+										    var text = ("" + summe.toFixed(2)).replace(".", ",");
+										    if ("-0,00" == text) {
+										    	text = "0,00";
+										    }
+										    document.getElementById("summefeld").innerHTML = text;
+										});
+									</script>
+								{{/each}}
+							{{/each}}
+						</table>
+					</td>
+					<td width="40"></td>
+					<td valign="bottom" style="font-size: 16pt;">{{if showBestellsumme}}Bestellsumme: <span id="summefeld">{{summe}}</span> EUR{{/if}}</td>
+				</tr>
+			</table>
+					
+			{{if bestellmodus}}
+				<p style="margin-top: 2em;">
+					<button type="submit" title="Bestellung speichern"
+						class="btn btn-lg btn-warning" style="font-weight: bold; color: #444;"><i
+						class="fa fa-shopping-cart"></i> Bestellen!</button>
+					<span style="margin-left: 17em;">
+						Limit: <input type="text" name="limit" style="width: 60px;" value="{{limit}}"
+							title="Maximal so viele Gerichte bestellen. Dieses Feld wird normalerweise leer gelassen.">
+					</span>
+				</p>
+				{{if not bestellungenErlaubt}}
+					<p style="color: red;"><i class="fa fa-lock"></i> Bestellung darf nicht mehr verändert werden.</p>
+				{{/if}}
+				</form>
+			{{/if}}
 			
-			{{if isFanderAdmin}}
-				<div class="panel panel-danger">
-					<div class="panel-heading"><h3 class="panel-title">Administration</h3></div>
-					<div class="panel-body">
-						{{if bestellungenErlaubt}}
-							<p>Bestellung offen. (Jeder kann bestellen oder die eigene Bestellung ändern.)</p>
-							<p>{{bestelltHaben}}{{absagen}}{{keineAussageVon}}</p>
-							<p><a href="/infomails" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-envelope-o"></i> 'Bestellungen nun möglich' Infomails versenden...</a></p>
-							<p><a href="/close/{{startdatum}}" class="btn btn-danger" style="margin-right: 1em;"><i class="fa fa-lock"></i> Bestellung schließen</a></p>
-						{{else}}
-							<p>
-								Bestellung geschlossen.
-								{{if bestellt}}Bestellt.{{else}}Fander-Anruf steht noch aus.{{/if}}
-							</p>
-							<a href="/close/{{startdatum}}?open=1" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-unlock"></i> Bestellung wieder freigeben</a>
-							<a href="/anruf" class="btn {{if montag}}btn-default{{else}} {{if bestellt}}btn-success{{else}}btn-warning{{/if}}{{/if}}" style="margin-right: 1em;"><i class="fa fa-phone"></i> {{if bestellt}}Fander Bestellung{{else}}Fander anrufen{{/if}}</a>
-						{{/if}}
-						<p style="margin-top: 1em;">
-							<a href="/neue-woche" class="btn {{if montag}}btn-success btn-lg{{else}}btn-default{{/if}}"
-								style="margin-right: 1em;"><i class="fa fa-cloud-download fa-fw"></i> Neue Woche</a>
-						</p>
-					</div>
-				</div>
+			{{if not bestellungenErlaubt}}
+				<p style="color: #CC0000; font-weight: bold; font-size: 12pt; margin-top: 2em;">Bestellung geschlossen</p>
 			{{/if}}
-		{{else}}
-			{{if isFanderAdmin}}
-				<div class="panel panel-danger">
-					<div class="panel-heading"><h3 class="panel-title">Fander Administration</h3></div>
-					<div class="panel-body">
-						<a href="/neue-woche" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-cloud-download fa-fw"></i> Neue Woche</a>
-					</div>
-				</div>
-			{{/if}}
-		{{/if}}
-	</div>
+		</div>
+	{{/if}}
+	
 	<div class="col-lg-12">
-		<p>
-			{{if isUserManager}}
-				<a href="/config" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-wrench fa-fw"></i> Anwendungseinstellungen</a>
-				<a href="/users" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-users fa-fw"></i> Benutzerverwaltung</a>
+		{{if wocheVorhanden}}
+			<hr/>
+		{{/if}}
+		<p style="margin-bottom: 2em;">
+			{{if wocheVorhanden}}
+				{{if showBestellungAendern}}
+					<a href="/nd?m=1" class="btn btn-default btn-dif"><i class="fa fa-shopping-cart fa-fw"></i> Bestellung ändern</a>
+				{{/if}}
+				{{if bestellmodus}}
+					<a href="/nicht-bestellen/{{startdatum}}" class="btn btn-danger btn-dif"><i class="fa fa-times"></i> Ich möchte nicht bestellen.</a>
+				{{/if}}
+				{{if showDochBestellen}}
+					<a title="Nee, ich möchte diese Woche doch bei Fander bestellen!"
+						href="/nicht-bestellen/{{startdatum}}?undo=1" class="btn btn-default btn-dif"><i
+						class="fa fa-undo fa-fw"></i> Ich möchte doch bestellen.</a>
+				{{/if}}
+				{{if isAnsprechpartner}}
+					{{if bestellungenErlaubt}}
+						<a href="/close/{{startdatum}}" class="btn btn-danger btn-dif"><i class="fa fa-lock"></i> Bestellung schließen</a>
+						<a href="/infomails" class="btn btn-default btn-dif"><i class="fa fa-envelope-o"></i> 'Bestellungen nun möglich' Infomails versenden...</a>
+					{{else}}
+						<a href="/close/{{startdatum}}?open=1" class="btn btn-default btn-dif"><i class="fa fa-unlock"></i> Bestellung wieder freigeben</a>
+						<a href="/anruf" class="btn btn-default btn-dif"><i class="fa fa-phone"></i> Fander anrufen</a>
+						<a href="/unsere-karte-druck" class="btn btn-default btn-dif"><i class="fa fa-print"></i> Druckansicht</a>
+					{{/if}}
+					<a href="/neue-woche" class="btn btn-default btn-dif"><i class="fa fa-cloud-download fa-fw"></i> Neue Woche</a>
+				{{/if}}
+				{{if isUserManager}}
+					<a href="/config" class="btn btn-default btn-dif"><i class="fa fa-wrench fa-fw"></i> Anwendungseinstellungen</a>
+					<a href="/users" class="btn btn-default btn-dif"><i class="fa fa-users fa-fw"></i> Benutzerverwaltung</a>
+				{{/if}}
+				<a href="/myuserdata" class="btn btn-default btn-dif"><i class="fa fa-cog fa-fw"></i> Benutzereinstellungen</a>
+				{{if isDeveloper}}
+					<a href="/wochen" class="btn btn-default btn-dif"><i class="fa fa-list fa-fw"></i> Wochen</a>
+				{{/if}}
+			{{else if isAnsprechpartner}}
+				<a href="/neue-woche" class="btn btn-success btn-dif"><i class="fa fa-cloud-download fa-fw"></i> Neue Woche</a>
 			{{/if}}
-			<a href="/myuserdata" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-cog fa-fw"></i> Benutzereinstellungen</a>
-			{{if isDeveloper}}
-				<a href="/wochen" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-list fa-fw"></i> Wochen</a>
-			{{/if}}
+			Ansprechpartner{{if ansprechpartnerWeiblich}}in{{/if}}: {{ansprechpartner}}
 		</p>
 	</div>
 </div>
