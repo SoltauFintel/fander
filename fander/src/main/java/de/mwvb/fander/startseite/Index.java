@@ -59,8 +59,12 @@ public class Index extends SAction {
 			DataMap map = menu.add();
 			map.put("wochentag", esc(tag.getWochentagText()));
 			map.put("show", zustand.showTag(tag));
-			map.put("first", first);
-			first = false;
+			if (first && !tag.getGerichte().isEmpty()) {
+				map.put("first", first);
+				first = false;
+			} else {
+				map.put("first", false);
+			}
 			
 			DataList gerichte = map.list("gerichte");
 			for (Gericht g : tag.getGerichte()) {
