@@ -3,7 +3,7 @@
 }
 
 body {
-	padding-top: 50px;
+	padding-top: 0px;
 }
 
 .ntabelle > tbody > tr > td, .ntabelle > tbody > tr > th, .ntabelle > tfoot > tr > td, .ntabelle > tfoot > tr > th, .ntabelle > thead > tr > td, .ntabelle > thead > tr > th {
@@ -68,4 +68,8 @@ body {
 
 .bestellt td {
 	background-color: #e8b078;
+}
+
+.starter-template {
+	padding: 40px 15px;
 }
