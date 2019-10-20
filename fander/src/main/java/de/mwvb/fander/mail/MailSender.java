@@ -40,10 +40,7 @@ public class MailSender {
 		if (mail.getSendername() == null) {
 			mail.setSendername("Fander App");
 		}
-		mail.setCode(config.get("mailer.code"));
-		if (mail.getCode() == null) {
-			throw new RuntimeException("mail.code fehlt in AppConfig.properties!");
-		}
+		mail.setCode(config.get("mailer.code", ""));
 		String json = new Gson().toJson(mail);
 		String url = config.get("mailer.url");
 		CloseableHttpClient httpClient = HttpClients.custom().build();

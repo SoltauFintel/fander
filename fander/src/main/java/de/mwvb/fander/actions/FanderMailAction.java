@@ -6,9 +6,11 @@ import com.github.template72.data.DataMap;
 import de.mwvb.fander.auth.AuthException;
 import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.base.SAction;
+import de.mwvb.fander.base.UserMessage;
 import de.mwvb.fander.model.MailEmpfaenger;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
+import de.mwvb.maja.web.AppConfig;
 
 public class FanderMailAction extends SAction {
 
@@ -19,6 +21,10 @@ public class FanderMailAction extends SAction {
 		}
 		info("FanderMailAction");
 
+		String mailerUrl = new AppConfig().get("mailer.url");
+		if (mailerUrl == null || mailerUrl.trim().isEmpty()) {
+			throw new UserMessage("Mail-Feature nicht konfiguriert!");
+		}
 		FanderService sv = new FanderService();
 		Woche woche = sv.getJuengsteWoche();
 

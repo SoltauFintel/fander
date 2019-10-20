@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 import de.mwvb.fander.auth.AuthException;
 import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.base.SActionBase;
+import de.mwvb.fander.base.UserMessage;
 import de.mwvb.fander.mail.FanderMailService;
 import de.mwvb.fander.model.MailEmpfaenger;
+import de.mwvb.maja.web.AppConfig;
 
 public class FanderMailSendAction extends SActionBase {
 
@@ -16,7 +18,12 @@ public class FanderMailSendAction extends SActionBase {
 		if (!isAnsprechpartner()) {
 			throw new AuthException();
 		}
-		
+
+		String mailerUrl = new AppConfig().get("mailer.url");
+		if (mailerUrl == null || mailerUrl.trim().isEmpty()) {
+			throw new UserMessage("Mail-Feature nicht konfiguriert!");
+		}
+
 		List<MailEmpfaenger> pl = new UserService().getMailEmpfaenger();
 		pl.forEach(p -> p.setAusgewaehlt("1".equals(req.queryParams("c_" + p.getId()))));
 		String kommentar = req.queryParams("kommentar").trim();
