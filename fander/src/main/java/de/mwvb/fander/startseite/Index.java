@@ -11,18 +11,23 @@ import de.mwvb.fander.model.Tag;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
 
-public class NeuesDesign extends SAction {
+public class Index extends SAction {
 
 	@Override
 	protected void execute() {
 		put("title", "Fander");
-		info("Startseite (neues Design)");
+		info("Startseite");
 
-		Zustand zustand = new StartseiteService().getZustand(user(), "1".equals(req.queryParams("m")));
+		boolean bestellungAendern = "1".equals(req.queryParams("m"));
+		
+		Zustand zustand = new StartseiteService().getZustand(user(), bestellungAendern);
 		Logger.debug("Startseite Zustand: " + zustand.getClass().getSimpleName());
+		
 		put("h1title", zustand.getH1Title());
 		put("jqueryOben", zustand.isJqueryOben());
 		put("isAnsprechpartner", isAnsprechpartner());
+		put("isUserManager", isUserManager());
+		put("isDeveloper", isDeveloper());
 		put("ansprechpartner", zustand.getAnsprechpartner());
 		put("ansprechpartnerWeiblich", zustand.isAnsprechpartnerWeiblich());
 		put("wocheVorhanden", zustand.isWocheVorhanden());
@@ -43,8 +48,6 @@ public class NeuesDesign extends SAction {
 		put("summeJS", summeText.replace(",", "."));
 		put("limit", zustand.getLimit());
 		put("showBestellsumme", zustand.isShowBestellsumme(summe));
-		put("isUserManager", isUserManager());
-		put("isDeveloper", isDeveloper());
 	}
 	
 	private double addMenu(Zustand zustand, Woche woche) {
@@ -55,16 +58,14 @@ public class NeuesDesign extends SAction {
 		for (Tag tag : woche.getTage()) {
 			DataMap map = menu.add();
 			map.put("wochentag", esc(tag.getWochentagText()));
-			map.put("anzahlGerichte", "" + tag.getAnzahlGerichte());
-			//map.put("hasBestellteGerichte", tag.hasBestellteGerichte());
-			map.put("show", zustand.isShowAlwaysTag() || !tag.getGerichte().isEmpty());
+			map.put("show", zustand.showTag(tag));
 			map.put("first", first);
 			first = false;
 			
 			DataList gerichte = map.list("gerichte");
 			for (Gericht g : tag.getGerichte()) {
 				DataMap map2 = gerichte.add();
-				addGericht(zusatzstoffeAnzeigen, g, map2);
+				addGericht(g, zusatzstoffeAnzeigen, map2);
 				if (g.isBestellt()) {
 					summe += g.getPreis();
 				}
@@ -73,25 +74,32 @@ public class NeuesDesign extends SAction {
 		return summe;
 	}
 
-	private void addGericht(boolean zusatzstoffeAnzeigen, Gericht g, DataMap map) {
+	private void addGericht(Gericht g, boolean zusatzstoffeAnzeigen, DataMap map) {
 		map.put("id", g.getId());
-		String titel = g.getTitel();
-		if (zusatzstoffeAnzeigen && g.getZusatzstoffe() != null && !g.getZusatzstoffe().isEmpty()) {
-			titel += " (" + g.getZusatzstoffe() + ")";
-		}
-		map.put("titel", esc(titel));
-		boolean strikethru = false;
-		if (zusatzstoffeAnzeigen) {
-			if (g.getZusatzstoffe() == null || "?".equals(g.getZusatzstoffe()) || g.getZusatzstoffe().toUpperCase().contains("A")) {
-				strikethru = true;
-			}
-		}
-		map.put("strikethru", strikethru);
+		map.put("titel", esc(getGerichtTitel(g, zusatzstoffeAnzeigen)));
+		map.put("strikethru", isStrikethru(g, zusatzstoffeAnzeigen));
 		map.put("zusatzstoffe", esc(g.getZusatzstoffe()));
 		map.put("preis", g.getPreisFormatiert());
 		map.put("preisJS", g.getPreisFormatiert().replace(",", "."));
 		map.put("bestellt", g.isBestellt());
-		map.put("namen", g.getNamen());
 		map.put("wirdBestellt", g.isWirdBestellt());
+		map.put("namen", esc(g.getNamen()));
+	}
+
+	private String getGerichtTitel(Gericht g, boolean zusatzstoffeAnzeigen) {
+		String titel = g.getTitel();
+		if (zusatzstoffeAnzeigen && g.getZusatzstoffe() != null && !g.getZusatzstoffe().isEmpty()) {
+			titel += " (" + g.getZusatzstoffe() + ")";
+		}
+		return titel;
+	}
+
+	private boolean isStrikethru(Gericht g, boolean zusatzstoffeAnzeigen) {
+		if (zusatzstoffeAnzeigen) {
+			if (g.getZusatzstoffe() == null || "?".equals(g.getZusatzstoffe()) || g.getZusatzstoffe().toUpperCase().contains("A")) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

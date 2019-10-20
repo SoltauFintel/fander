@@ -33,9 +33,9 @@ public class NeueWoche extends SAction {
 			new Woche2Model().toModel(woche, model, user());
 			setTitle("Neue Woche " + woche.getStartdatum());
 		} else {
-			info("Neue Woche: Woche bereits vorhanden. Zeige Bestellseite an.");
-			redirect("/bestellen");
+			info("Neue Woche: Woche bereits vorhanden.");
 		}
+		redirect("/");
 	}
 	
 	// Im Woche-neu-erstellen-Modus wird erst die Woche gelöscht und dann diese Seite ohne force-Option aufgerufen,

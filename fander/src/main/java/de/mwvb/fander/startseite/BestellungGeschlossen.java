@@ -43,7 +43,7 @@ public class BestellungGeschlossen extends Zustand {
 	}
 	
 	@Override
-	public boolean isShowAlwaysTag() {
+	protected boolean isShowAlwaysTag() {
 		return false;
 	}
 }

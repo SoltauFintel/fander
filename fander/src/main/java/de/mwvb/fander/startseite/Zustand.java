@@ -3,6 +3,7 @@ package de.mwvb.fander.startseite;
 import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.model.FanderBestellung;
 import de.mwvb.fander.model.Mitarbeiterbestellung;
+import de.mwvb.fander.model.Tag;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
 
@@ -73,7 +74,11 @@ public abstract class Zustand {
 		return null;
 	}
 
-	public boolean isShowAlwaysTag() {
+	public boolean showTag(Tag tag) {
+		return isShowAlwaysTag() || !tag.getGerichte().isEmpty();
+	}
+	
+	protected boolean isShowAlwaysTag() {
 		return true;
 	}
 

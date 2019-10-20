@@ -89,7 +89,7 @@
 		<p style="margin-bottom: 2em;">
 			{{if wocheVorhanden}}
 				{{if showBestellungAendern}}
-					<a href="/nd?m=1" class="btn btn-default btn-dif"><i class="fa fa-shopping-cart fa-fw"></i> Bestellung ändern</a>
+					<a href="/?m=1" class="btn btn-default btn-dif"><i class="fa fa-shopping-cart fa-fw"></i> Bestellung ändern</a>
 				{{/if}}
 				{{if bestellmodus}}
 					<a href="/nicht-bestellen/{{startdatum}}" class="btn btn-danger btn-dif"><i class="fa fa-times"></i> Ich möchte nicht bestellen.</a>
@@ -108,18 +108,18 @@
 						<a href="/anruf" class="btn btn-default btn-dif"><i class="fa fa-phone"></i> Fander anrufen</a>
 						<a href="/unsere-karte-druck" class="btn btn-default btn-dif"><i class="fa fa-print"></i> Druckansicht</a>
 					{{/if}}
-					<a href="/neue-woche" class="btn btn-default btn-dif"><i class="fa fa-cloud-download fa-fw"></i> Neue Woche</a>
 				{{/if}}
-				{{if isUserManager}}
-					<a href="/config" class="btn btn-default btn-dif"><i class="fa fa-wrench fa-fw"></i> Anwendungseinstellungen</a>
-					<a href="/users" class="btn btn-default btn-dif"><i class="fa fa-users fa-fw"></i> Benutzerverwaltung</a>
-				{{/if}}
-				<a href="/myuserdata" class="btn btn-default btn-dif"><i class="fa fa-cog fa-fw"></i> Benutzereinstellungen</a>
-				{{if isDeveloper}}
-					<a href="/wochen" class="btn btn-default btn-dif"><i class="fa fa-list fa-fw"></i> Wochen</a>
-				{{/if}}
-			{{else if isAnsprechpartner}}
-				<a href="/neue-woche" class="btn btn-success btn-dif"><i class="fa fa-cloud-download fa-fw"></i> Neue Woche</a>
+			{{/if}}
+			{{if isAnsprechpartner}}
+				<a href="/neue-woche" class="btn btn-default btn-dif"><i class="fa fa-cloud-download fa-fw"></i> Neue Woche</a>
+			{{/if}}
+			{{if isUserManager}}
+				<a href="/config" class="btn btn-default btn-dif"><i class="fa fa-wrench fa-fw"></i> Anwendungseinstellungen</a>
+				<a href="/users" class="btn btn-default btn-dif"><i class="fa fa-users fa-fw"></i> Benutzerverwaltung</a>
+			{{/if}}
+			<a href="/myuserdata" class="btn btn-default btn-dif"><i class="fa fa-cog fa-fw"></i> Benutzereinstellungen</a>
+			{{if isDeveloper}}
+				<a href="/wochen" class="btn btn-default btn-dif"><i class="fa fa-list fa-fw"></i> Wochen</a>
 			{{/if}}
 			Ansprechpartner{{if ansprechpartnerWeiblich}}in{{/if}}: {{ansprechpartner}}
 		</p>
