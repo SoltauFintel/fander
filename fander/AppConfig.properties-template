@@ -4,9 +4,6 @@ port=4040
 # true für Entwicklungsmodus, false für Produktionsmodus
 development=true
 
-# URL unter die Mittagskarte geladen werden soll
-fander.url=
-
 # URL unter der die Webapp von außen erreichbar ist
 host=http://localhost:4040
 
@@ -23,8 +20,6 @@ dbhost=
 developer=Max
 # alle User, die User-Manager Rechte haben sollen
 user-manager=Max
-
-programminfo=Fander App
 
 # false: Demomodus (keine Emails versenden), true: Emails tatsächlich versenden
 send.mails=false
