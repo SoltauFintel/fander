@@ -47,3 +47,5 @@ und die Benutzerverwaltung benutzen.
 Ansprechpartner: Wird unter Anwendungseinstellungen konfiguriert. Dort ist der Anzeigename des Benutzers einzutragen. Es sollte im System
 genau einen Ansprechpartner geben. Der Ansprechpartner kann die Woche starten, die Bestellung schließen, die Anrufseite verwenden und
 sieht Summen und die Druckseite.
+
+Ein Benutzer kann mehrere Rollen haben. Eine Rolle umfasst keine anderen Rollen.

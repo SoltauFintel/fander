@@ -37,13 +37,13 @@
 								class="fa fa-shopping-cart"></i> Hier geht's zur Bestellung.</a>
 		
 							{{if nichtBestellen}}
-								<nobr>Diese Woche bei Fander bestellen? &nbsp;<a href="/nicht-bestellen"
+								<nobr>Diese Woche bei Fander bestellen? &nbsp;<a href="/nicht-bestellen/{{startdatum}}"
 									class="btn btn-xs btn-danger"><i class="fa fa-times"></i> Nein!</a></nobr>
 							{{/if}}
 						{{/if}}
 						{{if nichtBestellenUndo}}
 							<i class="fa fa-times"></i> Du möchtest diese Woche nicht bei Fander bestellen. &nbsp;<a title="Nee, ich möchte diese Woche doch bei Fander bestellen!"
-								href="/nicht-bestellen?undo=1" class="btn btn-xs btn-default"><i class="fa fa-undo"></i></a>
+								href="/nicht-bestellen/{{startdatum}}?undo=1" class="btn btn-xs btn-default"><i class="fa fa-undo"></i></a>
 						{{/if}}
 					</p>
 					{{if showAnsprechpartner}}
@@ -60,13 +60,13 @@
 							<p>Bestellung offen. (Jeder kann bestellen oder die eigene Bestellung ändern.)</p>
 							<p>{{bestelltHaben}}{{absagen}}{{keineAussageVon}}</p>
 							<p><a href="/infomails" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-envelope-o"></i> 'Bestellungen nun möglich' Infomails versenden...</a></p>
-							<p><a href="/close" class="btn btn-danger" style="margin-right: 1em;"><i class="fa fa-lock"></i> Bestellung schließen</a></p>
+							<p><a href="/close/{{startdatum}}" class="btn btn-danger" style="margin-right: 1em;"><i class="fa fa-lock"></i> Bestellung schließen</a></p>
 						{{else}}
 							<p>
 								Bestellung geschlossen.
 								{{if bestellt}}Bestellt.{{else}}Fander-Anruf steht noch aus.{{/if}}
 							</p>
-							<a href="/close?open=1" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-unlock"></i> Bestellung wieder freigeben</a>
+							<a href="/close/{{startdatum}}?open=1" class="btn btn-default" style="margin-right: 1em;"><i class="fa fa-unlock"></i> Bestellung wieder freigeben</a>
 							<a href="/anruf" class="btn {{if montag}}btn-default{{else}} {{if bestellt}}btn-success{{else}}btn-warning{{/if}}{{/if}}" style="margin-right: 1em;"><i class="fa fa-phone"></i> {{if bestellt}}Fander Bestellung{{else}}Fander anrufen{{/if}}</a>
 						{{/if}}
 						<p style="margin-top: 1em;">

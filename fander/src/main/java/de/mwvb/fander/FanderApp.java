@@ -68,16 +68,16 @@ public class FanderApp extends AbstractWebApp {
 		_get ("/infomails", FanderMailAction.class);
 		_post("/infomails", FanderMailSendAction.class);
 		_get ("/infomails-sent", FanderMailSentAction.class);
-		_get ("/close", BestellungClosen.class);
+		_get ("/close/:startdatum", BestellungClosen.class);
 		_get ("/anruf", FanderAnruf.class);
-		_get ("/status", FanderBestellstatusAction.class);
+		_get ("/status/:startdatum", FanderBestellstatusAction.class);
 		
 		// User
 		_get ("/myuserdata", MyUserData.class);
 		_post("/myuserdata", MyUserDataSave.class);
-		_get ("/nicht-bestellen", NichtBestellen.class);
+		_get ("/nicht-bestellen/:startdatum", NichtBestellen.class);
 		_get ("/bestellen", Bestellen.class);
-		_post("/bestellen", BestellungAbsenden.class);
+		_post("/bestellen/:startdatum", BestellungAbsenden.class);
 		_get ("/bestellt", Bestellt.class);
 		_get ("/unsere-karte", UnsereKarte.class);
 		_get ("/unsere-karte-druck", UnsereKarteDruck.class);

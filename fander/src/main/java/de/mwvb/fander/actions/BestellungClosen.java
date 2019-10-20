@@ -14,7 +14,7 @@ public class BestellungClosen extends SActionBase {
 			throw new AuthException();
 		}
 		FanderService sv = new FanderService();
-		Woche woche = sv.getJuengsteWoche();
+		Woche woche = sv.byStartdatum(req);
 		
 		if ("1".equals(req.queryParams("open"))) {
 			open(sv, woche);

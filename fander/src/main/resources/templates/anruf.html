@@ -55,10 +55,10 @@
 		
 		<p style="margin-top: 2em;">
 			{{if bestellt}}
-				<h3 style="color: #080;">Bestellt! &nbsp; <a href="/status?s=0"
+				<h3 style="color: #080;">Bestellt! &nbsp; <a href="/status/{{startdatum}}?s=0"
 					class="btn btn-xs btn-default"><i class="fa fa-undo"></i></a></h3>
 			{{else}}
-				<a href="/status?s=1" class="btn btn-success">Bestellt!</a>
+				<a href="/status/{{startdatum}}?s=1" class="btn btn-success">Bestellt!</a>
 			{{/if}}
 		</p>
 	</div>

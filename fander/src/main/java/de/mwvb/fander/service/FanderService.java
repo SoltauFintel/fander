@@ -49,6 +49,17 @@ public class FanderService {
 		return woche;
 	}
 
+	public Woche byStartdatum(Request req) {
+		String startdatum = req.params("startdatum");
+		Woche woche = byStartdatum(startdatum);
+		if (woche == null) {
+			throw new KeineWocheException();
+		} else if (woche.isArchiviert()) {
+			throw new UserMessage("Woche " + startdatum + " ist archiviert und kann nicht mehr verändert werden!");
+		}
+		return woche;
+	}
+
 	public String getJuengsteWocheId() {
 		Woche woche = dao.getJuengsteWoche();
 		if (woche == null) {
@@ -308,13 +319,19 @@ public class FanderService {
 		}
 	}
 	
-	public void nichtBestellen(String user, boolean undo) {
-		Woche woche = getJuengsteWoche();
+	public void nichtBestellen(Request req, String user, boolean undo) {
+		Woche woche = byStartdatum(req);
 		if (undo) { // doch bestellen
 			woche.getNichtBestellen().remove(user);
 		} else { // nicht bestellen
 			woche.getNichtBestellen().add(user);
 		}
+		save(woche);
+	}
+	
+	public void angerufen(Request req, boolean bestellt) {
+		Woche woche = byStartdatum(req);
+		woche.setBestellt(bestellt);
 		save(woche);
 	}
 	

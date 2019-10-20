@@ -16,7 +16,7 @@ public class BestellungAbsenden extends SActionBase {
 	protected void execute() {
 		FanderService sv = new FanderService();
 		String user = user();
-		Woche woche = sv.getJuengsteWoche();
+		Woche woche = sv.byStartdatum(req);
 		if (!woche.isBestellungenErlaubt()) {
 			throw new UserMessage("Woche " + woche.getStartdatum() + " darf nicht mehr verändert werden!");
 		}
