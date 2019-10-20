@@ -82,11 +82,11 @@
 		</div>
 	{{/if}}
 	
-	<div class="col-lg-12">
+	<div class="col-lg-12" style="margin-bottom: 2em;">
 		{{if wocheVorhanden}}
 			<hr/>
 		{{/if}}
-		<p style="margin-bottom: 2em;">
+		<p>
 			{{if wocheVorhanden}}
 				{{if showBestellungAendern}}
 					<a href="/?m=1" class="btn btn-default btn-dif"><i class="fa fa-shopping-cart fa-fw"></i> Bestellung ändern</a>
@@ -102,7 +102,7 @@
 				{{if isAnsprechpartner}}
 					{{if bestellungenErlaubt}}
 						<a href="/close/{{startdatum}}" class="btn btn-danger btn-dif"><i class="fa fa-lock"></i> Bestellung schließen</a>
-						<a href="/infomails" class="btn btn-default btn-dif"><i class="fa fa-envelope-o"></i> 'Bestellungen nun möglich' Infomails versenden...</a>
+						<a href="/infomails" class="btn btn-default btn-dif"><i class="fa fa-envelope-o"></i> Infomails versenden...</a>
 					{{else}}
 						<a href="/close/{{startdatum}}?open=1" class="btn btn-default btn-dif"><i class="fa fa-unlock"></i> Bestellung wieder freigeben</a>
 						<a href="/anruf" class="btn btn-default btn-dif"><i class="fa fa-phone"></i> Fander anrufen</a>
@@ -112,6 +112,7 @@
 			{{/if}}
 			{{if isAnsprechpartner}}
 				<a href="/neue-woche" class="btn btn-default btn-dif"><i class="fa fa-cloud-download fa-fw"></i> Neue Woche</a>
+				<a href="/neue-woche-force" class="btn btn-danger btn-dif"><i class="fa fa-bug"></i> Woche erneut erstellen...</a>
 			{{/if}}
 			{{if isUserManager}}
 				<a href="/config" class="btn btn-default btn-dif"><i class="fa fa-wrench fa-fw"></i> Anwendungseinstellungen</a>
@@ -120,7 +121,7 @@
 			{{if isDeveloper}}
 				<a href="/wochen" class="btn btn-default btn-dif"><i class="fa fa-list fa-fw"></i> Wochen</a>
 			{{/if}}
-			Ansprechpartner{{if ansprechpartnerWeiblich}}in{{/if}}: {{ansprechpartner}}
 		</p>
+		<p>Ansprechpartner{{if ansprechpartnerWeiblich}}in{{/if}}: {{ansprechpartner}}</p>
 	</div>
 </div>

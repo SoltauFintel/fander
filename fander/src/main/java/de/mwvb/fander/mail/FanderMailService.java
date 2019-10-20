@@ -32,10 +32,10 @@ public class FanderMailService {
 		String host = new AppConfig().get("host");
 		String text = "Hallo {name}\r\n\r\n"
 				+ "Fander Bestellungen sind ab sofort möglich!"
-				+ "\r\nBitte hier bestellen: " + host + "/bestellen";
+				+ "\r\nBitte hier bestellen: " + host;
 		if (!kommentar.isEmpty()) {
 			text += "\r\n\r\n" + kommentar;
 		}
-		return text + "\r\n\r\nGruß\r\n" + user + "\r\n" + host;
+		return text + "\r\n\r\nGruß\r\n" + user + "\r\n";
 	}
 }
