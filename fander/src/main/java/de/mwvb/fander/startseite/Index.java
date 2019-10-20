@@ -1,12 +1,20 @@
 package de.mwvb.fander.startseite;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.pmw.tinylog.Logger;
 
 import com.github.template72.data.DataList;
 import com.github.template72.data.DataMap;
 
+import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.base.SAction;
 import de.mwvb.fander.model.Gericht;
+import de.mwvb.fander.model.Mitarbeiterbestellung;
 import de.mwvb.fander.model.Tag;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
@@ -30,6 +38,7 @@ public class Index extends SAction {
 		put("isDeveloper", isDeveloper());
 		put("ansprechpartner", zustand.getAnsprechpartner());
 		put("ansprechpartnerWeiblich", zustand.isAnsprechpartnerWeiblich());
+		put("bestellungenErlaubt", false);
 		put("wocheVorhanden", zustand.isWocheVorhanden());
 		if (!zustand.isWocheVorhanden()) {
 			return;
@@ -48,6 +57,7 @@ public class Index extends SAction {
 		put("summeJS", summeText.replace(",", "."));
 		put("limit", zustand.getLimit());
 		put("showBestellsumme", zustand.isShowBestellsumme(summe));
+		habenBestellt(woche);
 	}
 	
 	private double addMenu(Zustand zustand, Woche woche) {
@@ -105,5 +115,42 @@ public class Index extends SAction {
 			}
 		}
 		return false;
+	}
+	
+	// TODO Die folgenden Methoden habe ich auf die Schnelle aus dem alten Code übernommen:
+	// Die Fachlichkeit muss in die Zustand Klassen.
+	
+	private void habenBestellt(Woche woche) {
+		putNamensliste("bestelltHaben", "Bestellt haben", "Bestellt hat", woche.getBestellungen().stream()
+				.filter(m -> !m.getBestellungen().isEmpty())
+				.map(Mitarbeiterbestellung::getUser));
+		putNamensliste("absagen", "Absagen von", "Absage von", woche.getNichtBestellen().stream());
+		putNamensliste("keineAussageVon", "Noch keine Aussagen von", "Noch keine Aussage von", keineAussageVon(woche));
+	}
+	
+	private void putNamensliste(String var, String textPlural, String textSingular, Stream<String> namen) {
+		String c = namen.sorted().collect(Collectors.joining(", "));
+		if (!c.isEmpty()) {
+			String text = c.contains(",") ? textPlural : textSingular;
+			put(var, "<div>" + esc(text + ": " + c) + "</div>");
+		} else {
+			put(var, "");
+		}
+	}
+
+	private Stream<String> keineAussageVon(Woche woche) {
+		List<String> tb = new UserService().getTypischeBesteller();
+		List<String> besteller = woche.getBestellungen().stream()
+				.filter(m -> !m.getBestellungen().isEmpty())
+				.map(Mitarbeiterbestellung::getUser)
+				.collect(Collectors.toList());
+		Set<String> absagen = woche.getNichtBestellen();
+		List<String> ret = new ArrayList<>();
+		for (String name : tb) {
+			if (!besteller.contains(name) && !absagen.contains(name)) {
+				ret.add(name);
+			}
+		}
+		return ret.stream();
 	}
 }

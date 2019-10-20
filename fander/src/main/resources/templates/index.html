@@ -123,5 +123,10 @@
 			{{/if}}
 		</p>
 		<p>Ansprechpartner{{if ansprechpartnerWeiblich}}in{{/if}}: {{ansprechpartner}}</p>
+		{{if isAnsprechpartner}}
+			{{if bestellungenErlaubt}}
+				<p style="margin-top: 2em;">{{bestelltHaben}} {{absagen}} {{keineAussageVon}}</p>
+			{{/if}}
+		{{/if}}
 	</div>
 </div>
