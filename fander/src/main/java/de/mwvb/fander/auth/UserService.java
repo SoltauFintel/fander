@@ -1,7 +1,12 @@
 package de.mwvb.fander.auth;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.pmw.tinylog.Logger;
 
 import de.mwvb.fander.dao.UserDAO;
 import de.mwvb.fander.model.MailEmpfaenger;
@@ -71,5 +76,29 @@ public class UserService {
 	
 	public void save(User user) {
 		dao.save(user);
+	}
+	
+	public void dumpUsers(String dn) {
+		File f = new File(dn);
+		try (FileWriter w = new FileWriter(f)) {
+			w.write("Id\tUser\tLogin\tVorname\tNachname\tEmailadresse\tweiblich\tInfomail\ttypischerBesteller\tZusatzstoffe\tKennwort\r\n");
+			for (User user : list()) {
+				w.write(user.getId() + "\t");
+				w.write(user.getUser() + "\t");
+				w.write(user.getLogin() + "\t");
+				w.write(user.getVorname() + "\t");
+				w.write(user.getNachname() + "\t");
+				w.write(user.getEmailadresse() + "\t");
+				w.write(user.isWeiblich() + "\t");
+				w.write(user.isInfomail() + "\t");
+				w.write(user.isTypischerBesteller() + "\t");
+				w.write(user.isZusatzstoffeAnzeigen() + "\t");
+				w.write(user.getKennwort() + "\r\n");
+			}
+		} catch (IOException e) {
+			Logger.error("Fehler beim Exportieren der Benutzer", e);
+			return;
+		}
+		Logger.info("Alle Benutzer exportiert in Datei: " + f.getAbsolutePath());
 	}
 }

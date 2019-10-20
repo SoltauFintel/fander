@@ -1,5 +1,7 @@
 package de.mwvb.fander;
 
+import org.pmw.tinylog.Logger;
+
 import com.github.template72.compiler.CompiledTemplates;
 import com.github.template72.compiler.TemplateCompiler;
 import com.github.template72.compiler.TemplateCompilerBuilder;
@@ -33,12 +35,14 @@ import de.mwvb.fander.actions.Users;
 import de.mwvb.fander.actions.Wochen;
 import de.mwvb.fander.auth.Login2;
 import de.mwvb.fander.auth.SAuth;
+import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.base.MyErrorPage;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.maja.mongo.Database;
 import de.mwvb.maja.web.AbstractWebApp;
 import de.mwvb.maja.web.Action;
 import de.mwvb.maja.web.ActionBase;
+import de.mwvb.maja.web.AppConfig;
 
 public class FanderApp extends AbstractWebApp {
 	public static final String VERSION = "1.00.3";
@@ -121,6 +125,13 @@ public class FanderApp extends AbstractWebApp {
 
 		auth = new SAuth();
 		Login2.auth = (SAuth) auth;
+		
+		// Alle Benutzer exportieren
+		String dn = new AppConfig().get("dump-users");
+		if (dn != null && !dn.isEmpty()) {
+			Logger.warn("Alle Benutzer werden exportert. Der AppConfig-Key \"dump-users\" sollte normalerweise nicht gesetzt sein!");
+			new UserService().dumpUsers(dn);
+		}
 	}
 
 	@Override

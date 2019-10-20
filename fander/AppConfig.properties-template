@@ -1,7 +1,7 @@
 # Port unter dem die Webapp laufen soll
 port=4040
 
-# true für Entwicklungsmodus, false für Produktionsmodus
+# true fuer Entwicklungsmodus, false fuer Produktionsmodus
 development=true
 
 # URL unter der die Webapp von außen erreichbar ist
@@ -9,7 +9,7 @@ host=http://localhost:4040
 
 # Name der MongoDB Datenbank
 dbname=fander
-# Hostname oder IP-Adresse und ggf. Port wo MongoDB läuft
+# Hostname oder IP-Adresse und ggf. Port wo MongoDB laeuft
 dbhost=
 # MongoDB Login
 #dbuser=
@@ -21,9 +21,14 @@ developer=Max
 # alle User, die User-Manager Rechte haben sollen
 user-manager=Max
 
-# false: Demomodus (keine Emails versenden), true: Emails tatsächlich versenden
+# false: Demomodus (keine Emails versenden), true: Emails tatsaechlich versenden
 send.mails=false
 
 # externer Webservice zum Versenden von Infomails
 #mailer.url=
 #mailer.code=
+
+# Alle Benutzer in eine Textdatei ausgeben. Key im Normalfall nicht gesetzt, da auch
+# chiffrierte Kennwoerter raus geschrieben werden! Spalten sind mit Tabs getrennt.
+# So lassen sich die Daten leicht in Excel einfuegen. Ein Import gibt es derzeit nicht.
+#dump-users=dateiname
