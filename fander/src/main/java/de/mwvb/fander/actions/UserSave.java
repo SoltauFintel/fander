@@ -7,15 +7,15 @@ public class UserSave extends AbstractSaveUser {
 
 	@Override
 	protected void execute() {
+		if (!isUserManager()) {
+			throw new AuthException();
+		}
+
 		String login = req.queryParams("login");
 		checkLogin(login);
 		String anzeigename = req.queryParams("user");
 		if (anzeigename == null || anzeigename.trim().length() < 2 || !anzeigename.trim().equals(anzeigename)) {
 			throw new UserMessage("Bitte User eingeben!");
-		}
-
-		if (!isUserManager()) {
-			throw new AuthException();
 		}
 		
 		user = sv.byId(req.params("id"));

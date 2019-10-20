@@ -22,14 +22,20 @@ c) Emails an Besteller verschicken, wenn Bestellung geschlossen worden ist und D
 public class FanderAnruf extends SAction {
 	protected FanderService sv;
 	protected Woche woche;
-	
+
+	protected void checkRole() {
+		if (!isAnsprechpartner()) {
+			throw new AuthException();
+		}
+	}
+
 	@Override
 	protected void execute() {
+		checkRole();
 		setTitle("Fander Anrufseite");
 		sv = new FanderService();
-		check(sv);
 
-		woche = sv.byStartdatum(req);
+		woche = sv.getJuengsteWoche();
 		put("startdatum", woche.getStartdatum());
 		put("startdatumNice", woche.getStartdatumNice());
 		put("bestellungenErlaubt", woche.isBestellungenErlaubt());
@@ -60,12 +66,6 @@ public class FanderAnruf extends SAction {
 	protected boolean isVollstaendig() {
 		info("Fander Anrufseite");
 		return false;
-	}
-
-	protected void check(FanderService sv) {
-		if (!isAnsprechpartner()) {
-			throw new AuthException();
-		}
 	}
 
 	@Override

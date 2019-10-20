@@ -1,5 +1,6 @@
 package de.mwvb.fander.actions;
 
+import de.mwvb.fander.auth.AuthException;
 import de.mwvb.fander.base.SActionBase;
 import de.mwvb.fander.model.FanderConfig;
 import de.mwvb.fander.service.FanderService;
@@ -8,6 +9,9 @@ public class FanderConfigSaveAction extends SActionBase {
 
 	@Override
 	protected void execute() {
+		if (!isUserManager()) {
+			throw new AuthException();
+		}
 		FanderService sv = new FanderService();
 		FanderConfig c = sv.getConfig();
 		

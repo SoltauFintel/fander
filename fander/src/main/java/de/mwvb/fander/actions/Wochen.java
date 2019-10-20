@@ -12,11 +12,11 @@ public class Wochen extends SAction {
 
 	@Override
 	protected void execute() {
-		setTitle("Liste aller Fander Wochen");
-		FanderService sv = new FanderService();
 		if (!isDeveloper()) {
 			throw new AuthException();
 		}
+		setTitle("Liste aller Fander Wochen");
+		FanderService sv = new FanderService();
 
 		Woche j = sv.getJuengsteWoche();
 		String j_id = j == null ? "" : j.getId();

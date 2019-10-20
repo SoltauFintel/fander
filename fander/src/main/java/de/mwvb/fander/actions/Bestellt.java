@@ -11,7 +11,7 @@ public class Bestellt extends SAction {
 	protected void execute() {
 		setTitle("Bestellung ansehen");
 		FanderService sv = new FanderService();
-		Woche woche = sv.byStartdatum(req);
+		Woche woche = sv.getJuengsteWoche();
 		Mitarbeiterbestellung mb = sv.getMitarbeiterbestellung(woche, user());
 		sv.bestellteGerichteVerzeichnen(woche, mb);
 

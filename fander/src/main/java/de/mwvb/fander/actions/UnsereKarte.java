@@ -11,9 +11,15 @@ import de.mwvb.fander.service.FanderService;
 public class UnsereKarte extends FanderAnruf {
 	
 	@Override
+	protected void checkRole() {
+		// Seite für jeden verfügbar
+	}
+	
+	@Override
 	protected void execute() {
 		super.execute();
 		bestellersummen();
+		setTitle("Unsere Karte");
 	}
 
 	private void bestellersummen() {
@@ -28,12 +34,6 @@ public class UnsereKarte extends FanderAnruf {
 			summe += status.getGesamtpreis();
 		}
 		put("summe", FanderService.format(summe));
-	}
-	
-	@Override
-	protected void check(FanderService sv) {
-		// Seite für jeden verfügbar
-		setTitle("Unsere Karte");
 	}
 	
 	@Override

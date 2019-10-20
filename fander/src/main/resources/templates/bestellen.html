@@ -35,7 +35,7 @@ var summe = {{summeJS}};
 <div class="row">
 	<h1 class="page-header">Bestellung für {{user}} eingeben (Fander Woche {{startdatumNice}})</h1>
 	<div class="col-lg-12">
-		<form action="/{{startdatum}}/bestellung-absenden" class="form-horizontal" method="post">
+		<form action="/bestellen" method="post" class="form-horizontal">
 			<table>
 				<tr>
 					<td>
@@ -83,7 +83,9 @@ var summe = {{summeJS}};
 				<span style="margin-left: 17em;">
 					Limit: <input type="text" name="limit" style="width: 60px;" value="{{limit}}"{{if not bestellungenErlaubt}} disabled{{/if}} title="Maximal so viele Gerichte bestellen. Dieses Feld wird normalerweise leer gelassen.">
 				</span>
-				<a href="/{{startdatum}}/force" class="btn btn-danger" style="margin-left: 20cm;"><i class="fa fa-bug"></i> Woche erneut erstellen...</a>
+				{{if showNeueWocheForce}}
+					<a href="/neue-woche-force" class="btn btn-danger" style="margin-left: 20cm;"><i class="fa fa-bug"></i> Woche erneut erstellen...</a>
+				{{/if}}
 			</p>
 			{{if not bestellungenErlaubt}}
 				<p style="color: red;"><i class="fa fa-lock"></i> Bestellung darf nicht mehr verändert werden.</p>

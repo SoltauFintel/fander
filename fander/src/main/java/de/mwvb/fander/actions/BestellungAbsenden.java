@@ -16,7 +16,7 @@ public class BestellungAbsenden extends SActionBase {
 	protected void execute() {
 		FanderService sv = new FanderService();
 		String user = user();
-		Woche woche = sv.byStartdatum(req);
+		Woche woche = sv.getJuengsteWoche();
 		if (!woche.isBestellungenErlaubt()) {
 			throw new UserMessage("Woche " + woche.getStartdatum() + " darf nicht mehr verändert werden!");
 		}
@@ -30,7 +30,7 @@ public class BestellungAbsenden extends SActionBase {
 		int n = mb.getBestellungen().size();
 		info("Mitarbeiter " + user + " hat " + n + " Gericht" + (n == 1 ? "" : "e") + " bestellt.");
 
-		res.redirect("/" + woche.getStartdatum() + "/bestellt");
+		res.redirect("/bestellt");
 	}
 
 	/** Bestellungen ausloggen, damit die im Falle eines Absturzes noch wenigstens in der Console bzw. im Log stehen. */

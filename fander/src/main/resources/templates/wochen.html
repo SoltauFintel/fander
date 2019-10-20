@@ -19,7 +19,7 @@
 					<td>{{if w.bestellungenErlaubt}}ja{{else}}nein{{/if}}</td>
 					<td>{{if w.archiviert}}ja{{else}}nein{{/if}}</td>
 					<td>{{if w.juengsteWoche}}ja{{else}}nein{{/if}}</td>
-					<td><a href="/{{w.startdatum}}/delete" class="btn btn-danger btn-xs">Löschen!</a></td>
+					<td><a href="/delete?startdatum={{w.startdatum}}" class="btn btn-danger btn-xs">Löschen!</a></td>
 				</tr>
 			{{/each}}
 		</table>

@@ -7,7 +7,15 @@ public class NichtBestellen extends SActionBase {
 
 	@Override
 	protected void execute() {
-		new FanderService().nichtBestellen(req);
+		boolean undo = "1".equals(req.queryParams("undo"));
+
+		new FanderService().nichtBestellen(user(), undo);
+		if (undo) {
+			info("Diese Woche doch bei Fander bestellen.");
+		} else {
+			info("Diese Woche nicht bei Fander bestellen.");
+		}
+		
 		res.redirect("/");
 	}
 }

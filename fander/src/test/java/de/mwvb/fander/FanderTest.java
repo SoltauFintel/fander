@@ -45,7 +45,7 @@ public class FanderTest {
 		FanderService sv = getService();
 		
 		// Test
-		Woche woche = sv.createNeueWoche();
+		Woche woche = sv.createNeueWoche(false);
 		
 		// Verify
 		Assert.assertNotNull(woche);
@@ -102,7 +102,7 @@ public class FanderTest {
 	public void mehrereUserBestellen() {
 		// Prepare
 		FanderService sv = getService();
-		Woche woche = sv.createNeueWoche();
+		Woche woche = sv.createNeueWoche(false);
 		List<Tag> menu = woche.getTage();
 
 		// Test
@@ -117,7 +117,7 @@ public class FanderTest {
 			// Prepare
 			System.out.println("\n\n--------------------------------------------------");
 			FanderService sv = getService();
-			Woche woche = sv.createNeueWoche();
+			Woche woche = sv.createNeueWoche(false);
 			List<Tag> menu = woche.getTage();
 			waldemarBestellt(woche, menu);
 			xxxBestellt("Detlef", woche, menu); // gleiche Bestellung nochmal - für 2. User
@@ -208,7 +208,7 @@ public class FanderTest {
 		System.out.println("\n\n--------------------------------------------------");
 		FanderService sv = getService();
 		Assert.assertEquals("Mindestbestellmenge muss 2 sein!", 2, sv.getConfig().getMindestbestellmenge());
-		Woche woche = sv.createNeueWoche();
+		Woche woche = sv.createNeueWoche(false);
 		List<Tag> menu = woche.getTage();
 		detlefBestellt(woche, menu);
 		waldemarBestellt(woche, menu);
@@ -246,7 +246,7 @@ public class FanderTest {
 		System.out.println("\n\n--------------------------------------------------");
 		FanderService sv = getService3();
 		Assert.assertEquals("Mindestbestellmenge muss 3 sein!", 3, sv.getConfig().getMindestbestellmenge());
-		Woche woche = sv.createNeueWoche();
+		Woche woche = sv.createNeueWoche(false);
 		List<Tag> menu = woche.getTage();
 		detlefBestellt(woche, menu);
 		chantalBestellt(woche, menu);

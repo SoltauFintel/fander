@@ -9,10 +9,11 @@ public class FanderConfigAction extends SAction {
 
 	@Override
 	protected void execute() {
-		setTitle("Anwendungseinstellungen");
 		if (!isUserManager()) {
 			throw new AuthException();
 		}
+		
+		setTitle("Anwendungseinstellungen");
 		FanderConfig config = new FanderService().getConfig();
 
 		put("admin", config.getAdmin()); // Ansprechpartner

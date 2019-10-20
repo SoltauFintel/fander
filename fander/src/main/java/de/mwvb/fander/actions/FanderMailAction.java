@@ -20,7 +20,7 @@ public class FanderMailAction extends SAction {
 		info("FanderMailAction");
 
 		FanderService sv = new FanderService();
-		Woche woche = sv.byStartdatum(req);
+		Woche woche = sv.getJuengsteWoche();
 
 		put("h1title", "'Bestellungen nun möglich' Infomails versenden");
 		put("startdatum", esc(woche.getStartdatumNice()));

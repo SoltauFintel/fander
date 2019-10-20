@@ -2,50 +2,53 @@ package de.mwvb.fander.actions;
 
 import de.mwvb.fander.auth.AuthException;
 import de.mwvb.fander.base.SAction;
-import de.mwvb.fander.base.UserMessage;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
 
 public class NeueWoche extends SAction {
-	boolean redirect = false;
+	private boolean redirect = false;
 	
 	@Override
 	protected void execute() {
-		setTitle("Neue Fander Woche");
-		FanderService sv = new FanderService();
 		if (!isAnsprechpartner()) {
 			throw new AuthException();
 		}
 		
-		// Im Woche-neu-erstellen-Modus wird erst die Woche gelöscht und dann diese Seite ohne force-Option aufgerufen,
-		// damit durch F5 im Browser nicht versehentlich erneut die Woche angelegt wird.
 		if ("1".equals(req.queryParams("force"))) {
-			Woche vorh = sv.byStartdatum(sv.getNeueWocheStartdatum());
-			if (vorh != null) {
-				sv.delete(vorh);
-				info("Neue Woche force -> Woche " + vorh.getStartdatum() + " gelöscht!");
-			}
-			redirect("/neue-woche");
-			return;
+			forceNeueWoche();
+		} else {
+			neueWoche();
 		}
-		
-		Woche woche = sv.createNeueWoche();
-		Woche vorh = sv.byStartdatum(woche.getStartdatum());
-		if (vorh != null) {
+	}
+	
+	private void neueWoche() {
+		FanderService sv = new FanderService();
+		Woche vorh = sv.byStartdatum(sv.getNeueWocheStartdatum());
+		if (vorh == null) {
+			Woche woche = sv.createNeueWoche(true);
+			sv.save(woche);
+			info("Neue Woche " + woche.getStartdatum() + " gespeichert. Gerichte: " + woche.getAnzahlGerichte());
+			sv.alteWochenArchivieren(woche);
+	
+			new Woche2Model().toModel(woche, model, user());
+			setTitle("Neue Woche " + woche.getStartdatum());
+		} else {
 			info("Neue Woche: Woche bereits vorhanden. Zeige Bestellseite an.");
-			redirect("/" + vorh.getStartdatum());
-			return;
+			redirect("/bestellen");
 		}
-		if (woche.getTage() == null || woche.getTage().isEmpty()) {
-			throw new UserMessage("Es konnte keine neue Woche gestartet werden, da das Menü leer ist!"
-					+ " Möglicherweise ist die Speisekarte noch nicht verfügbar. Bitte versuche es später noch einmal.");
+	}
+	
+	// Im Woche-neu-erstellen-Modus wird erst die Woche gelöscht und dann diese Seite ohne force-Option aufgerufen,
+	// damit durch F5 im Browser nicht versehentlich erneut die Woche angelegt wird.
+	private void forceNeueWoche() {
+		FanderService sv = new FanderService();
+		String s = sv.getNeueWocheStartdatum();
+		if (sv.delete(s)) {
+			info("Erstellung neuer Woche erzwingen -> Woche " + s + " gelöscht!");
+		} else {
+			info("Erstellung neuer Woche erzwingen -> Woche " + s + " gab es gar nicht.");
 		}
-		sv.save(woche);
-		info("Neue Woche " + woche.getStartdatum() + " gespeichert. Gerichte: " + woche.getAnzahlGerichte());
-		sv.alteWochenArchivieren(woche);
-
-		new Woche2Model().toModel(woche, model, user());
-		setTitle("Neue Woche " + woche.getStartdatum());
+		redirect("/neue-woche");
 	}
 
 	private void redirect(String url) {
@@ -53,7 +56,7 @@ public class NeueWoche extends SAction {
 		res.redirect(url);
 	}
 	
-	// Missing Content Exceptions verhindern. Das ist ein Fehler in Maja.
+	// TODO Missing Content Exceptions verhindern. Das ist ein Fehler in Maja.
 	@Override
 	protected String render() {
 		if (redirect) {

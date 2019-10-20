@@ -18,6 +18,7 @@ import de.mwvb.fander.model.Mitarbeiterbestellung;
 import de.mwvb.fander.model.Tag;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
+import de.mwvb.fander.service.KeineWocheException;
 
 // TODO Tagesmenü oben in einer Box darstellen. Der jetzige Text davor wird zur Boxüberschrift. Oder alle pers. Gerichte der Woche anzeigen und
 //      den aktuellen Tag hervorheben.
@@ -27,11 +28,29 @@ public class Index extends SAction {
 	protected void execute() {
 		put("title", "Fander");
 		info("Startseite");
+		initVars();
 		meinBestellstatus();
-		put("isUserManager", isUserManager());
 	}
 
 	public void meinBestellstatus() {
+		String status;
+		try {
+			FanderService sv = new FanderService();
+			Woche woche = sv.getJuengsteWoche();
+			status = wocheVorhanden(sv, isAnsprechpartner(), woche, user());
+			put("hasWoche", true);
+			put("montag", isMontag(woche));
+		} catch (KeineWocheException e) {
+			status = "Es ist keine Bestellung möglich.";
+			put("startdatum", "");
+			put("startdatumNice", "");
+			put("hasWoche", false);
+			put("montag", isMontag(null));
+		}
+		put("meinBestellstatus", status);
+	}
+
+	private void initVars() {
 		put("bestellungVorhandenUndAenderbar", false);
 		put("bestellt", false);
 		put("nichtBestellen", false);
@@ -42,26 +61,12 @@ public class Index extends SAction {
 		put("bestelltHaben", "");
 		put("keineAussageVon", "");
 		put("hasFuerHeuteBestellt", false);
-
-		String status = null;
-		FanderService sv = new FanderService();
+		put("isUserManager", isUserManager());
 		put("isFanderAdmin", isAnsprechpartner());
-		Woche woche = sv.getJuengsteWoche();
-		if (woche == null) {
-			status = "Es ist keine Bestellung möglich.";
-			put("startdatum", "");
-			put("startdatumNice", "");
-			put("hasWoche", false);
-		} else {
-			status = wocheVorhanden(sv, isAnsprechpartner(), woche, user());
-		}		
-		put("meinBestellstatus", status);
-		put("montag", isMontag(woche));
 	}
 
 	private String wocheVorhanden(FanderService sv, boolean isFanderAdmin, Woche woche, final String user) {
 		String status;
-		put("hasWoche", true);
 		put("startdatum", woche.getStartdatum());
 		put("startdatumNice", woche.getStartdatumNice());
 		put("bestellungenErlaubt", woche.isBestellungenErlaubt());

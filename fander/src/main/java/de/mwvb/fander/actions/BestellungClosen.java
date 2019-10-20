@@ -10,12 +10,11 @@ public class BestellungClosen extends SActionBase {
 
 	@Override
 	protected void execute() {
-		FanderService sv = new FanderService();
 		if (!isAnsprechpartner()) {
 			throw new AuthException();
 		}
-
-		Woche woche = sv.byStartdatum(req);
+		FanderService sv = new FanderService();
+		Woche woche = sv.getJuengsteWoche();
 		
 		if ("1".equals(req.queryParams("open"))) {
 			open(sv, woche);
@@ -32,7 +31,7 @@ public class BestellungClosen extends SActionBase {
 		woche.setBestellungenErlaubt(false);
 		woche.setBestellt(false);
 		sv.save(woche);
-		res.redirect("/" + woche.getStartdatum() + "/anruf");
+		res.redirect("/anruf");
 	}
 
 	private void open(FanderService sv, Woche woche) {

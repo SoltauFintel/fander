@@ -8,7 +8,6 @@ import com.github.template72.loader.TemplateFileCache;
 import com.github.template72.loader.TemplateLoader;
 
 import de.mwvb.fander.actions.Bestellen;
-import de.mwvb.fander.actions.BestellenRedirect;
 import de.mwvb.fander.actions.Bestellt;
 import de.mwvb.fander.actions.BestellungAbsenden;
 import de.mwvb.fander.actions.BestellungClosen;
@@ -28,7 +27,6 @@ import de.mwvb.fander.actions.NeueWocheForce;
 import de.mwvb.fander.actions.NichtBestellen;
 import de.mwvb.fander.actions.UnsereKarte;
 import de.mwvb.fander.actions.UnsereKarteDruck;
-import de.mwvb.fander.actions.UnsereKarteRedirect;
 import de.mwvb.fander.actions.UserEdit;
 import de.mwvb.fander.actions.UserSave;
 import de.mwvb.fander.actions.Users;
@@ -53,33 +51,36 @@ public class FanderApp extends AbstractWebApp {
 	protected void routes() {
 		_get("/", Index.class);
 
-		_get ("/config", FanderConfigAction.class);
-		_post("/config-save", FanderConfigSaveAction.class);
+		// Developer
 		_get ("/wochen", Wochen.class);
-		_get ("/neue-woche", NeueWoche.class);
-		_get ("/bestellen", BestellenRedirect.class);
-		_get ("/unsere-karte", UnsereKarteRedirect.class);
-		_get ("/karte", UnsereKarteRedirect.class);
-		_get ("/mail/sent", FanderMailSentAction.class);
-		_get ("/myuserdata", MyUserData.class);
-		_post("/myuserdata", MyUserDataSave.class);
+		_get ("/delete", DeleteWoche.class);
+
+		// User-Manager
+		_get ("/config", FanderConfigAction.class);
+		_post("/config", FanderConfigSaveAction.class);
 		_get ("/users/:id", UserEdit.class);
 		_post("/users/:id", UserSave.class);
 		_get ("/users", Users.class);
-
-		_get ("/:startdatum/force", NeueWocheForce.class);
-		_post("/:startdatum/mail/send", FanderMailSendAction.class);
-		_get ("/:startdatum/mail", FanderMailAction.class);
-		_post("/:startdatum/bestellung-absenden", BestellungAbsenden.class);
-		_get ("/:startdatum/bestellt", Bestellt.class);
-		_get ("/:startdatum/close", BestellungClosen.class);
-		_get ("/:startdatum/anruf", FanderAnruf.class);
-		_get ("/:startdatum/unsere-karte-druck", UnsereKarteDruck.class);
-		_get ("/:startdatum/unsere-karte", UnsereKarte.class);
-		_get ("/:startdatum/status", FanderBestellstatusAction.class);
-		_get ("/:startdatum/delete", DeleteWoche.class);
-		_get ("/:startdatum/:user/:nichtBestellen", NichtBestellen.class);
-		_get ("/:startdatum", Bestellen.class);
+		
+		// Ansprechpartner
+		_get ("/neue-woche", NeueWoche.class);
+		_get ("/neue-woche-force", NeueWocheForce.class);
+		_get ("/infomails", FanderMailAction.class);
+		_post("/infomails", FanderMailSendAction.class);
+		_get ("/infomails-sent", FanderMailSentAction.class);
+		_get ("/close", BestellungClosen.class);
+		_get ("/anruf", FanderAnruf.class);
+		_get ("/status", FanderBestellstatusAction.class);
+		
+		// User
+		_get ("/myuserdata", MyUserData.class);
+		_post("/myuserdata", MyUserDataSave.class);
+		_get ("/nicht-bestellen", NichtBestellen.class);
+		_get ("/bestellen", Bestellen.class);
+		_post("/bestellen", BestellungAbsenden.class);
+		_get ("/bestellt", Bestellt.class);
+		_get ("/unsere-karte", UnsereKarte.class);
+		_get ("/unsere-karte-druck", UnsereKarteDruck.class);
 	}
 	
 	@Override

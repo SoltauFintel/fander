@@ -7,20 +7,19 @@ import de.mwvb.fander.model.Tag;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
 
-// URL: /:startdatum
 public class Bestellen extends SAction {
 
 	@Override
 	protected void execute() {
 		setTitle("Bestellung eingeben");
 		FanderService sv = new FanderService();
-		Woche woche = sv.byStartdatum(req);
+		Woche woche = sv.getJuengsteWoche();
 		trageBestellstatusEin(woche);
 
 		new Woche2Model().toModel(woche, model, user());
 		put("limit", getLimit(woche));
 		put("jqueryOben", true);
-		put("url", sv.getConfig().getUrl());
+		put("showNeueWocheForce", isAnsprechpartner());
 	}
 	
 	private void trageBestellstatusEin(Woche woche) {

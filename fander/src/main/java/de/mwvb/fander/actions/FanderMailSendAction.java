@@ -30,7 +30,7 @@ public class FanderMailSendAction extends SActionBase {
 				user()); // Normalerweise der Fander-Admin.
 		
 		if (pl.stream().filter(MailEmpfaenger::isAusgewaehlt).count() > 0) {
-			res.redirect("/mail/sent"); // kleine Bestätigungsseite ausgeben
+			res.redirect("/infomails-sent"); // kleine Bestätigungsseite ausgeben
 		} else {
 			res.redirect("/");
 		}

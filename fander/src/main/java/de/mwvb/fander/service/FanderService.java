@@ -11,7 +11,6 @@ import java.util.Locale;
 import org.pmw.tinylog.Logger;
 
 import de.mwvb.fander.base.DateService;
-import de.mwvb.fander.base.SActionBase;
 import de.mwvb.fander.base.UserMessage;
 import de.mwvb.fander.dao.FanderConfigDAO;
 import de.mwvb.fander.dao.WocheDAO;
@@ -43,25 +42,17 @@ public class FanderService {
 	}
 	
 	public Woche getJuengsteWoche() {
-		return dao.getJuengsteWoche();
+		Woche woche = dao.getJuengsteWoche();
+		if (woche == null) {
+			throw new KeineWocheException();
+		}
+		return woche;
 	}
 	
 	public Woche byStartdatum(String startdatum) {
 		return dao.byStartdatum(startdatum);
 	}
-	
-	public Woche byStartdatum(Request req) {
-		String startdatum = req.params("startdatum");
-		if (startdatum == null || !startdatum.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}")) {
-			throw new UserMessage("Seite nicht vorhanden!");
-		}
-		Woche woche = dao.byStartdatum(startdatum);
-		if (woche == null || woche.getTage() == null || woche.getTage().isEmpty()) {
-			throw new UserMessage("Woche " + startdatum + " nicht vorhanden!");
-		}
-		return woche;
-	}
-	
+
 	public void save(Woche woche) {
 		removeLeereBestellungen(woche);
 		dao.save(woche);
@@ -79,8 +70,13 @@ public class FanderService {
 		}
 	}
 
-	public void delete(Woche woche) {
-		dao.delete(woche);
+	public boolean delete(String startdatum) {
+		Woche woche = byStartdatum(startdatum);
+		if (woche != null) {
+			dao.delete(woche);
+			return true;
+		}
+		return false;
 	}
 	
 	public FanderConfig getConfig() {
@@ -98,11 +94,15 @@ public class FanderService {
 	}
 
 	// Story 1: neue Woche starten, Menü laden
-	public Woche createNeueWoche() {
+	public Woche createNeueWoche(boolean mitPruefung) {
 		Woche woche = new Woche();
 		woche.setId(AbstractDAO.code6(AbstractDAO.genId()));
 		woche.setStartdatum(getNeueWocheStartdatum());
 		woche.setTage(getMenuLoader().loadMenu(getConfig().getUrl()));
+		if (mitPruefung && (woche.getTage() == null || woche.getTage().isEmpty())) {
+			throw new UserMessage("Es konnte keine neue Woche gestartet werden, da das Menü leer ist!"
+					+ " Möglicherweise ist die Speisekarte noch nicht verfügbar. Bitte versuche es später noch einmal.");
+		}
 		return woche;
 	}
 	
@@ -300,24 +300,12 @@ public class FanderService {
 		}
 	}
 	
-	public void nichtBestellen(Request req) {
-		String nichtBestellenPar = req.params("nichtBestellen");
-		boolean nichtBestellen = "nicht-bestellen".equals(nichtBestellenPar);
-		boolean undo = "nicht-bestellen-undo".equals(nichtBestellenPar);
-		if (!nichtBestellen && !undo) {
-			return;
-		}
-		Woche woche = byStartdatum(req);
-		String user = req.params("user");
-		if (user == null || user.isEmpty()) {
-			throw new RuntimeException("user is empty");
-		}
-		if (nichtBestellen) {
-			SActionBase.info(user, "Diese Woche nicht bei Fander bestellen.");
-			woche.getNichtBestellen().add(user);
-		} else if (undo) {
-			SActionBase.info(user, "Diese Woche doch bei Fander bestellen.");
+	public void nichtBestellen(String user, boolean undo) {
+		Woche woche = getJuengsteWoche();
+		if (undo) { // doch bestellen
 			woche.getNichtBestellen().remove(user);
+		} else { // nicht bestellen
+			woche.getNichtBestellen().add(user);
 		}
 		save(woche);
 	}
