@@ -6,6 +6,10 @@ import de.mwvb.fander.base.SAction;
 import de.mwvb.fander.base.UserMessage;
 import de.mwvb.fander.model.User;
 
+/**
+ * wenn id = UserService.CREATE: neuen Benutzer anlegen.
+ * Sonst Benutzer bearbeiten.
+ */
 public class UserEdit extends SAction {
 
 	@Override
@@ -20,7 +24,7 @@ public class UserEdit extends SAction {
 		}
 		setTitle("Benutzer bearbeiten: " + user.getUser());
 		
-		put("id", user.getId());
+		put("id", id); // nicht user.getId() !
 		put("user", user.getUser());
 		put("login", user.getLogin());
 		put("vorname", user.getVorname());

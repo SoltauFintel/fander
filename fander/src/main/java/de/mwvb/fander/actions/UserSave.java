@@ -1,6 +1,7 @@
 package de.mwvb.fander.actions;
 
 import de.mwvb.fander.auth.AuthException;
+import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.base.UserMessage;
 
 public class UserSave extends AbstractSaveUser {
@@ -18,7 +19,8 @@ public class UserSave extends AbstractSaveUser {
 			throw new UserMessage("Bitte User eingeben!");
 		}
 		
-		user = sv.byId(req.params("id"));
+		String id = req.params("id");
+		user = sv.byId(id);
 		if (user == null) {
 			throw new UserMessage("User nicht vorhanden!");
 		}
@@ -33,7 +35,11 @@ public class UserSave extends AbstractSaveUser {
 		user.setWeiblich(on("weiblich"));
 
 		sv.save(user);
-		info("save User: " + user.getUser());
+		if (UserService.CREATE.equals(id)) {
+			info("save new User: " + user.getUser() + " <" + user.getId() + ">");
+		} else {
+			info("save User: " + user.getUser() + " <" + user.getId() + ">");
+		}
 		res.redirect("/users");
 	}
 }

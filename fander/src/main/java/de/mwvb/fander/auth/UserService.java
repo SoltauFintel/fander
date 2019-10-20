@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 import de.mwvb.fander.dao.UserDAO;
 import de.mwvb.fander.model.MailEmpfaenger;
 import de.mwvb.fander.model.User;
+import de.mwvb.maja.mongo.AbstractDAO;
 
-public class UserService { // TODO rename to UserService
+public class UserService {
+	public static final String CREATE = "create";
 	private final UserDAO dao = new UserDAO();
 
 	public List<User> list() {
@@ -15,6 +17,14 @@ public class UserService { // TODO rename to UserService
 	}
 	
 	public User byId(String id) {
+		if (CREATE.equals(id)) {
+			User user = new User();
+			user.setId(AbstractDAO.id6());
+			user.setUser("User_" + user.getId());
+			user.setLogin(user.getUser());
+			user.setKennwort(User.hash("fander"));
+			return user;
+		}
 		return dao.get(id);
 	}
 	
