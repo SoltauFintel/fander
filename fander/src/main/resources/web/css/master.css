@@ -43,3 +43,28 @@ body {
 	margin-right: 1em;
 }
 
+.wochentag {
+	font-weight: bold;
+	background-color: #EEE;
+	padding-top: 12px !important;
+}
+
+.menu td {
+	padding: 4px;
+}
+
+.menu tr {
+	border-bottom: 1px solid black;
+}
+
+.titel {
+	max-width: 500px;
+}
+
+.preis {
+	text-align: right;
+}
+
+.bestellt td {
+	background-color: #e8b078;
+}

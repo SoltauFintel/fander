@@ -89,7 +89,7 @@ public class Index extends SAction {
 			put("nichtBestellenUndo", nb);
 		} else { // User hat bestellt.
 			int n = mb.getBestellungen().size();
-			status = "Du hast <a href=\"/" + woche.getStartdatum() + "/bestellt\">" + n + " Gericht" + (n == 1 ? "" : "e") + "</a> bestellt.";
+			status = "Du hast <a href=\"/bestellt\">" + n + " Gericht" + (n == 1 ? "" : "e") + "</a> bestellt.";
 			wasHeuteBestellt(woche, mb);
 			if (woche.isBestellungenErlaubt()) {
 				put("bestellungVorhandenUndAenderbar", true);
