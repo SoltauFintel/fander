@@ -73,3 +73,7 @@ body {
 .starter-template {
 	padding: 40px 15px;
 }
+
+.geweih {
+	position: fixed; top: 24px; left: 24px; z-index: 9999;
+}

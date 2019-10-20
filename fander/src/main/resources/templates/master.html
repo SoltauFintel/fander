@@ -22,6 +22,7 @@
 	{{if jqueryOben}}<script src="/js/jquery.min.js"></script>{{/if}}
 </head>
 <body>
+	<img src="/favicon2.png" class="geweih"/>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
@@ -35,8 +36,8 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="/"><i class="fa fa-home fa-fw"></i> Startseite</a></li>
 					{{if hasUser}}
+						<li><a href="/"><i class="fa fa-home fa-fw"></i> Startseite</a></li>
 						<li><a href="/myuserdata"><i class="fa fa-user fa-fw"></i> {{user}}</a></li>
 						<li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Abmelden</a></li>
 					{{/if}}
@@ -53,5 +54,14 @@
 	
 	{{if not jqueryOben}}<script src="/js/jquery.min.js"></script>{{/if}}
 	<script src="/js/bootstrap.min.js"></script>
+	<script>
+		window.onresize = function() {
+			if($(window).width() < 1600) {
+				$(".geweih").hide();
+			} else {
+				$(".geweih").show();
+			}
+		}
+	</script>
 </body>
 </html>
