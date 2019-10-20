@@ -30,7 +30,8 @@ public class BestellungAbsenden extends SActionBase {
 		int n = mb.getBestellungen().size();
 		info("Mitarbeiter " + user + " hat " + n + " Gericht" + (n == 1 ? "" : "e") + " bestellt.");
 
-		res.redirect("/bestellt");
+//XXX		res.redirect("/bestellt");
+		res.redirect("/nd");
 	}
 
 	/** Bestellungen ausloggen, damit die im Falle eines Absturzes noch wenigstens in der Console bzw. im Log stehen. */

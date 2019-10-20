@@ -39,4 +39,15 @@ public class FanderBestellung {
 	public String getGesamtpreisFormatiert() {
 		return FanderService.format(getGesamtpreis());
 	}
+	
+	public FanderBestellungGericht getFanderBestellungGericht(String gerichtId) {
+		for (FanderBestellungTag tag : tage) {
+			for (FanderBestellungGericht g : tag.getGerichte()) {
+				if (g.getGerichtId().equals(gerichtId)) {
+					return g;
+				}
+			}
+		}
+		return null;
+	}
 }

@@ -325,6 +325,12 @@ public class FanderService {
 			woche.getNichtBestellen().remove(user);
 		} else { // nicht bestellen
 			woche.getNichtBestellen().add(user);
+			for (Mitarbeiterbestellung mb : woche.getBestellungen()) {
+				if (mb.getUser().contentEquals(user)) {
+					woche.getBestellungen().remove(mb);
+					break;
+				}
+			}
 		}
 		save(woche);
 	}

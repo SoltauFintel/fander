@@ -15,6 +15,10 @@ public class Gericht {
 	private String wochentag;
 	@Transient
 	private boolean bestellt;
+	@Transient
+	private String namen;
+	@Transient
+	private boolean wirdBestellt;
 
 	public Gericht() {
 	}
@@ -77,6 +81,22 @@ public class Gericht {
 
 	public void setBestellt(boolean bestellt) {
 		this.bestellt = bestellt;
+	}
+
+	public String getNamen() {
+		return namen == null ? "" : namen;
+	}
+
+	public void setNamen(String namen) {
+		this.namen = namen;
+	}
+
+	public boolean isWirdBestellt() {
+		return wirdBestellt;
+	}
+
+	public void setWirdBestellt(boolean wirdBestellt) {
+		this.wirdBestellt = wirdBestellt;
 	}
 
 	@Override

@@ -38,6 +38,7 @@ import de.mwvb.fander.auth.SAuth;
 import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.base.MyErrorPage;
 import de.mwvb.fander.model.Woche;
+import de.mwvb.fander.startseite.NeuesDesign;
 import de.mwvb.maja.mongo.Database;
 import de.mwvb.maja.web.AbstractWebApp;
 import de.mwvb.maja.web.Action;
@@ -45,7 +46,7 @@ import de.mwvb.maja.web.ActionBase;
 import de.mwvb.maja.web.AppConfig;
 
 public class FanderApp extends AbstractWebApp {
-	public static final String VERSION = "1.00.3";
+	public static final String VERSION = "1.01.0";
 	
 	public static void main(String[] args) {
 		new FanderApp().start(VERSION);
@@ -54,6 +55,7 @@ public class FanderApp extends AbstractWebApp {
 	@Override
 	protected void routes() {
 		_get("/", Index.class);
+		_get("/nd", NeuesDesign.class);
 
 		// Developer
 		_get ("/wochen", Wochen.class);
@@ -112,6 +114,7 @@ public class FanderApp extends AbstractWebApp {
 				"login",
 				"myerrorpage",
 				"myuserdata",
+			"neuesdesign",
 				"neuewoche",
 				"neuewocheforce",
 				"sent",
