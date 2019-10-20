@@ -12,6 +12,14 @@ import de.mwvb.maja.web.AppConfig;
 
 public class UserService { // TODO rename to UserService
 	private final UserDAO dao = new UserDAO();
+
+	public List<User> list() {
+		return dao.list();
+	}
+	
+	public User byId(String id) {
+		return dao.get(id);
+	}
 	
 	public User getUser(String user) {
 		User u = dao.byUser(user);

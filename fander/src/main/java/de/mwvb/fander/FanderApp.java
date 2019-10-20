@@ -29,6 +29,9 @@ import de.mwvb.fander.actions.NichtBestellen;
 import de.mwvb.fander.actions.UnsereKarte;
 import de.mwvb.fander.actions.UnsereKarteDruck;
 import de.mwvb.fander.actions.UnsereKarteRedirect;
+import de.mwvb.fander.actions.UserEdit;
+import de.mwvb.fander.actions.UserSave;
+import de.mwvb.fander.actions.Users;
 import de.mwvb.fander.actions.Wochen;
 import de.mwvb.fander.auth.Login2;
 import de.mwvb.fander.auth.SAuth;
@@ -59,7 +62,10 @@ public class FanderApp extends AbstractWebApp {
 		_get ("/karte", UnsereKarteRedirect.class);
 		_get ("/mail/sent", FanderMailSentAction.class);
 		_get ("/myuserdata", MyUserData.class);
-		_post("/save-myuserdata", MyUserDataSave.class);
+		_post("/myuserdata", MyUserDataSave.class);
+		_get ("/users/:id", UserEdit.class);
+		_post("/users/:id", UserSave.class);
+		_get ("/users", Users.class);
 
 		_get ("/:startdatum/force", NeueWocheForce.class);
 		_post("/:startdatum/mail/send", FanderMailSendAction.class);
@@ -106,6 +112,8 @@ public class FanderApp extends AbstractWebApp {
 				"sent",
 				"unserekarte",
 				"unserekartedruck",
+				"user",
+				"users",
 				"wochen"
 				);
 		System.out.println("Templates compiled");
