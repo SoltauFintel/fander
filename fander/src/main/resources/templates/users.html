@@ -9,6 +9,7 @@
 				<th>Login</th>
 				<th>Name</th>
 				<th>Emailadresse</th>
+				<th>Rollen</th>
 			</tr>
 			{{each u in users}}
 				<tr>
@@ -16,6 +17,7 @@
 					<td>{{u.login}}</td>
 					<td>{{u.name}}</td>
 					<td>{{u.emailadresse}}</td>
+					<td>{{u.rollen}}</td>
 				</tr>
 			{{/each}}
 		</table>

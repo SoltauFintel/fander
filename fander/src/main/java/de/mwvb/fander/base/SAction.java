@@ -3,13 +3,14 @@ package de.mwvb.fander.base;
 import com.github.template72.data.DataMap;
 
 import de.mwvb.fander.FanderApp;
-import de.mwvb.fander.auth.UserService;
+import de.mwvb.fander.auth.Roles;
 import de.mwvb.maja.auth.AuthPlugin;
 import de.mwvb.maja.web.Action;
 
 public abstract class SAction extends Action {
 	public static final String TEXT_HTML = SActionBase.TEXT_HTML;
 	public static final String CLASS = "Class: ";
+	private Roles roles;
 
 	protected void setTitle(String title) {
 		if (title == null || title.trim().isEmpty()) {
@@ -57,14 +58,21 @@ public abstract class SAction extends Action {
 	}
 	
 	protected final boolean isDeveloper() {
-		return UserService.isDeveloper(user());
+		return getRoles().isDeveloper(user());
 	}
 	
 	protected final boolean isUserManager() {
-		return UserService.isUserManager(user());
+		return getRoles().isUserManager(user());
 	}
 	
 	protected final boolean isAnsprechpartner() {
-		return UserService.isAnsprechpartner(user());
+		return getRoles().isAnsprechpartner(user());
+	}
+	
+	private Roles getRoles() {
+		if (roles == null) {
+			roles = new Roles();
+		}
+		return roles;
 	}
 }

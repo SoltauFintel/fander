@@ -4,12 +4,13 @@ import org.pmw.tinylog.Logger;
 
 import com.google.common.base.Strings;
 
-import de.mwvb.fander.auth.UserService;
+import de.mwvb.fander.auth.Roles;
 import de.mwvb.maja.auth.AuthPlugin;
 import de.mwvb.maja.web.ActionBase;
 
 public abstract class SActionBase extends ActionBase {
 	public static final String TEXT_HTML = "text/html";
+	private Roles roles;
 
 	protected final void info(String msg) {
 		info(user(), msg);
@@ -29,14 +30,21 @@ public abstract class SActionBase extends ActionBase {
 	}
 	
 	protected final boolean isDeveloper() {
-		return UserService.isDeveloper(user());
+		return getRoles().isDeveloper(user());
 	}
 	
 	protected final boolean isUserManager() {
-		return UserService.isUserManager(user());
+		return getRoles().isUserManager(user());
 	}
 	
 	protected final boolean isAnsprechpartner() {
-		return UserService.isAnsprechpartner(user());
+		return getRoles().isAnsprechpartner(user());
+	}
+	
+	private Roles getRoles() {
+		if (roles == null) {
+			roles = new Roles();
+		}
+		return roles;
 	}
 }
