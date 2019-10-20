@@ -61,6 +61,7 @@ public class Index extends SAction {
 		put("bestelltHaben", "");
 		put("keineAussageVon", "");
 		put("hasFuerHeuteBestellt", false);
+		put("isDeveloper", isDeveloper());
 		put("isUserManager", isUserManager());
 		put("isFanderAdmin", isAnsprechpartner());
 	}
