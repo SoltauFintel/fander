@@ -49,7 +49,8 @@
 </style>
 
 <div class="row">
-	<h1 class="page-header">Unsere Karte (Fander Woche {{startdatumNice}})</h1>
+	<h1 class="page-header">Unsere Karte</h1>
+	<p style="font-weight: bold;">Fander Woche {{startdatumNice}}</p>
 	<div class="col-lg-12">
 		{{if not mitVollstaendigeKarteLink}}<p style="color: #c00;">Dies ist eine Ansicht ohne Berücksichtigung von Mindest- und Maximalwerten.</p>{{/if}}
 		{{if bestellungenErlaubt}}<h3 style="color: #c00; margin-bottom: 2em;">Bestellung noch offen. Änderungen sind noch möglich.</h3>{{/if}}
@@ -58,7 +59,7 @@
 				<tr>
 					<td class="wochentag titel">Gericht</td>
 					<td class="wochentag preis">Menge</td>
-					<td class="wochentag" width="40"></td>
+					<td class="wochentag" style="min-width: 2em;">&nbsp;</td>
 					<td class="wochentag" style="min-width: 8em;">Besteller</td>
 				</tr>
 				{{each t in tage}}
@@ -69,7 +70,7 @@
 						<tr class="gericht">
 							<td class="titel">{{g.gericht}}</td>
 							<td class="preis">{{g.anzahl}}</td>
-							<td></td>
+							<td>&nbsp;</td>
 							<td>{{g.namen}} &nbsp;&nbsp; </td>
 						</tr>
 					{{/each}}
@@ -77,8 +78,8 @@
 				<tr>
 					<td class="wochentag titel">Summe</td>
 					<td class="wochentag preis">{{gesamtanzahl}}</td>
-					<td class="wochentag"></td>
-					<td class="wochentag"></td>
+					<td class="wochentag">&nbsp;</td>
+					<td class="wochentag">&nbsp;</td>
 				</tr>
 			</table>
 		{{else}}
@@ -95,13 +96,13 @@
 					<tr class="gericht">
 						<td class="titel">{{status.user}}</td>
 						<td class="preis">{{status.gesamtpreis}}</td>
-						<td class="preis"></td>
+						<td class="preis">&nbsp;</td>
 					</tr>
 				{{/each}}
 				<tr>
 					<td class="wochentag titel">Summe</td>
 					<td class="wochentag preis" style="min-width: 6em;">{{summe}}</td>
-					<td class="wochentag preis" style="min-width: 6em;"></td>
+					<td class="wochentag preis" style="min-width: 6em;">&nbsp;</td>
 				</tr>
 			</table>
 		{{/if}}
