@@ -1,5 +1,7 @@
 package de.mwvb.fander;
 
+import java.util.Date;
+
 import org.pmw.tinylog.Logger;
 
 import com.github.template72.compiler.CompiledTemplates;
@@ -43,6 +45,7 @@ import de.mwvb.maja.web.AbstractWebApp;
 import de.mwvb.maja.web.Action;
 import de.mwvb.maja.web.ActionBase;
 import de.mwvb.maja.web.AppConfig;
+import spark.Spark;
 
 public class FanderApp extends AbstractWebApp {
 	public static final String VERSION = "1.01.1";
@@ -85,6 +88,14 @@ public class FanderApp extends AbstractWebApp {
 		_get ("/bestellt", Bestellt.class);
 		_get ("/unsere-karte", UnsereKarte.class);
 		_get ("/unsere-karte-druck", UnsereKarteDruck.class);
+	}
+	
+	@Override
+	protected void initStaticFileLocation() {
+		super.initStaticFileLocation();
+		long expireTimeSeconds = 365 * 24 * 60 * 60; // 1 Jahr
+		Spark.staticFiles.header("Cache-Control", "public, max-age=" + expireTimeSeconds);
+		Spark.staticFiles.header("Expires", new Date(System.currentTimeMillis() + (expireTimeSeconds * 1000)).toString());
 	}
 	
 	@Override
