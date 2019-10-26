@@ -6,7 +6,7 @@
 		<form action="/infomails" method="post" class="form-horizontal">
 			<fieldset>
 				<div class="form-group">
-					<label class="col-lg-1 control-label">Empfänger</label>
+					<label class="col-lg-2 control-label">Empfänger</label>
 					<div class="col-lg-8">
 						<table>
 							{{each p in personen}}
@@ -21,14 +21,14 @@
 				</div>
 				
 				<div class="form-group">
-					<label for="kommentar" class="col-lg-1 control-label">Kommentar</label>
+					<label for="kommentar" class="col-lg-2 control-label">Kommentar</label>
 					<div class="col-lg-8">
 						<input class="form-control" type="text" id="kommentar" name="kommentar">
 					</div>
 				</div>
 			
 				<div class="form-group">
-					<div class="col-lg-8 col-lg-offset-1">
+					<div class="col-lg-8 col-lg-offset-2">
 						<button type="submit" class="btn btn-primary">Infomails versenden!</button>
 						<a href="/" class="btn btn-default" style="margin-left: 1em;">Abbruch</a>
 					</div>
