@@ -10,6 +10,8 @@ import org.mongodb.morphia.annotations.Index;
 import org.mongodb.morphia.annotations.IndexOptions;
 import org.mongodb.morphia.annotations.Indexes;
 
+import de.mwvb.maja.web.AppConfig;
+
 @Entity
 @Indexes({
 	@Index(fields = { @Field("user") }, options = @IndexOptions(unique = true)),
@@ -127,18 +129,24 @@ public class User {
 		return emailadresse;
 	}
 	
-	public static String hash(String p) {
+	/**
+	 * @param p zu chiffrierendes Klartext Kennwort
+	 * @param version z.B. ".v0"
+	 * @return chiffriertes Kennwort
+	 */
+	public static String hash(String p, String version) {
 		try {
+			int repeats = Integer.parseInt(new AppConfig().get("password-hash-repeats" + version, "1"));
 			MessageDigest md = MessageDigest.getInstance("SHA-512");
 			byte[] bytes = p.getBytes(StandardCharsets.UTF_8);
-			for (int i = 0; i < 9476; i++) {
+			for (int i = 0; i < repeats; i++) {
 				bytes = md.digest(bytes);
 			}
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < bytes.length; i++) {
 				sb.append(String.format("%02x", bytes[i]));
 			}
-			return sb.toString() + ".v0";
+			return sb.toString() + version;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

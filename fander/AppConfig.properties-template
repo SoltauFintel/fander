@@ -32,3 +32,6 @@ send.mails=false
 # chiffrierte Kennwoerter raus geschrieben werden! Spalten sind mit Tabs getrennt.
 # So lassen sich die Daten leicht in Excel einfuegen. Ein Import gibt es derzeit nicht.
 #dump-users=dateiname
+
+# Geheime Nummer, i.d.R. zwischen 7000 und 10000
+#password-hash-repeats.v0=

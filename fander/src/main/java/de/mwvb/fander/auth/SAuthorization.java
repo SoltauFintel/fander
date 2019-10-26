@@ -22,7 +22,7 @@ public class SAuthorization implements Authorization {
 			Logger.warn("Leere User Collection lässt jeden Login zu!");
 			return null;
 		}
-		password = User.hash(password);
+		password = User.hash(password, ".v0");
 		User user = dao.byLogin(login);
 		if (user == null) {
 			Logger.warn("Zugang nicht gestattet für '" + login + "', da Benutzername falsch.");

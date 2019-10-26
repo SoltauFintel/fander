@@ -16,8 +16,9 @@ AppConfig.properties anlegen. Unter Key "port" den Port eintragen, unter der die
 Fander App laufen soll (Default 4040). Unter "host" eintragen unter welchem Protokoll, Hostnamen
 und Port die Anwendung von außen erreichbar ist (Beispiel: "http://die-domain.de:4040").
 Unter Key "dbname" den Namen der MongoDB-Datenbank eintragen. Unter "dbhost" muss der MongoDB-Host, ggf. mit Port,
-angegeben werden (Beispiel: "die-domain.de"). Anschließend kann die Anwendung mittels FanderApp.java gestartet werden
-und im Browser aufgerufen werden.
+angegeben werden (Beispiel: "die-domain.de"). In der AppConfig sollte der Key password-hash-repeats.v0 mit einem geheimen Wert
+größer 7000 (und gewöhnlich kleiner 10000) konfiguriert werden. Anschließend kann die Anwendung mittels FanderApp.java gestartet
+werden und im Browser aufgerufen werden.
 
 ### Start mit leerer Datenbank
 

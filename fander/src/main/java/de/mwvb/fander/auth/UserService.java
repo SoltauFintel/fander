@@ -27,7 +27,7 @@ public class UserService {
 			user.setId(AbstractDAO.id6());
 			user.setUser("User_" + user.getId());
 			user.setLogin(user.getUser());
-			user.setKennwort(User.hash("fander"));
+			user.setKennwort(User.hash("fander", ".v0"));
 			return user;
 		}
 		return dao.get(id);
