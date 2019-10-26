@@ -26,7 +26,7 @@ public abstract class AbstractSaveUser extends SActionBase {
 			if (alt.isEmpty()) {
 				throw new UserMessage("Bitte altes Kennwort eingeben!");
 			}
-			alt = User.hash(alt, ".v0");
+			alt = UserService.hash(alt, ".v0");
 			if (!user.getKennwort().equals(alt)) {
 				throw new UserMessage("Altes Kennwort ist falsch!");
 			}
@@ -36,7 +36,7 @@ public abstract class AbstractSaveUser extends SActionBase {
 		}
 		if (neu.equals(neu2)) {
 			// Neues Kennwort setzen
-			user.setKennwort(User.hash(neu, ".v0"));
+			user.setKennwort(UserService.hash(neu, ".v0"));
 			info(getClass().getSimpleName() + ": new password set");
 		} else {
 			throw new UserMessage("Die beiden neuen Kennwörter stimmen nicht überein!");

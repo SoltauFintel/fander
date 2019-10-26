@@ -3,6 +3,8 @@ package de.mwvb.fander.auth;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +14,7 @@ import de.mwvb.fander.dao.UserDAO;
 import de.mwvb.fander.model.MailEmpfaenger;
 import de.mwvb.fander.model.User;
 import de.mwvb.maja.mongo.AbstractDAO;
+import de.mwvb.maja.web.AppConfig;
 
 public class UserService {
 	public static final String CREATE = "create";
@@ -27,7 +30,7 @@ public class UserService {
 			user.setId(AbstractDAO.id6());
 			user.setUser("User_" + user.getId());
 			user.setLogin(user.getUser());
-			user.setKennwort(User.hash("fander", ".v0"));
+			user.setKennwort(UserService.hash("fander", ".v0"));
 			return user;
 		}
 		return dao.get(id);
@@ -100,5 +103,28 @@ public class UserService {
 			return;
 		}
 		Logger.info("Alle Benutzer exportiert in Datei: " + f.getAbsolutePath());
+	}
+
+	/**
+	 * @param p zu chiffrierendes Klartext Kennwort
+	 * @param version z.B. ".v0"
+	 * @return chiffriertes Kennwort
+	 */
+	public static String hash(String p, String version) {
+		try {
+			int repeats = Integer.parseInt(new AppConfig().get("password-hash-repeats" + version, "1"));
+			MessageDigest md = MessageDigest.getInstance("SHA-512");
+			byte[] bytes = p.getBytes(StandardCharsets.UTF_8);
+			for (int i = 0; i < repeats; i++) {
+				bytes = md.digest(bytes);
+			}
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < bytes.length; i++) {
+				sb.append(String.format("%02x", bytes[i]));
+			}
+			return sb.toString() + version;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

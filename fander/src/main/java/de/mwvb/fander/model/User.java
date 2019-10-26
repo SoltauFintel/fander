@@ -1,16 +1,11 @@
 package de.mwvb.fander.model;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Field;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Index;
 import org.mongodb.morphia.annotations.IndexOptions;
 import org.mongodb.morphia.annotations.Indexes;
-
-import de.mwvb.maja.web.AppConfig;
 
 @Entity
 @Indexes({
@@ -127,28 +122,5 @@ public class User {
 
 	public String getEmailadresse() {
 		return emailadresse;
-	}
-	
-	/**
-	 * @param p zu chiffrierendes Klartext Kennwort
-	 * @param version z.B. ".v0"
-	 * @return chiffriertes Kennwort
-	 */
-	public static String hash(String p, String version) {
-		try {
-			int repeats = Integer.parseInt(new AppConfig().get("password-hash-repeats" + version, "1"));
-			MessageDigest md = MessageDigest.getInstance("SHA-512");
-			byte[] bytes = p.getBytes(StandardCharsets.UTF_8);
-			for (int i = 0; i < repeats; i++) {
-				bytes = md.digest(bytes);
-			}
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < bytes.length; i++) {
-				sb.append(String.format("%02x", bytes[i]));
-			}
-			return sb.toString() + version;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
 	}
 }
