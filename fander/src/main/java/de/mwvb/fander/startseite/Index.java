@@ -6,8 +6,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.pmw.tinylog.Logger;
-
 import com.github.template72.data.DataList;
 import com.github.template72.data.DataMap;
 
@@ -29,7 +27,7 @@ public class Index extends SAction {
 		boolean bestellungAendern = "1".equals(req.queryParams("m"));
 		
 		Zustand zustand = new StartseiteService().getZustand(user(), bestellungAendern);
-		Logger.debug("Startseite Zustand: " + zustand.getClass().getSimpleName());
+		//Logger.debug("Startseite Zustand: " + zustand.getClass().getSimpleName());
 		
 		put("h1title", zustand.getH1Title());
 		put("jqueryOben", zustand.isJqueryOben());
