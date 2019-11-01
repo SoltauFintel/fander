@@ -17,6 +17,7 @@ public class FanderBestellstatusAction extends SActionBase {
 		
 		boolean bestellt = "1".equals(req.queryParams("s")); // 0: nicht bestellt, 1: angerufen
 		new FanderService().angerufen(req, bestellt);
+		info("FanderBestellstatus " + bestellt);
 		
 		res.redirect("/anruf");
 	}

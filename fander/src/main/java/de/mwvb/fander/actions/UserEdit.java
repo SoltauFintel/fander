@@ -23,6 +23,7 @@ public class UserEdit extends SAction {
 			throw new UserMessage("User nicht vorhanden");
 		}
 		setTitle("Benutzer bearbeiten: " + user.getUser());
+		info("UserEdit: " + user.getUser() + " #" + user.getId());
 		
 		put("id", id); // nicht user.getId() !
 		put("user4edit", user.getUser());

@@ -37,9 +37,9 @@ public class UserSave extends AbstractSaveUser {
 
 		sv.save(user);
 		if (UserService.CREATE.equals(id)) {
-			info("save new User: " + user.getUser() + " <" + user.getId() + ">");
+			info("saved new User: " + user.getUser() + "  #" + user.getId());
 		} else {
-			info("save User: " + user.getUser() + " <" + user.getId() + ">");
+			info("saved User: " + user.getUser() + "  #" + user.getId());
 		}
 		res.redirect("/users");
 	}
