@@ -103,7 +103,7 @@ public class Gericht {
 	}
 	
 	public boolean heuteBestellt(int tag) {
-        if (isWirdBestellt()) {
+        if (isBestellt() && isWirdBestellt()) { // beide Abfragen notwendig!
             DayOfWeek heutigerWochentag = LocalDate.now().getDayOfWeek();
             return (tag == 1 && DayOfWeek.MONDAY.equals(heutigerWochentag))
                 || (tag == 2 && DayOfWeek.TUESDAY.equals(heutigerWochentag))
