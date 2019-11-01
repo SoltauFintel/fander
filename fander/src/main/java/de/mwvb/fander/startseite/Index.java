@@ -38,6 +38,7 @@ public class Index extends SAction {
 		put("ansprechpartnerWeiblich", zustand.isAnsprechpartnerWeiblich());
 		put("bestellungenErlaubt", false);
 		put("wocheVorhanden", zustand.isWocheVorhanden());
+		put("neueWocheHighlighted", zustand.isNeueWocheHighlighted());
 		if (!zustand.isWocheVorhanden()) {
 			return;
 		}

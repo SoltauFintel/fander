@@ -93,4 +93,8 @@ public abstract class Zustand {
 			return false;
 		}
 	}
+	
+	public boolean isNeueWocheHighlighted() {
+	    return false;
+	}
 }

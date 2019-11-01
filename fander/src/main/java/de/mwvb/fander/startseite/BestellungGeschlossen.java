@@ -1,5 +1,7 @@
 package de.mwvb.fander.startseite;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import de.mwvb.fander.model.FanderBestellung;
 import de.mwvb.fander.model.FanderBestellungGericht;
 import de.mwvb.fander.model.Gericht;
 import de.mwvb.fander.model.Tag;
+import de.mwvb.fander.service.FanderService;
 
 public class BestellungGeschlossen extends Zustand {
 	private final Zustand zustand;
@@ -45,5 +48,16 @@ public class BestellungGeschlossen extends Zustand {
 	@Override
 	protected boolean isShowAlwaysTag() {
 		return false;
+	}
+	
+	@Override
+	public boolean isNeueWocheHighlighted() {
+	    if (getWoche() == null) {
+	        return true;
+	    }
+	    boolean isMonday = DayOfWeek.MONDAY.equals(LocalDate.now().getDayOfWeek());
+        String startdatumDerAktuellenWoche = getWoche().getStartdatum();
+        String heute = new FanderService().getNeueWocheStartdatum();
+        return isMonday && !heute.equals(startdatumDerAktuellenWoche);
 	}
 }

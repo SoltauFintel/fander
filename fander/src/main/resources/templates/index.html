@@ -111,8 +111,8 @@
 				{{/if}}
 			{{/if}}
 			{{if isAnsprechpartner}}
-				<a href="/neue-woche" class="btn btn-default btn-dif"><i class="fa fa-cloud-download fa-fw"></i> Neue Woche</a>
-				<a href="/neue-woche-force" class="btn btn-danger btn-dif"><i class="fa fa-bug"></i> Woche erneut erstellen...</a>
+				<a href="/neue-woche" class="btn {{if neueWocheHighlighted}}btn-success{{else}}btn-default{{/if}} btn-dif"><i
+					class="fa fa-cloud-download fa-fw"></i> Neue Woche</a>
 			{{/if}}
 			{{if isUserManager}}
 				<a href="/config" class="btn btn-default btn-dif"><i class="fa fa-wrench fa-fw"></i> Anwendungseinstellungen</a>
@@ -122,7 +122,9 @@
 				<a href="/wochen" class="btn btn-default btn-dif"><i class="fa fa-list fa-fw"></i> Wochen</a>
 			{{/if}}
 		</p>
-		<p>Fander Woche {{startdatumNice}} | Ansprechpartner{{if ansprechpartnerWeiblich}}in{{/if}}: {{ansprechpartner}}</p>
+		{{if wocheVorhanden}}
+			<p>Fander Woche {{startdatumNice}} | Ansprechpartner{{if ansprechpartnerWeiblich}}in{{/if}}: {{ansprechpartner}}</p>
+		{{/if}}
 		{{if isAnsprechpartner}}
 			{{if bestellungenErlaubt}}
 				<p style="margin-top: 2em;">{{bestelltHaben}} {{absagen}} {{keineAussageVon}}</p>

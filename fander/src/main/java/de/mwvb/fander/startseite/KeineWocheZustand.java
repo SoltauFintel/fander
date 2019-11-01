@@ -10,4 +10,9 @@ public class KeineWocheZustand extends Zustand {
 	public String getH1Title() {
 		return "Keine Woche vorhanden";
 	}
+	
+	@Override
+	public boolean isNeueWocheHighlighted() {
+	    return true;
+	}
 }
