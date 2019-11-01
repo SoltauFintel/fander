@@ -14,7 +14,7 @@
 			{{each u in users}}
 				<tr>
 					<td><a href="/users/{{u.id}}">{{u.user}}</a></td>
-					<td>{{u.login}}</td>
+					<td{{if not u.aktiv}} style="text-decoration: line-through;"{{/if}}>{{u.login}}</td>
 					<td>{{u.name}}</td>
 					<td>{{u.emailadresse}}</td>
 					<td>{{u.rollen}}</td>

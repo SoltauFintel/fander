@@ -35,7 +35,11 @@ public class SAuthorization implements Authorization {
 			throw new UserMessage("Benutzer nicht bekannt. Bitte an Administrator wenden.");
 		}
 		if (user.getKennwort().equals(password)) {
-			return null; // Login erfolgreich
+		    if (user.isAktiv()) {
+		        return null; // Login erfolgreich
+		    }
+	        Logger.warn("Zugang nicht gestattet für '" + login + "', da Benutzer gesperrt.");
+	        throw new UserMessage("Dein Zugang wurde gesperrt.");
 		}		
 		Logger.warn("Zugang nicht gestattet für '" + login + "', da Passwort falsch.");
 		throw new UserMessage("Zugang nicht gestattet, da das Passwort falsch ist. Bitte gehe zurück und gib das Passwort erneut ein."

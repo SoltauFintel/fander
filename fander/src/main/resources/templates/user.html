@@ -11,9 +11,9 @@
 					<div class="col-lg-4">
 						<input class="form-control" type="text" id="login" name="login" value="{{login}}">
 					</div>
-					<label for="user" class="col-lg-2 control-label">Anzeigename</label>
+					<label for="user4edit" class="col-lg-2 control-label">Anzeigename</label>
 					<div class="col-lg-4">
-						<input class="form-control" type="text" id="user" name="user" value="{{user}}">
+						<input class="form-control" type="text" id="user4edit" name="user4edit" value="{{user4edit}}">
 						<span style="font-size: 7pt;">Bitte den Anzeigenamen nur Freitag nachmittags ändern, da dieser auch als Id verwendet wird.</span>
 					</div>
 				</div>
@@ -57,6 +57,12 @@
 					<label>
 						<input type="checkbox" id="zusatzstoffeAnzeigen" name="zusatzstoffeAnzeigen" value="1"{{if zusatzstoffeAnzeigen}} checked{{/if}}>
 						Zusatzstoffe anzeigen
+					</label>
+				</div>
+				<div class="checkbox col-lg-offset-2">
+					<label>
+						<input type="checkbox" id="aktiv" name="aktiv" value="1"{{if aktiv}} checked{{/if}}>
+						aktiv
 					</label>
 				</div>
 				<div class="form-group" style="padding-top: 1.5em;">

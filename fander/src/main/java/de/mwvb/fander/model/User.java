@@ -30,6 +30,7 @@ public class User {
 	private boolean typischerBesteller;
 	private boolean zusatzstoffeAnzeigen;
 	private String emailadresse;
+	private boolean aktiv = true;
 
 	public String getId() {
 		return id;
@@ -123,4 +124,12 @@ public class User {
 	public String getEmailadresse() {
 		return emailadresse;
 	}
+
+    public boolean isAktiv() {
+        return aktiv;
+    }
+
+    public void setAktiv(boolean aktiv) {
+        this.aktiv = aktiv;
+    }
 }

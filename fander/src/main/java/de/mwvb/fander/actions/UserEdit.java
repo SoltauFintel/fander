@@ -25,7 +25,7 @@ public class UserEdit extends SAction {
 		setTitle("Benutzer bearbeiten: " + user.getUser());
 		
 		put("id", id); // nicht user.getId() !
-		put("user", user.getUser());
+		put("user4edit", user.getUser());
 		put("login", user.getLogin());
 		put("vorname", user.getVorname());
 		put("nachname", user.getNachname());
@@ -34,6 +34,7 @@ public class UserEdit extends SAction {
 		put("infomail", user.isInfomail());
 		put("typischerBesteller", user.isTypischerBesteller());
 		put("zusatzstoffeAnzeigen", user.isZusatzstoffeAnzeigen());
+		put("aktiv", user.isAktiv());
 	}
 	
 	@Override

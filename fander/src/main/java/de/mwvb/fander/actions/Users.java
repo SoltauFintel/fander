@@ -28,6 +28,7 @@ public class Users extends SAction {
 			map.put("name", user.getName());
 			map.put("emailadresse", user.getEmailadresse());
 			map.put("rollen", roles.getRollen(user.getUser()));
+			map.put("aktiv", user.isAktiv());
 		}
 	}
 }
