@@ -30,7 +30,7 @@
 									<tr class="gericht tr_{{g.id}}{{if g.bestellt}} bestellt{{/if}}">
 										<td><input type="checkbox" id="c_{{g.id}}" name="c_{{g.id}}"
 											value="1"{{if g.bestellt}} checked{{/if}}{{if not bestellmodus}} disabled{{/if}}></td>
-										<td class="titel"{{if g.strikethru}} style="text-decoration: line-through; color: #999;"{{/if}}>{{g.titel}}</td>
+										<td class="titel" style="{{if g.strikethru}}text-decoration: line-through; color: #999;{{/if}}{{if g.heuteBestellt}} font-weight: bold;{{/if}}">{{g.titel}}</td>
 										<td class="preis"{{if g.strikethru}} style="text-decoration: line-through; color: #999;"{{/if}}>{{g.preis}}</td>
 										<td width="40">{{if g.wirdBestellt}}<i class="fa fa-shopping-cart fa-fw" title="wird bestellt"></i>{{/if}}</td>
 										<td>{{g.namen}} &nbsp;&nbsp; </td>

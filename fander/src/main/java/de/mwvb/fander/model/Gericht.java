@@ -1,5 +1,8 @@
 package de.mwvb.fander.model;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+
 import org.mongodb.morphia.annotations.Transient;
 
 import de.mwvb.fander.service.FanderService;
@@ -97,6 +100,20 @@ public class Gericht {
 
 	public void setWirdBestellt(boolean wirdBestellt) {
 		this.wirdBestellt = wirdBestellt;
+	}
+	
+	public boolean heuteBestellt(int tag) {
+        if (isWirdBestellt()) {
+            DayOfWeek heutigerWochentag = LocalDate.now().getDayOfWeek();
+            return (tag == 1 && DayOfWeek.MONDAY.equals(heutigerWochentag))
+                || (tag == 2 && DayOfWeek.TUESDAY.equals(heutigerWochentag))
+                || (tag == 3 && DayOfWeek.WEDNESDAY.equals(heutigerWochentag))
+                || (tag == 4 && DayOfWeek.THURSDAY.equals(heutigerWochentag))
+                || (tag == 5 && DayOfWeek.FRIDAY.equals(heutigerWochentag))
+                || (tag == 6 && DayOfWeek.SATURDAY.equals(heutigerWochentag))
+                || (tag == 7 && DayOfWeek.SUNDAY.equals(heutigerWochentag));
+        }
+        return false;
 	}
 
 	@Override

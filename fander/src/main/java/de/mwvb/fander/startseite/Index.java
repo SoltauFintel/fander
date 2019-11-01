@@ -78,7 +78,7 @@ public class Index extends SAction {
 			DataList gerichte = map.list("gerichte");
 			for (Gericht g : tag.getGerichte()) {
 				DataMap map2 = gerichte.add();
-				addGericht(g, zusatzstoffeAnzeigen, map2);
+				addGericht(g, zusatzstoffeAnzeigen, tag.getWochentag(), map2);
 				if (g.isBestellt()) {
 					summe += g.getPreis();
 				}
@@ -87,7 +87,7 @@ public class Index extends SAction {
 		return summe;
 	}
 
-	private void addGericht(Gericht g, boolean zusatzstoffeAnzeigen, DataMap map) {
+	private void addGericht(Gericht g, boolean zusatzstoffeAnzeigen, int tag, DataMap map) {
 		map.put("id", g.getId());
 		map.put("titel", esc(getGerichtTitel(g, zusatzstoffeAnzeigen)));
 		map.put("strikethru", isStrikethru(g, zusatzstoffeAnzeigen));
@@ -96,6 +96,7 @@ public class Index extends SAction {
 		map.put("preisJS", g.getPreisFormatiert().replace(",", "."));
 		map.put("bestellt", g.isBestellt());
 		map.put("wirdBestellt", g.isWirdBestellt());
+		map.put("heuteBestellt", g.heuteBestellt(tag));
 		map.put("namen", esc(g.getNamen()));
 	}
 
@@ -115,9 +116,10 @@ public class Index extends SAction {
 		}
 		return false;
 	}
-	
-	// TODO Die folgenden Methoden habe ich auf die Schnelle aus dem alten Code übernommen:
-	// Die Fachlichkeit muss in die Zustand Klassen.
+    
+	/* TODO Die folgenden Methoden habe ich auf die Schnelle aus dem alten Code übernommen:
+	   Die Fachlichkeit muss in die Zustand Klassen.
+       Auch für obige Methoden prüfen. */
 	
 	private void habenBestellt(Woche woche) {
 		putNamensliste("bestelltHaben", "Bestellt haben", "Bestellt hat", woche.getBestellungen().stream()
