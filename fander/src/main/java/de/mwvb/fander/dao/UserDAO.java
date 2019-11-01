@@ -38,4 +38,8 @@ public class UserDAO extends AbstractDAO<User> {
 				.order("user")
 				.asList();
 	}
+
+    public User byToken(String token) {
+        return createQuery().field("token").equal(token).field("aktiv").equal(true).get();
+    }
 }

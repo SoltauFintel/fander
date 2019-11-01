@@ -5,6 +5,7 @@ import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.base.SAction;
 import de.mwvb.fander.base.UserMessage;
 import de.mwvb.fander.model.User;
+import de.mwvb.maja.mongo.AbstractDAO;
 
 /**
  * wenn id = UserService.CREATE: neuen Benutzer anlegen.
@@ -36,6 +37,10 @@ public class UserEdit extends SAction {
 		put("typischerBesteller", user.isTypischerBesteller());
 		put("zusatzstoffeAnzeigen", user.isZusatzstoffeAnzeigen());
 		put("aktiv", user.isAktiv());
+		if (user.getToken() == null) {
+		    user.setToken(AbstractDAO.genId());
+		}
+		put("token", user.getToken());
 	}
 	
 	@Override

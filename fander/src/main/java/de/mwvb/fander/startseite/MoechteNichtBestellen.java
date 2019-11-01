@@ -1,6 +1,7 @@
 package de.mwvb.fander.startseite;
 
 import de.mwvb.fander.model.Woche;
+import de.mwvb.fander.rest.UnsereKarteJSON;
 import de.mwvb.fander.service.FanderService;
 
 public class MoechteNichtBestellen extends BestellungMoeglich {
@@ -22,5 +23,12 @@ public class MoechteNichtBestellen extends BestellungMoeglich {
 	@Override
 	public boolean isShowBestellsumme(double summe) {
 		return false;
+	}
+	
+	@Override
+	public UnsereKarteJSON getJSON() {
+	    UnsereKarteJSON k = super.getJSON();
+	    k.setMoechteNichtsBestellen(true);
+        return k;
 	}
 }

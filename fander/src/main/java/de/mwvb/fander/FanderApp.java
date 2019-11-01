@@ -39,6 +39,7 @@ import de.mwvb.fander.auth.SAuth;
 import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.base.MyErrorPage;
 import de.mwvb.fander.model.Woche;
+import de.mwvb.fander.rest.UnsereKarteREST;
 import de.mwvb.fander.startseite.Index;
 import de.mwvb.maja.mongo.Database;
 import de.mwvb.maja.web.AbstractWebApp;
@@ -88,6 +89,8 @@ public class FanderApp extends AbstractWebApp {
 		_get ("/bestellt", Bestellt.class);
 		_get ("/unsere-karte", UnsereKarte.class);
 		_get ("/unsere-karte-druck", UnsereKarteDruck.class);
+		
+		_get ("/rest/unsere-karte", UnsereKarteREST.class);
 	}
 	
 	@Override
@@ -136,6 +139,7 @@ public class FanderApp extends AbstractWebApp {
 
 		auth = new SAuth();
 		Login2.auth = (SAuth) auth;
+		auth.addNotProtected("/rest");
 		
 		// Alle Benutzer exportieren
 		String dn = new AppConfig().get("dump-users");

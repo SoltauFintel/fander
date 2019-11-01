@@ -31,6 +31,7 @@ public class User {
 	private boolean zusatzstoffeAnzeigen;
 	private String emailadresse;
 	private boolean aktiv = true;
+	private String token;
 
 	public String getId() {
 		return id;
@@ -131,5 +132,13 @@ public class User {
 
     public void setAktiv(boolean aktiv) {
         this.aktiv = aktiv;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

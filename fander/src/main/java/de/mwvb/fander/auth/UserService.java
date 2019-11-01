@@ -43,6 +43,10 @@ public class UserService {
 		}
 		return u;
 	}
+	
+	public User byToken(String token) {
+	    return dao.byToken(token);
+	}
 
 	public List<String> getTypischeBesteller() {
 		return dao.getTypischeBesteller()

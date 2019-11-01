@@ -5,6 +5,8 @@ import de.mwvb.fander.model.FanderBestellung;
 import de.mwvb.fander.model.Mitarbeiterbestellung;
 import de.mwvb.fander.model.Tag;
 import de.mwvb.fander.model.Woche;
+import de.mwvb.fander.rest.TagJSON;
+import de.mwvb.fander.rest.UnsereKarteJSON;
 import de.mwvb.fander.service.FanderService;
 
 public abstract class Zustand {
@@ -92,5 +94,24 @@ public abstract class Zustand {
 	
 	public boolean isNeueWocheHighlighted() {
 	    return false;
+	}
+	
+	public UnsereKarteJSON getJSON() {
+	    UnsereKarteJSON k = new UnsereKarteJSON();
+	    k.setStartdatum(getWoche().getStartdatum());
+	    k.setAnsprechpartner(getAnsprechpartner());
+	    k.setGeschlossen(!getWoche().isBestellungenErlaubt());
+	    k.setUser(user);
+	    k.setLimit(getLimit());
+	    for (Tag tag : getWoche().getTage()) {
+	        if (tag.getGerichte() != null && !tag.getGerichte().isEmpty()) {
+    	        TagJSON n = new TagJSON();
+    	        n.setTag(tag.getWochentagText());
+    	        n.setTagNummer(tag.getWochentag());
+    	        n.getGerichte().addAll(tag.getGerichte());
+    	        k.getTage().add(n);
+	        }
+        }
+	    return k;
 	}
 }

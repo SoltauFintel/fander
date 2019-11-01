@@ -1,5 +1,7 @@
 package de.mwvb.fander.startseite;
 
+import de.mwvb.fander.rest.UnsereKarteJSON;
+
 public class KeineWocheZustand extends Zustand {
 
 	public KeineWocheZustand(String user) {
@@ -14,5 +16,10 @@ public class KeineWocheZustand extends Zustand {
 	@Override
 	public boolean isNeueWocheHighlighted() {
 	    return true;
+	}
+	
+	@Override
+	public UnsereKarteJSON getJSON() {
+	    return null;
 	}
 }

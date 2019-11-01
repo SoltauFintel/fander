@@ -50,3 +50,33 @@ genau einen Ansprechpartner geben. Der Ansprechpartner kann die Woche starten, d
 sieht Summen und die Druckseite.
 
 Ein Benutzer kann mehrere Rollen haben. Eine Rolle umfasst keine anderen Rollen.
+
+## REST API
+
+Die Fander App bietet auch eine REST API. Darüber lässt sich 'Unsere Karte' abfragen und eine Bestellung absenden. Mittels REST API
+ließe sich bspw. eine Smartphone App anbinden.
+
+### Unsere Karte
+
+GET /rest/unsere-karte?ut=TOKEN
+
+Man muss sich vom User-Manager für seinen User den REST API Access Token geben lassen. Diesen muss man als Query Parameter "ut" beim
+REST API Request angeben. Rückgabe: UnsereKarteJSON mit den Unterobjekten TagJSON und Gericht.
+
+### Bestellung absenden
+
+noch nicht implementiert
+
+POST /rest/bestellen?ut=TOKEN
+
+Als Entity muss man das Startdatum, die Gericht ID Liste und optional ein Limit angeben.
+
+### Ich möchte nicht bestellen
+
+noch nicht implementiert
+
+GET /rest/moechte-nicht-bestellen?ut=TOKEN
+
+Rückgängig machen:
+
+GET /rest/moechte-nicht-bestellen?ut=TOKEN&undo=1

@@ -34,6 +34,7 @@ public class UserSave extends AbstractSaveUser {
 		user.setNachname(req.queryParams("nachname").trim());
 		user.setWeiblich(on("weiblich"));
 		user.setAktiv(on("aktiv"));
+		user.setToken(req.queryParams("token").trim());
 
 		sv.save(user);
 		if (UserService.CREATE.equals(id)) {
