@@ -13,11 +13,6 @@ public class NochNichtBestellt extends BestellungMoeglich {
 	}
 
 	@Override
-	public boolean isJqueryOben() {
-		return true;
-	}
-
-	@Override
 	public boolean isBestellmodus() {
 		return true;
 	}

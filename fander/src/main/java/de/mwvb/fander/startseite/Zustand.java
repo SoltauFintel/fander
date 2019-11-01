@@ -28,10 +28,6 @@ public abstract class Zustand {
 		return user;
 	}
 
-	public boolean isJqueryOben() {
-		return false;
-	}
-	
 	public String getLimit() {
 		if (woche.getBestellungen() != null) {
 			for (Mitarbeiterbestellung mb : woche.getBestellungen()) {

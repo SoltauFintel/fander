@@ -30,7 +30,7 @@ public class Index extends SAction {
 		//Logger.debug("Startseite Zustand: " + zustand.getClass().getSimpleName());
 		
 		put("h1title", zustand.getH1Title());
-		put("jqueryOben", zustand.isJqueryOben());
+		put("jqueryOben", true);
 		put("isAnsprechpartner", isAnsprechpartner());
 		put("isUserManager", isUserManager());
 		put("isDeveloper", isDeveloper());
