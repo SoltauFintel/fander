@@ -1,7 +1,7 @@
 {{master: master}}
 
 <div class="row">
-	<h1 class="page-header">Fander anrufen: 02152-3607 (Woche {{startdatumNice}})</h1>
+	<h1 class="page-header">Fander anrufen: 02152-3607</h1>
 	<div class="col-lg-12">
 		<table class="menu">
 			<tr>
@@ -20,7 +20,7 @@
 				{{/each}}
 			{{/each}}
 			<tr>
-				<td class="wochentag titel">Summe</td>
+				<td class="wochentag titel">Summe ({{gesamtpreis}} EUR)</td>
 				<td class="wochentag preis">{{gesamtanzahl}}</td>
 			</tr>
 		</table>
@@ -33,6 +33,10 @@
 				<a href="/status/{{startdatum}}?s=1" class="btn btn-success">Bestellt!</a>
 			{{/if}}
 		</p>
-		<p style="margin-top: 2em;"><a href="/">Startseite</a> | <a href="/unsere-karte-druck">Druckansicht</a></p>
+		<p>
+			<a href="/" class="btn btn-default btn-dif" style="margin-top: 2em;"><i class="fa fa-home"></i> Startseite</a>
+			<a href="/unsere-karte-druck" class="btn btn-default btn-dif" style="margin-top: 2em;"><i class="fa fa-print"></i> Druckansicht</a>
+		</p>
+		<p>Fander Woche {{startdatumNice}}</p>
 	</div>
 </div>
