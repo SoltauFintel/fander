@@ -21,7 +21,7 @@ public class SAuth extends AuthPlugin {
 		super(new RememberMeInMongoDB() {
 			@Override
 			protected void logRememberedUser(String user, String userId) {
-				Logger.info("Remembered user : " + user);
+				Logger.info("Remembered user: " + user);
 			}
 		});
 	}
@@ -74,7 +74,7 @@ public class SAuth extends AuthPlugin {
 	
 	@Override
 	protected void logLogin(String name, String longId) {
-		Logger.info("Login : " + name);
+		Logger.info("Login: " + name);
 	}
 	
 	@Override

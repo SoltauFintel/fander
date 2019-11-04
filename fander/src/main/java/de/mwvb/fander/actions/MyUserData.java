@@ -11,7 +11,7 @@ public class MyUserData extends SAction {
 		info("MyUserData");
 		User user = new UserService().getUser(user());
 		setTitle("Benutzereinstellungen " + user.getLogin());
-		put("user", user.getUser());
+		put("anzeigename", user.getUser());
 		put("login", user.getLogin());
 		put("vorname", user.getVorname());
 		put("nachname", user.getNachname());
