@@ -3,8 +3,8 @@ package de.mwvb.fander.base;
 import com.github.template72.data.DataMap;
 
 import de.mwvb.fander.FanderApp;
+import de.mwvb.fander.auth.Login2;
 import de.mwvb.fander.auth.Roles;
-import de.mwvb.maja.auth.AuthPlugin;
 import de.mwvb.maja.web.Action;
 
 public abstract class SAction extends Action {
@@ -54,7 +54,7 @@ public abstract class SAction extends Action {
 	}
 
 	public final String user() {
-		return AuthPlugin.getUser(req.session());
+	    return Login2.auth.getAnzeigenameVomEingeloggtenBenutzer(req.session());
 	}
 	
 	protected final boolean isDeveloper() {

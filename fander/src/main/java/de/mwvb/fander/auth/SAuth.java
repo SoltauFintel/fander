@@ -5,6 +5,9 @@ import org.pmw.tinylog.Logger;
 import com.github.template72.data.DataMap;
 
 import de.mwvb.fander.base.SAction;
+import de.mwvb.fander.base.UserMessage;
+import de.mwvb.fander.dao.UserDAO;
+import de.mwvb.fander.model.User;
 import de.mwvb.maja.auth.AuthFeature;
 import de.mwvb.maja.auth.AuthPlugin;
 import de.mwvb.maja.auth.Authorization;
@@ -14,6 +17,7 @@ import de.mwvb.maja.web.Action;
 import de.mwvb.maja.web.ActionBase;
 import spark.Request;
 import spark.Response;
+import spark.Session;
 
 public class SAuth extends AuthPlugin {
 
@@ -80,5 +84,18 @@ public class SAuth extends AuthPlugin {
 	@Override
 	protected ActionBase getLogoutAction(RememberMeFeature rememberMe) {
 		return new SLogoutAction(rememberMe);
+	}
+	
+	public String getAnzeigenameVomEingeloggtenBenutzer(Session session) {
+        String login = getUser(session);
+        if (login == null || login.isEmpty()) {
+            return login;
+        }
+        User uo = new UserDAO().byLogin(login);
+        if (uo == null || !uo.isAktiv()) {
+            Logger.error("Für diesen Login gibt es keinen aktiven User: '" + login + "'");
+            throw new UserMessage("Benutzerzugang nicht vorhanden oder gesperrt");
+        }
+        return uo.getUser(); // Anzeigename
 	}
 }

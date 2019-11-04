@@ -4,8 +4,8 @@ import org.pmw.tinylog.Logger;
 
 import com.google.common.base.Strings;
 
+import de.mwvb.fander.auth.Login2;
 import de.mwvb.fander.auth.Roles;
-import de.mwvb.maja.auth.AuthPlugin;
 import de.mwvb.maja.web.ActionBase;
 
 public abstract class SActionBase extends ActionBase {
@@ -26,7 +26,7 @@ public abstract class SActionBase extends ActionBase {
 	}
 
 	protected final String user() {
-		return AuthPlugin.getUser(req.session());
+        return Login2.auth.getAnzeigenameVomEingeloggtenBenutzer(req.session());
 	}
 	
 	protected final boolean isDeveloper() {
