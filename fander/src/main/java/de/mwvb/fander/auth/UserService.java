@@ -13,6 +13,8 @@ import org.pmw.tinylog.Logger;
 import de.mwvb.fander.dao.UserDAO;
 import de.mwvb.fander.model.MailEmpfaenger;
 import de.mwvb.fander.model.User;
+import de.mwvb.fander.rest.LoginRequestJSON;
+import de.mwvb.fander.rest.LoginResponseJSON;
 import de.mwvb.maja.mongo.AbstractDAO;
 import de.mwvb.maja.web.AppConfig;
 
@@ -130,5 +132,36 @@ public class UserService {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public LoginResponseJSON login(LoginRequestJSON lr) {
+        User user = new UserDAO().byLogin(lr.getLogin());
+        if (user == null) {
+            throw new RuntimeException("E1: Bitte überprüfe den Login!");
+        }
+        if (!user.isAktiv()) {
+            throw new RuntimeException("E2: Benutzerzugang gesperrt!");
+        }
+        if (!user.getKennwort().equals(lr.getPassword())) {
+            throw new RuntimeException("E3: Bitte überprüfen das Kennwort!");
+        }
+        if (user.getToken() != null && "-".equals(user.getToken())) {
+            throw new RuntimeException("E4: REST API für Benutzer gesperrt!");
+        }
+        if (user.getToken() == null || user.getToken().isEmpty() || lr.isForceNewToken()) {
+            user.setToken(AbstractDAO.genId());
+            dao.save(user);
+            Logger.info("Neuer Token für User " + lr.getLogin() + " generiert.");
+        }
+        LoginResponseJSON r = new LoginResponseJSON();
+        r.setToken(user.getToken());
+        return r;
+	}
+	
+	public void logout(User user) {
+	    if (!"-".equals(user.getToken())) {
+    	    user.setToken(null);
+    	    dao.save(user);
+	    }
 	}
 }

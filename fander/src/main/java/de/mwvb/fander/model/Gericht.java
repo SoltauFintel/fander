@@ -8,7 +8,8 @@ import org.mongodb.morphia.annotations.Transient;
 import de.mwvb.fander.service.FanderService;
 import de.mwvb.maja.mongo.AbstractDAO;
 
-//Embedded
+// Embedded
+// Zugleich Teil der JSON Response.
 public class Gericht {
 	private String id;
 	private String titel;

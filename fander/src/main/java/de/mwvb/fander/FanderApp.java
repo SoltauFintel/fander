@@ -39,6 +39,9 @@ import de.mwvb.fander.auth.SAuth;
 import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.base.MyErrorPage;
 import de.mwvb.fander.model.Woche;
+import de.mwvb.fander.rest.LoginREST;
+import de.mwvb.fander.rest.LogoutREST;
+import de.mwvb.fander.rest.NichtBestellenREST;
 import de.mwvb.fander.rest.UnsereKarteREST;
 import de.mwvb.fander.startseite.Index;
 import de.mwvb.maja.mongo.Database;
@@ -49,7 +52,7 @@ import de.mwvb.maja.web.AppConfig;
 import spark.Spark;
 
 public class FanderApp extends AbstractWebApp {
-	public static final String VERSION = "1.02.1";
+	public static final String VERSION = "1.02.2";
 	
 	public static void main(String[] args) {
 		new FanderApp().start(VERSION);
@@ -90,7 +93,11 @@ public class FanderApp extends AbstractWebApp {
 		_get ("/unsere-karte", UnsereKarte.class);
 		_get ("/unsere-karte-druck", UnsereKarteDruck.class);
 		
+		_post("/rest/login", LoginREST.class);
+		_get ("/rest/logout", LogoutREST.class);
 		_get ("/rest/unsere-karte", UnsereKarteREST.class);
+//		_post("/rest/bestellen/:startdatum", BestellenREST.class);
+		_get ("/rest/nicht-bestellen/:startdatum", NichtBestellenREST.class);
 	}
 	
 	@Override

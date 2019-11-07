@@ -23,7 +23,9 @@ import de.mwvb.fander.model.Gericht;
 import de.mwvb.fander.model.Gerichtbestellung;
 import de.mwvb.fander.model.Mitarbeiterbestellung;
 import de.mwvb.fander.model.Tag;
+import de.mwvb.fander.model.User;
 import de.mwvb.fander.model.Woche;
+import de.mwvb.fander.rest.BestellungRequestJSON;
 import de.mwvb.maja.mongo.AbstractDAO;
 import spark.Request;
 
@@ -326,7 +328,7 @@ public class FanderService {
 		} else { // nicht bestellen
 			woche.getNichtBestellen().add(user);
 			for (Mitarbeiterbestellung mb : woche.getBestellungen()) {
-				if (mb.getUser().contentEquals(user)) {
+				if (mb.getUser().equals(user)) {
 					woche.getBestellungen().remove(mb);
 					break;
 				}
@@ -334,6 +336,10 @@ public class FanderService {
 		}
 		save(woche);
 	}
+
+    public void bestellen(Woche woche, User user, BestellungRequestJSON bestellung) {
+        // TODO
+    }
 	
 	public void angerufen(Request req, boolean bestellt) {
 		Woche woche = byStartdatum(req);

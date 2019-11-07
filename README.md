@@ -56,6 +56,27 @@ Ein Benutzer kann mehrere Rollen haben. Eine Rolle umfasst keine anderen Rollen.
 Die Fander App bietet auch eine REST API. Darüber lässt sich 'Unsere Karte' abfragen und eine Bestellung absenden. Mittels REST API
 ließe sich bspw. eine Smartphone App anbinden.
 
+Im Erfolgsfall ist der HTTP Response Status im Bereich 200 bis 299. Im Fehlerfall wird Status 500 und eine JSON Fehlermeldung geliefert.
+
+### Anmelden
+
+POST /rest/login
+
+Mit dem Login kann man mittels Login und Kennwort einen User Token erhalten. Wenn der Client einen gültigen User Token hat, braucht dieser
+eigentlich keine An-/Abmeldung durchzuführen.
+
+Request Body: JSON mit login, password, forceNewToken (bool).
+
+Response (im Erfolgsfall): JSON mit token
+
+### Abmelden
+
+GET /rest/logout?ut=TOKEN
+
+Löscht den User Token.
+
+Response (im Erfolgsfall): JSON mit text="ok"
+
 ### Unsere Karte
 
 GET /rest/unsere-karte?ut=TOKEN
@@ -63,20 +84,24 @@ GET /rest/unsere-karte?ut=TOKEN
 Man muss sich vom User-Manager für seinen User den REST API Access Token geben lassen. Diesen muss man als Query Parameter "ut" beim
 REST API Request angeben. Rückgabe: UnsereKarteJSON mit den Unterobjekten TagJSON und Gericht.
 
+Response (im Erfolgsfall): Unsere Karte
+
 ### Bestellung absenden
 
-noch nicht implementiert
+POST /rest/bestellen/STARTDATUM?ut=TOKEN
 
-POST /rest/bestellen?ut=TOKEN
+Request Body: Limit (optional), Gericht ID Liste (alle Gerichte, die der User für die angegebene Woche bestellen möchte)
 
-Als Entity muss man das Startdatum, die Gericht ID Liste und optional ein Limit angeben.
+Response (im Erfolgsfall): Unsere Karte
+
+STARTDATUM und die Gericht IDs bekommt man aus dem Unsere Karte Aufruf.
 
 ### Ich möchte nicht bestellen
 
-noch nicht implementiert
+GET /rest/nicht-bestellen/STARTDATUM?ut=TOKEN
 
-GET /rest/moechte-nicht-bestellen?ut=TOKEN
+Rückgängig machen: GET /rest/nicht-bestellen/STARTDATUM?ut=TOKEN&undo=1
 
-Rückgängig machen:
+STARTDATUM ist ein Parameter im Format JJJJ-MM-TT. Den Wert bekommt man vom Unsere Karte Aufruf.
 
-GET /rest/moechte-nicht-bestellen?ut=TOKEN&undo=1
+Response (im Erfolgsfall): JSON mit text="ok"
