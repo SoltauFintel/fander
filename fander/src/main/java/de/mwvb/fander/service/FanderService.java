@@ -116,17 +116,32 @@ public class FanderService {
 
 	// Story 1: neue Woche starten, Menü laden
 	public Woche createNeueWoche(boolean mitPruefung) {
-		Woche woche = new Woche();
-		woche.setId(AbstractDAO.code6(AbstractDAO.genId()));
-		woche.setStartdatum(getNeueWocheStartdatum());
-		woche.setTage(getMenuLoader().loadMenu(getConfig().getUrl()));
-		if (mitPruefung && (woche.getTage() == null || woche.getTage().isEmpty())) {
-			throw new UserMessage("Es konnte keine neue Woche gestartet werden, da das Menü leer ist!"
-					+ " Möglicherweise ist die Speisekarte noch nicht verfügbar. Bitte versuche es später noch einmal.");
-		}
-		return woche;
+	    return createNeueWoche(getNeueWocheStartdatum(), getMenuLoader(), getConfig().getUrl(), mitPruefung);
 	}
 	
+	public Woche createNeueWocheForTest(String startdatum) {
+        Woche woche = createNeueWoche(startdatum, new FanderMenuLoader() {
+            @Override
+            public List<Tag> loadMenu(String url) {
+                return parseMenu(getClass().getResourceAsStream(FanderMenuLoader.DEMO_DATEI));
+            }
+        }, null, false);
+        save(woche);
+        return woche;
+	}
+
+    public Woche createNeueWoche(String startdatum, FanderMenuLoader menuLoader, String url, boolean mitPruefung) {
+        Woche woche = new Woche();
+        woche.setId(AbstractDAO.code6(AbstractDAO.genId()));
+        woche.setStartdatum(startdatum);
+        woche.setTage(menuLoader.loadMenu(url));
+        if (mitPruefung && (woche.getTage() == null || woche.getTage().isEmpty())) {
+            throw new UserMessage("Es konnte keine neue Woche gestartet werden, da das Menü leer ist!"
+                    + " Möglicherweise ist die Speisekarte noch nicht verfügbar. Bitte versuche es später noch einmal.");
+        }
+        return woche;
+    }
+
 	public String getNeueWocheStartdatum() {
 		return DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now());
 	}

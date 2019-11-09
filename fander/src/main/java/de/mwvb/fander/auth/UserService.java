@@ -143,7 +143,7 @@ public class UserService {
             throw new RuntimeException("E2: Benutzerzugang gesperrt!");
         }
         if (!user.getKennwort().equals(lr.getPassword())) {
-            throw new RuntimeException("E3: Bitte überprüfen das Kennwort!");
+            throw new RuntimeException("E3: Bitte überprüfe das Kennwort!");
         }
         if (user.getToken() != null && "-".equals(user.getToken())) {
             throw new RuntimeException("E4: REST API für Benutzer gesperrt!");
