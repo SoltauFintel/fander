@@ -98,6 +98,7 @@ public class FanderApp extends AbstractWebApp {
 		_get ("/rest/unsere-karte", UnsereKarteREST.class);
 //		_post("/rest/bestellen/:startdatum", BestellenREST.class);
 		_get ("/rest/nicht-bestellen/:startdatum", NichtBestellenREST.class);
+		Spark.get("/rest/version", (res, req) -> VERSION);
 	}
 	
 	@Override
