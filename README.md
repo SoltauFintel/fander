@@ -54,7 +54,7 @@ Ein Benutzer kann mehrere Rollen haben. Eine Rolle umfasst keine anderen Rollen.
 ## REST API
 
 Die Fander App bietet auch eine REST API. Darüber lässt sich 'Unsere Karte' abfragen und eine Bestellung absenden. Mittels REST API
-ließe sich bspw. eine Smartphone App anbinden.
+ließe sich bspw. eine Smartphone App (iOS: Ahmet, Android: Dennis) anbinden. Die Klasse RestApiTest testet die Schnittstelle.
 
 Im Erfolgsfall ist der HTTP Response Status im Bereich 200 bis 299. Im Fehlerfall wird Status 500 und eine JSON Fehlermeldung geliefert.
 
