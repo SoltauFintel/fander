@@ -14,6 +14,7 @@ import de.mwvb.fander.base.DateService;
 import de.mwvb.fander.base.UserMessage;
 import de.mwvb.fander.dao.FanderConfigDAO;
 import de.mwvb.fander.dao.WocheDAO;
+import de.mwvb.fander.model.Bestellung;
 import de.mwvb.fander.model.FanderBestellerStatus;
 import de.mwvb.fander.model.FanderBestellung;
 import de.mwvb.fander.model.FanderBestellungGericht;
@@ -23,9 +24,7 @@ import de.mwvb.fander.model.Gericht;
 import de.mwvb.fander.model.Gerichtbestellung;
 import de.mwvb.fander.model.Mitarbeiterbestellung;
 import de.mwvb.fander.model.Tag;
-import de.mwvb.fander.model.User;
 import de.mwvb.fander.model.Woche;
-import de.mwvb.fander.rest.BestellungRequestJSON;
 import de.mwvb.maja.mongo.AbstractDAO;
 import spark.Request;
 
@@ -263,7 +262,21 @@ public class FanderService {
 		}
 		throw new RuntimeException("Gericht " + gerichtId + " nicht gefunden");
 	}
-	
+
+    public void bestellen(Bestellung bestellung, Integer limit, Woche woche, String user) {
+        if (!woche.isBestellungenErlaubt()) {
+            throw new UserMessage("Woche " + woche.getStartdatum() + " darf nicht mehr verändert werden!");
+        }
+
+        Mitarbeiterbestellung mb = getMitarbeiterbestellung(woche, user);
+        Logger.info(mb.getSpeicherinfo());
+        bestellteGerichteVerzeichnen(woche, mb, bestellung, limit);
+        Logger.info(log(mb, woche)); // Bestellungen ausloggen, damit die im Falle eines Absturzes noch wenigstens in der Console bzw. im Log stehen.
+        save(woche);
+        int n = mb.getBestellungen().size();
+        Logger.info("Mitarbeiter " + user + " hat " + n + " Gericht" + (n == 1 ? "" : "e") + " bestellt.");
+    }
+
 	public Mitarbeiterbestellung getMitarbeiterbestellung(Woche woche, String user) {
 		Mitarbeiterbestellung mb = null;
 		if (woche.getBestellungen() != null) {
@@ -287,13 +300,12 @@ public class FanderService {
 		return mb;
 	}
 
-	// TODO req hier auf Dauer raus kriegen!
 	/** Bestellung speichern Zeitpunkt (also vor dem Speichern) */
-	public void bestellteGerichteVerzeichnen(Woche woche, Mitarbeiterbestellung mb, Request req) {
+	private void bestellteGerichteVerzeichnen(Woche woche, Mitarbeiterbestellung mb, Bestellung bestellung, Integer limit) {
 		for (Tag tag : woche.getTage()) {
 			for (Gericht g : tag.getGerichte()) {
 				Gerichtbestellung gb = getGerichtbestellung(g, mb);
-				boolean checked = req.queryParams("c_" + g.getId()) != null;
+                boolean checked = bestellung.isBestellt(g.getId());
 				if (checked && gb == null) {
 					gb = new Gerichtbestellung();
 					gb.setGerichtId(g.getId());
@@ -303,7 +315,22 @@ public class FanderService {
 				}
 			}
 		}
+		if (!mb.getBestellungen().isEmpty()) {
+		    woche.getNichtBestellen().remove(mb.getUser());
+		}
+		mb.setLimit(limit);
 	}
+	
+    private String log(Mitarbeiterbestellung mb, Woche woche) {
+        String a = "Bestellung für User " + mb.getUser() + " in Fander Woche " + woche.getStartdatum()
+                + " abgesendet. Limit: " + (mb.getLimit() == null ? "kein" : mb.getLimit()) + ", "
+                + mb.getBestellungen().size() + " Gericht(e):";
+        for (Gerichtbestellung gb : mb.getBestellungen()) {
+            Gericht gericht = getGericht(gb.getGerichtId(), woche);
+            a += "\n- " + gericht.getTitel();
+        }
+        return a;
+    }
 
 	/** Bestellung anzeigen Zeitpunkt (also nach dem Speichern) */
 	public void bestellteGerichteVerzeichnen(Woche woche, Mitarbeiterbestellung mb) {
@@ -351,10 +378,6 @@ public class FanderService {
 		}
 		save(woche);
 	}
-
-    public void bestellen(Woche woche, User user, BestellungRequestJSON bestellung) {
-        // TODO
-    }
 	
 	public void angerufen(Request req, boolean bestellt) {
 		Woche woche = byStartdatum(req);

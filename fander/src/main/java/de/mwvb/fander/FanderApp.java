@@ -39,6 +39,7 @@ import de.mwvb.fander.auth.SAuth;
 import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.base.MyErrorPage;
 import de.mwvb.fander.model.Woche;
+import de.mwvb.fander.rest.BestellenREST;
 import de.mwvb.fander.rest.LoginREST;
 import de.mwvb.fander.rest.LogoutREST;
 import de.mwvb.fander.rest.NichtBestellenREST;
@@ -96,7 +97,7 @@ public class FanderApp extends AbstractWebApp {
 		_post("/rest/login", LoginREST.class);
 		_get ("/rest/logout", LogoutREST.class);
 		_get ("/rest/unsere-karte", UnsereKarteREST.class);
-//		_post("/rest/bestellen/:startdatum", BestellenREST.class);
+		_post("/rest/bestellen/:startdatum", BestellenREST.class);
 		_get ("/rest/nicht-bestellen/:startdatum", NichtBestellenREST.class);
 		Spark.get("/rest/version", (res, req) -> VERSION);
 	}

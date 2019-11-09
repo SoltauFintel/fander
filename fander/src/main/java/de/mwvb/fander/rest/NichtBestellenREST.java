@@ -9,7 +9,6 @@ import de.mwvb.fander.service.FanderService;
  * Ich möchte nicht bestellen.
  */
 public class NichtBestellenREST extends UserJsonAction<MessageJSON> {
-    // TODO Testcase
 
     @Override
     protected MessageJSON work(User user) {

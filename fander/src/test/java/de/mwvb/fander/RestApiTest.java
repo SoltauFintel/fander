@@ -1,22 +1,27 @@
 package de.mwvb.fander;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.pmw.tinylog.Level;
 
 import com.google.gson.Gson;
 
 import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.dao.UserDAO;
 import de.mwvb.fander.dao.WocheDAO;
+import de.mwvb.fander.model.Gericht;
 import de.mwvb.fander.model.User;
 import de.mwvb.fander.model.Woche;
+import de.mwvb.fander.rest.BestellungRequestJSON;
 import de.mwvb.fander.rest.LoginRequestJSON;
 import de.mwvb.fander.rest.LoginResponseJSON;
+import de.mwvb.fander.rest.TagJSON;
 import de.mwvb.fander.rest.UnsereKarteJSON;
 import de.mwvb.fander.service.FanderService;
 import de.mwvb.maja.mongo.AbstractDAO;
@@ -31,6 +36,7 @@ public class RestApiTest {
     private static final String KENNWORT = "geheim";
     private static final String USER = "Testuser";
     private static final String STARTDATUM = "2019-01-07";
+    private Woche woche;
     
     @BeforeClass
     public static void open() {
@@ -38,6 +44,10 @@ public class RestApiTest {
             @Override
             protected void initDatabase() {
                 AbstractDAO.database = new Database(MONGODB_HOST, "fander_RestApiTest", "", "", Woche.class);
+            }
+            
+            protected Level getDefaultLoggingLevel() {
+                return Level.DEBUG;
             }
         }.start(FanderApp.VERSION);
     }
@@ -200,6 +210,55 @@ public class RestApiTest {
         UnsereKarteJSON uk = new Gson().fromJson(json, UnsereKarteJSON.class);
         Assert.assertFalse(uk.isMoechteNichtsBestellen());
     }
+    
+    @Test
+    public void bestellen() throws IOException {
+        // Prepare
+        String token = prepare();
+        RestCaller client = new RestCaller();
+        String g1 = woche.getTage().get(0).getGerichte().get(1).getId(); // Montag, 2. Gericht
+        String g2 = woche.getTage().get(2).getGerichte().get(0).getId(); // Mittwoch, 1. Gericht
+        
+        // Test
+        BestellungRequestJSON b = new BestellungRequestJSON();
+        ArrayList<String> gerichte = new ArrayList<>();
+        gerichte.add(g1);
+        gerichte.add(g2);
+        b.setGerichte(gerichte);
+        String json = client.post("http://localhost:" + PORT + "/rest/bestellen/" + STARTDATUM + "?ut=" + token, b);
+        UnsereKarteJSON uk = new Gson().fromJson(json, UnsereKarteJSON.class);
+        
+        // Verify
+        Assert.assertTrue(uk.getLimit() == null || uk.getLimit().isEmpty());
+        Assert.assertFalse(uk.isMoechteNichtsBestellen());
+        Assert.assertFalse(uk.isGeschlossen());
+        boolean g1ok = false, g2ok = false;
+        for (TagJSON tag : uk.getTage()) {
+            for (Gericht g : tag.getGerichte()) {
+                if (g.isBestellt()) {
+                    if (g1.equals(g.getId()) && tag.getTagNummer() == 1) {
+                        if (g1ok) {
+                            Assert.fail("g1ok schon true?");
+                        } else {
+                            g1ok = true;
+                            Assert.assertEquals(USER, g.getNamen());
+                        }
+                    } else if (g2.equals(g.getId()) && tag.getTagNummer() == 3) {
+                        if (g2ok) {
+                            Assert.fail("g2ok schon true?");
+                        } else {
+                            g2ok = true;
+                            Assert.assertEquals(USER, g.getNamen());
+                        }
+                    } else {
+                        Assert.fail("Gericht " + g.getId() + " darf nicht bestellt sein! Tag: " + tag.getTag());
+                    }
+                }
+            }
+        }
+        Assert.assertTrue("Gericht 1 nicht bestellt!", g1ok);
+        Assert.assertTrue("Gericht 2 nicht bestellt!", g2ok);
+    }
 
     private String prepare() throws IOException {
         LoginRequestJSON r = new LoginRequestJSON();
@@ -209,7 +268,7 @@ public class RestApiTest {
         RestCaller client = new RestCaller();
         String json = client.post("http://localhost:" + PORT + "/rest/login", r);
         LoginResponseJSON a = new Gson().fromJson(json, LoginResponseJSON.class);
-        new FanderService().createNeueWocheForTest(STARTDATUM);
+        woche = new FanderService().createNeueWocheForTest(STARTDATUM);
         return a.getToken();
     }
 }
