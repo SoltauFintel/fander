@@ -10,7 +10,7 @@ public class PublicNoteSave extends SActionBase {
     @Override
     protected void execute() {
         String user = user();
-        info("PublicNoteSave " + user);
+        info("PublicNoteSave");
         String publicNote = req.queryParams("publicNote").trim();
         
         UserService sv = new UserService();

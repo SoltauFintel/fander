@@ -9,7 +9,7 @@ public class PublicNote extends SAction {
     @Override
     protected void execute() {
         String user = user();
-        info("PublicNote " + user);
+        info("PublicNote");
         User theUser = new UserService().getUser(user);
         setTitle("Öffentliche Notiz eingeben");
         put("publicNote", esc(theUser.getPublicNote()));
