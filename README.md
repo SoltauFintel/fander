@@ -105,3 +105,17 @@ Rückgängig machen: GET /rest/nicht-bestellen/STARTDATUM?ut=TOKEN&undo=1
 STARTDATUM ist ein Parameter im Format JJJJ-MM-TT. Den Wert bekommt man vom Unsere Karte Aufruf.
 
 Response (im Erfolgsfall): JSON mit text="ok"
+
+### Öffentliche Notiz
+
+GET /rest/public-note?ut=TOKEN&all=1
+
+Die Option all ist optional. Beim Weglassen wird nur die eigene öffentliche Notiz geliefert.
+
+Response: JSON mit public notes (+user +timestamp)
+
+POST /rest/public-note?ut=TOKEN&text=TEXT
+
+Eigene öffentliche Notiz schreiben
+
+Response (im Erfolgsfall): JSON mit text="ok"

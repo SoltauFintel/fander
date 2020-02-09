@@ -28,6 +28,8 @@ import de.mwvb.fander.actions.MyUserDataSave;
 import de.mwvb.fander.actions.NeueWoche;
 import de.mwvb.fander.actions.NeueWocheForce;
 import de.mwvb.fander.actions.NichtBestellen;
+import de.mwvb.fander.actions.PublicNote;
+import de.mwvb.fander.actions.PublicNoteSave;
 import de.mwvb.fander.actions.UnsereKarte;
 import de.mwvb.fander.actions.UnsereKarteDruck;
 import de.mwvb.fander.actions.UserEdit;
@@ -43,7 +45,9 @@ import de.mwvb.fander.rest.BestellenREST;
 import de.mwvb.fander.rest.LoginREST;
 import de.mwvb.fander.rest.LogoutREST;
 import de.mwvb.fander.rest.NichtBestellenREST;
+import de.mwvb.fander.rest.ReadPublicNoteREST;
 import de.mwvb.fander.rest.UnsereKarteREST;
+import de.mwvb.fander.rest.WritePublicNoteREST;
 import de.mwvb.fander.startseite.Index;
 import de.mwvb.maja.mongo.Database;
 import de.mwvb.maja.web.AbstractWebApp;
@@ -53,7 +57,7 @@ import de.mwvb.maja.web.AppConfig;
 import spark.Spark;
 
 public class FanderApp extends AbstractWebApp {
-	public static final String VERSION = "1.02.4";
+	public static final String VERSION = "1.03.0";
 	
 	public static void main(String[] args) {
 		new FanderApp().start(VERSION);
@@ -93,12 +97,16 @@ public class FanderApp extends AbstractWebApp {
 		_get ("/bestellt", Bestellt.class);
 		_get ("/unsere-karte", UnsereKarte.class);
 		_get ("/unsere-karte-druck", UnsereKarteDruck.class);
+		_get ("/publicnote", PublicNote.class);
+		_post("/publicnote", PublicNoteSave.class);
 		
 		_post("/rest/login", LoginREST.class);
 		_get ("/rest/logout", LogoutREST.class);
 		_get ("/rest/unsere-karte", UnsereKarteREST.class);
 		_post("/rest/bestellen/:startdatum", BestellenREST.class);
 		_get ("/rest/nicht-bestellen/:startdatum", NichtBestellenREST.class);
+		_get ("/rest/public-note", ReadPublicNoteREST.class);
+		_post("/rest/public-note", WritePublicNoteREST.class);
 		Spark.get("/rest/version", (res, req) -> VERSION);
 	}
 	
@@ -137,6 +145,7 @@ public class FanderApp extends AbstractWebApp {
 				"myuserdata",
 				"neuewoche",
 				"neuewocheforce",
+				"publicnote",
 				"sent",
 				"unserekarte",
 				"unserekartedruck",

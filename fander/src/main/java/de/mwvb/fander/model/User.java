@@ -32,6 +32,8 @@ public class User {
 	private String emailadresse;
 	private boolean aktiv = true;
 	private String token;
+	private String publicNote;
+	private String publicNoteTimestamp;
 
 	public String getId() {
 		return id;
@@ -140,5 +142,21 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getPublicNote() {
+        return publicNote;
+    }
+
+    public void setPublicNote(String publicNote) {
+        this.publicNote = publicNote;
+    }
+
+    public String getPublicNoteTimestamp() {
+        return publicNoteTimestamp;
+    }
+
+    public void setPublicNoteTimestamp(String publicNoteTimestamp) {
+        this.publicNoteTimestamp = publicNoteTimestamp;
     }
 }

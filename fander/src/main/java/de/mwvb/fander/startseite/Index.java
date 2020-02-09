@@ -13,6 +13,7 @@ import de.mwvb.fander.auth.UserService;
 import de.mwvb.fander.base.SAction;
 import de.mwvb.fander.model.Gericht;
 import de.mwvb.fander.model.Mitarbeiterbestellung;
+import de.mwvb.fander.model.PublicNoteEntry;
 import de.mwvb.fander.model.Tag;
 import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.service.FanderService;
@@ -57,9 +58,10 @@ public class Index extends SAction {
 		put("limit", zustand.getLimit());
 		put("showBestellsumme", zustand.isShowBestellsumme(summe));
 		habenBestellt(woche);
+		putPublicNotes();
 	}
-	
-	private double addMenu(Zustand zustand, Woche woche) {
+
+    private double addMenu(Zustand zustand, Woche woche) {
 		final boolean zusatzstoffeAnzeigen = zustand.isZusatzstoffeAnzeigen();
 		double summe = 0;
 		boolean first = true;
@@ -154,4 +156,28 @@ public class Index extends SAction {
 		}
 		return ret.stream();
 	}
+	   
+    private void putPublicNotes() {
+        List<PublicNoteEntry> entries = new UserService().getPublicNotes();
+        put("hasPublicNotes", !entries.isEmpty());
+        DataList publicNotes = list("publicNotes");
+        for (PublicNoteEntry e : entries) {
+            DataMap map = publicNotes.add();
+            map.put("text", esc(e.getPublicNote()));
+            map.put("user", esc(e.getUser()));
+            map.put("time", esc(getTime(e)));
+        }
+    }
+
+    private String getTime(PublicNoteEntry e) {
+        String time = "";
+        if (e.getPublicNoteTimestamp() != null) {
+            time = e.getPublicNoteTimestamp();
+            int max = "2020-02-09 12:47".length();
+            if (time.length() > max) {
+                time = time.substring(0, max);
+            }
+        }
+        return time;
+    }
 }

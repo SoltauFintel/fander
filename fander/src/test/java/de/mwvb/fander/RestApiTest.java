@@ -21,6 +21,8 @@ import de.mwvb.fander.model.Woche;
 import de.mwvb.fander.rest.BestellungRequestJSON;
 import de.mwvb.fander.rest.LoginRequestJSON;
 import de.mwvb.fander.rest.LoginResponseJSON;
+import de.mwvb.fander.rest.PublicNoteJSON;
+import de.mwvb.fander.rest.PublicNotesJSON;
 import de.mwvb.fander.rest.TagJSON;
 import de.mwvb.fander.rest.UnsereKarteJSON;
 import de.mwvb.fander.service.FanderService;
@@ -28,6 +30,7 @@ import de.mwvb.maja.mongo.AbstractDAO;
 import de.mwvb.maja.mongo.Database;
 import de.mwvb.maja.rest.RestCaller;
 import de.mwvb.maja.rest.RestException;
+import de.mwvb.maja.web.Escaper;
 
 public class RestApiTest {
     private static final int PORT = 4040;
@@ -270,5 +273,26 @@ public class RestApiTest {
         LoginResponseJSON a = new Gson().fromJson(json, LoginResponseJSON.class);
         woche = new FanderService().createNeueWocheForTest(STARTDATUM);
         return a.getToken();
+    }
+
+    @Test
+    public void publicNote() throws IOException {
+        // Prepare
+        String token = prepare();
+        RestCaller client = new RestCaller();
+        final String text = "Ich teste +" + System.currentTimeMillis();
+        
+        // Write Test
+        String url = "http://localhost:" + PORT + "/rest/public-note?ut=" + token;
+        String reply = client.post(url + "&text=" + Escaper.urlEncode(text, "Fehler"), "");
+        Assert.assertTrue(reply.contains("ok"));
+        
+        // Read Test
+        PublicNotesJSON n = client.get(url, PublicNotesJSON.class);
+        Assert.assertEquals(text, getMyPublicNote(n).getPublicNote());
+    }
+
+    private PublicNoteJSON getMyPublicNote(PublicNotesJSON n) {
+        return n.getPublicNotes().stream().filter(note -> USER.equals(note.getUser())).findFirst().get();
     }
 }

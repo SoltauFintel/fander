@@ -77,3 +77,8 @@ body {
 .geweih {
 	position: fixed; top: 24px; left: 24px; z-index: 9999;
 }
+
+.pntime {
+	font-size: 7pt;
+	color: grey;
+}

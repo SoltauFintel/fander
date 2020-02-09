@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ import org.pmw.tinylog.Logger;
 
 import de.mwvb.fander.dao.UserDAO;
 import de.mwvb.fander.model.MailEmpfaenger;
+import de.mwvb.fander.model.PublicNoteEntry;
 import de.mwvb.fander.model.User;
 import de.mwvb.fander.rest.LoginRequestJSON;
 import de.mwvb.fander.rest.LoginResponseJSON;
@@ -164,4 +166,18 @@ public class UserService {
     	    dao.save(user);
 	    }
 	}
+
+    public List<PublicNoteEntry> getPublicNotes() {
+        List<PublicNoteEntry> ret = new ArrayList<>();
+        for (User user : dao.getPublicNotes()) {
+            if (user.getPublicNote() != null && !user.getPublicNote().trim().isEmpty()) {
+                PublicNoteEntry e = new PublicNoteEntry();
+                e.setUser(user.getUser());
+                e.setPublicNote(user.getPublicNote());
+                e.setPublicNoteTimestamp(user.getPublicNoteTimestamp());
+                ret.add(e);
+            }
+        }
+        return ret;
+    }
 }

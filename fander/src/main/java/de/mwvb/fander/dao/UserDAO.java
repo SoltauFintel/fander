@@ -42,4 +42,15 @@ public class UserDAO extends AbstractDAO<User> {
     public User byToken(String token) {
         return createQuery().field("token").equal(token).field("aktiv").equal(true).get();
     }
+
+    public List<User> getPublicNotes() {
+        return createQuery()
+                .field("publicNote").exists()
+                .field("aktiv").equal(true)
+                .project("publicNote", true)
+                .project("publicNoteTimestamp", true)
+                .project("user", true)
+                .order("-publicNoteTimestamp")
+                .asList();
+    }
 }

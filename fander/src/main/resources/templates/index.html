@@ -130,5 +130,12 @@
 				<p style="margin-top: 2em;">{{bestelltHaben}} {{absagen}} {{keineAussageVon}}</p>
 			{{/if}}
 		{{/if}}
+		{{if hasPublicNotes}}
+			<p style="padding-top: 1em;">
+				{{each n in publicNotes}}
+					<i class="fa fa-bullhorn fa-fw"></i> {{n.user}}: "{{n.text}}" <span class="pntime">{{n.time}}</span><br>
+				{{/each}}
+			</p>
+		{{/if}}
 	</div>
 </div>
