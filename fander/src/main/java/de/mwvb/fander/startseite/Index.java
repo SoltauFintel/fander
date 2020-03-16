@@ -1,5 +1,7 @@
 package de.mwvb.fander.startseite;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -69,6 +71,7 @@ public class Index extends SAction {
 		for (Tag tag : woche.getTage()) {
 			DataMap map = menu.add();
 			map.put("wochentag", esc(tag.getWochentagText()));
+			map.put("datum", getDatum(tag.getWochentag(), woche.getStartdatum()));
 			map.put("show", zustand.showTag(tag));
 			if (first && !tag.getGerichte().isEmpty()) {
 				map.put("first", first);
@@ -88,6 +91,12 @@ public class Index extends SAction {
 		}
 		return summe;
 	}
+    
+    private String getDatum(int wt, String startdatum) {
+        LocalDate d = LocalDate.parse(startdatum, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        d = d.plusDays(wt - 1);
+        return d.getDayOfMonth() + "." + d.getMonthValue() + ".";
+    }
 
 	private void addGericht(Gericht g, boolean zusatzstoffeAnzeigen, int tag, DataMap map) {
 		map.put("id", g.getId());

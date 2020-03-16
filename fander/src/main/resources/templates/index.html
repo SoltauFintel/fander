@@ -22,7 +22,7 @@
 							{{each t in menu}}
 								{{if t.show}}
 									<tr>
-										<td colspan="4" class="wochentag">{{t.wochentag}}</td>
+										<td colspan="4" class="wochentag">{{t.wochentag}} ({{t.datum}})</td>
 										<td class="wochentag" style="font-weight: normal;">{{if t.first}}Besteller &nbsp;&nbsp; {{/if}}</td>
 									</tr>
 								{{/if}}
@@ -66,7 +66,7 @@
 						class="btn btn-lg btn-warning" style="font-weight: bold; color: #444;"><i
 						class="fa fa-shopping-cart"></i> Bestellen!</button>
 					<span style="margin-left: 17em;">
-						Limit: <input type="text" name="limit" style="width: 60px;" value="{{limit}}"
+						Limit: &nbsp;<input type="text" name="limit" style="width: 60px;" value="{{limit}}"
 							title="Maximal so viele Gerichte bestellen. Dieses Feld wird normalerweise leer gelassen.">
 					</span>
 				</p>
