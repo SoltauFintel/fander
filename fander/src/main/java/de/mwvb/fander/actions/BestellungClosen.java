@@ -31,6 +31,7 @@ public class BestellungClosen extends SActionBase {
 		woche.setBestellungenErlaubt(false);
 		woche.setBestellt(false);
 		sv.save(woche);
+		info("Bestellung geschlossen");
 		res.redirect("/anruf");
 	}
 
@@ -41,6 +42,7 @@ public class BestellungClosen extends SActionBase {
 		
 		woche.setBestellungenErlaubt(true);
 		sv.save(woche);
+		info("Bestellung wieder geöffnet");
 		res.redirect("/");
 	}
 }
