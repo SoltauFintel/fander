@@ -56,7 +56,7 @@ public class NeueWoche extends SAction {
 		res.redirect(url);
 	}
 	
-	// TODO Missing Content Exceptions verhindern. Das ist ein Fehler in Maja.
+	// MissingContentException verhindern
 	@Override
 	protected String render() {
 		if (redirect) {
