@@ -6,6 +6,7 @@ import com.github.template72.data.DataList;
 import com.github.template72.data.DataMap;
 
 import de.mwvb.fander.model.FanderBestellerStatus;
+import de.mwvb.fander.model.FanderConfig;
 import de.mwvb.fander.service.FanderService;
 
 public class UnsereKarte extends FanderAnruf {
@@ -19,6 +20,7 @@ public class UnsereKarte extends FanderAnruf {
 	protected void execute() {
 		super.execute();
 		bestellersummen();
+		ibanInfozeile();
 		setTitle("Unsere Karte");
 	}
 
@@ -35,6 +37,16 @@ public class UnsereKarte extends FanderAnruf {
 		}
 		put("summe", FanderService.format(summe));
 	}
+
+    private void ibanInfozeile() {
+        FanderConfig config = new FanderService().getConfig();
+        String iban = config.getIban();
+        if (iban == null) {
+            iban = "";
+        }
+        iban = iban.replace("{datum}", woche.getStartdatumNice());
+        put("iban", esc(iban));
+    }
 	
 	@Override
 	protected boolean isVollstaendig() {
