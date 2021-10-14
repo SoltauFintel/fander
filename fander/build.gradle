@@ -1,7 +1,6 @@
 plugins {
-	id 'com.bmuschko.docker-java-application' version '3.0.12'
+    id 'com.bmuschko.docker-java-application' version '6.7.0'
 }
-import com.bmuschko.gradle.docker.tasks.image.*
 apply plugin: 'application'
 apply plugin: 'eclipse'
 
@@ -10,14 +9,16 @@ targetCompatibility = 1.8
 compileJava.options.encoding = 'windows-1252'
 compileTestJava.options.encoding = 'windows-1252'
 
-mainClassName = 'de.mwvb.fander.FanderApp'
+application {
+    mainClass = 'de.mwvb.fander.FanderApp'
+}
 
 dependencies {
-	compile 'com.github.SoltauFintel.maja:maja-auth-mongo:0.4.0-A9'
-	compile 'org.apache.httpcomponents:httpclient:4.5.10'
-	compile 'org.jsoup:jsoup:1.12.1'
+	implementation 'com.github.SoltauFintel.maja:maja-auth-mongo:0.4.0-A9'
+	implementation 'org.apache.httpcomponents:httpclient:4.5.10'
+	implementation 'org.jsoup:jsoup:1.12.1'
 
-	testCompile 'junit:junit:4.12' 
+	testImplementation 'junit:junit:4.12' 
 }
 
 repositories {
@@ -26,6 +27,7 @@ repositories {
 }
 
 distTar {
+    delete 'build/docker/Dockerfile'
 	if (target == 'base') {
 		excludes = [ jar.archiveName ]
 	} else if (target == 'app') {
@@ -34,18 +36,4 @@ distTar {
 	delete 'build/docker/Dockerfile'
 }
 
-docker {
-	url = 'tcp://192.168.99.100:2376'
-	certPath = new File(System.properties['user.home'], '.docker/machine/machines/default')
-	javaApplication {
-		ports = [ 4040 ]
-		def imagename = 'mwvb.de:5000/fander'
-		if (target == 'base') {
-			baseImage = 'openjdk:8u151-jre-alpine'
-			tag = imagename + 'base'
-		} else {
-			baseImage = imagename + 'base'
-			tag = imagename
-		}
-	}
-}
+apply from: 'gradle/docker.gradle'
