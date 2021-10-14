@@ -15,7 +15,9 @@ public class FanderConfig {
 	private double mindestbestellbetrag = 0d;
 	/** true: Menü aus HTML-Datei. false: Menü aus WWW. */
 	private boolean demomodus = true;
-
+	/** IBAN Infozeile */
+	private String iban = "Naturfleischerei Fander | DE34 3205 0000 0011 0022 43 | Verwendungszweck: X-map, Woche {datum} | SPKRDE33XXX";
+	
 	public String getId() {
 		return id;
 	}
@@ -69,4 +71,12 @@ public class FanderConfig {
 	public void setDemomodus(boolean demomodus) {
 		this.demomodus = demomodus;
 	}
+
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
 }

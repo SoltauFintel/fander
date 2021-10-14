@@ -21,6 +21,7 @@ public class FanderConfigAction extends SAction {
 		put("mindestbestellbetrag", FanderService.format(config.getMindestbestellbetrag()));
 		put("mindestbestellmenge", "" + config.getMindestbestellmenge());
 		put("demomodus", config.isDemomodus() ? "1" : "0");
+		put("iban", esc(config.getIban()));
 	}
 	
 	@Override

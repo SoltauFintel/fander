@@ -22,6 +22,7 @@ public class FanderConfigSaveAction extends SActionBase {
 		String demo = req.queryParams("demomodus");
 		System.out.println("demomodus: " + demo);
 		c.setDemomodus("1".equals(demo));
+		c.setIban(req.queryParams("iban"));
 		
 		sv.save(c);
 		info("FanderConfig gespeichert.");
